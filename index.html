@@ -930,6 +930,90 @@ function renderParentDash(rows) {
   `;
 }
 
+
+async function runDiagnostic() {
+  const el = document.getElementById('diag-result');
+  el.style.display = 'block';
+  el.innerHTML = '⏳ Testing connection to Supabase…';
+
+  const steps = [];
+
+  // Step 1: Test basic fetch to Supabase URL
+  try {
+    const r1 = await fetch(SUPA_URL + '/rest/v1/', {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    });
+    steps.push('✅ Step 1 — Reached Supabase server (HTTP ' + r1.status + ')');
+  } catch(e) {
+    steps.push('❌ Step 1 — Cannot reach Supabase: ' + e.message);
+    el.innerHTML = steps.join('<br>');
+    return;
+  }
+
+  // Step 2: Test SELECT from quiz_results
+  try {
+    const r2 = await fetch(SUPA_URL + '/rest/v1/quiz_results?limit=1', {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    });
+    const body2 = await r2.text();
+    if (r2.ok) {
+      steps.push('✅ Step 2 — Can READ from quiz_results table (HTTP ' + r2.status + ')');
+    } else {
+      steps.push('❌ Step 2 — READ failed (HTTP ' + r2.status + '): ' + body2);
+    }
+  } catch(e) {
+    steps.push('❌ Step 2 — READ error: ' + e.message);
+  }
+
+  // Step 3: Test INSERT into quiz_results
+  try {
+    const r3 = await fetch(SUPA_URL + '/rest/v1/quiz_results', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        session_id:  'diagnostic_test',
+        question_id: 'MA-1',
+        section:     'MA',
+        correct:     true,
+        attempts:    1,
+        answered_at: new Date().toISOString()
+      })
+    });
+    const body3 = await r3.text();
+    if (r3.status === 201 || r3.status === 200) {
+      steps.push('✅ Step 3 — INSERT succeeded! A test row was written to Supabase.');
+    } else {
+      steps.push('❌ Step 3 — INSERT failed (HTTP ' + r3.status + '): ' + body3);
+    }
+  } catch(e) {
+    steps.push('❌ Step 3 — INSERT error: ' + e.message);
+  }
+
+  // Step 4: Check if test row appears in SELECT
+  try {
+    const r4 = await fetch(
+      SUPA_URL + '/rest/v1/quiz_results?session_id=eq.diagnostic_test&select=id,question_id,correct',
+      { headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY } }
+    );
+    const rows = await r4.json();
+    if (Array.isArray(rows) && rows.length > 0) {
+      steps.push('✅ Step 4 — Test row confirmed in database! Row count: ' + rows.length);
+      steps.push('<br><b>🎉 Everything is working!</b> Now answer a real question and click Refresh Results.');
+    } else {
+      steps.push('⚠️ Step 4 — INSERT appeared to work but row not found in SELECT. RLS policy may be blocking reads.');
+    }
+  } catch(e) {
+    steps.push('❌ Step 4 — Verification error: ' + e.message);
+  }
+
+  el.innerHTML = steps.join('<br>');
+}
+
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -979,6 +1063,14 @@ function goHome(){showScreen('screen-home');updateDash();checkUnlocks();}
     <div style="background:#fef9c3;border:1px solid #fde047;border-radius:10px;padding:12px 16px;font-size:0.85rem;color:#713f12;margin-bottom:1rem;">
       🔒 This page shows results saved from all sessions. Share the quiz link with your son — results appear here automatically.
     </div>
+
+    <!-- Diagnostic Tool -->
+    <div id="pd-diag" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:1.1rem;margin-bottom:1rem;">
+      <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;margin-bottom:10px;">🔧 Connection Diagnostic</div>
+      <button onclick="runDiagnostic()" style="width:100%;padding:10px;border-radius:8px;background:#1a3a5c;color:white;border:none;font-size:0.9rem;font-weight:600;cursor:pointer;margin-bottom:10px;">Run Connection Test</button>
+      <div id="diag-result" style="font-size:0.82rem;line-height:1.7;display:none;"></div>
+    </div>
+
     <div id="pd-status" style="font-size:0.9rem;color:#64748b;margin-bottom:1rem;"></div>
     <div id="pd-content"></div>
     <button onclick="loadParentDash()" style="width:100%;padding:11px;border-radius:10px;border:1.5px solid #dce3ea;background:white;cursor:pointer;font-size:0.9rem;font-weight:600;color:#1a3a5c;margin-top:0.5rem;">🔄 Refresh Results</button>
