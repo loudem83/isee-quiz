@@ -266,7 +266,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
   </div>
   <div class="quiz-wrap">
     <div class="progress-wrap">
-      <div class="progress-top">
+      <div style="font-size:0.72rem;color:#94a3b8;text-align:right;margin-bottom:4px;" id="sync-indicator"></div>
+    <div class="progress-top">
         <span id="prog-label">0 answered</span>
         <span class="score-badge" id="score-badge">Score: 0</span>
       </div>
@@ -504,6 +505,7 @@ function pick(idx){
   const isCorrect=idx===q.ans;
   statuses[key]=isCorrect?'correct':'wrong';
   saveResultToSupabase(q, idx, isCorrect);
+  saveProgress();
   renderQ(); updateDash(); checkUnlocks(); renderQLIfVisible();
 }
 
@@ -653,6 +655,7 @@ function resetSection(sec){
     delete statuses[key];
     // attempts kept intentionally
   });
+  saveProgress();
   updateDash(); checkUnlocks();
   // hide AI section if relevant section was reset
   const aiSec = document.getElementById('ai-section');
@@ -751,7 +754,10 @@ const SUPA_KEY = 'sb_publishable_5_e107MPQfwGDfPAf5uwaA_2rPkYnxW';
 
 // Generate a unique session ID each time the page loads
 // This lets you track a single sitting — date + random suffix
-const SESSION_ID = new Date().toISOString().slice(0,10) + '_' + Math.random().toString(36).slice(2,8);
+// Persist session ID across page refreshes (same sitting = same session)
+const _todayKey = 'quiz_session_' + new Date().toISOString().slice(0,10);
+const SESSION_ID = localStorage.getItem(_todayKey) || 
+  (() => { const id = new Date().toISOString().slice(0,10) + '_' + Math.random().toString(36).slice(2,8); localStorage.setItem(_todayKey, id); return id; })();
 
 async function supaInsert(row) {
   try {
@@ -765,12 +771,18 @@ async function supaInsert(row) {
       },
       body: JSON.stringify(row)
     });
-    if (!res.ok) {
+    if (res.status === 201 || res.status === 200) {
+      // Success — update the sync indicator
+      const ind = document.getElementById('sync-indicator');
+      if (ind) { ind.textContent = '✅ Saved to database'; ind.style.color='#065f46'; }
+    } else {
       const err = await res.text();
-      console.warn('Supabase insert failed:', res.status, err);
+      const ind = document.getElementById('sync-indicator');
+      if (ind) { ind.textContent = '⚠️ Save failed: ' + res.status + ' ' + err; ind.style.color='#991b1b'; }
     }
   } catch(e) {
-    console.warn('Supabase error:', e.message);
+    const ind = document.getElementById('sync-indicator');
+    if (ind) { ind.textContent = '⚠️ Network error: ' + e.message; ind.style.color='#991b1b'; }
   }
 }
 
@@ -1014,11 +1026,39 @@ async function runDiagnostic() {
   el.innerHTML = steps.join('<br>');
 }
 
+
+/* ════════════════════════════════════════════
+   LOCAL STORAGE — persist answers across refresh
+════════════════════════════════════════════ */
+const LS_KEY = 'quiz_progress_v1';
+
+function saveProgress() {
+  try {
+    localStorage.setItem(LS_KEY, JSON.stringify({ chosen, statuses, attempts }));
+  } catch(e) {}
+}
+
+function loadProgress() {
+  try {
+    const saved = localStorage.getItem(LS_KEY);
+    if (!saved) return;
+    const data = JSON.parse(saved);
+    if (data.chosen)   Object.assign(chosen,   data.chosen);
+    if (data.statuses) Object.assign(statuses, data.statuses);
+    if (data.attempts) Object.assign(attempts, data.attempts);
+  } catch(e) {}
+}
+
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 function goHome(){showScreen('screen-home');updateDash();checkUnlocks();}
+
+// Load saved progress when page opens
+loadProgress();
+updateDash();
+checkUnlocks();
 </script>
 
 <!-- ══ SCREEN 3: QUESTION LIST ══ -->
