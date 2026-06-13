@@ -287,477 +287,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 
 <script>
 /* ════════════════════════════════════════════
-   QUESTION BANK
-════════════════════════════════════════════ */
-const ALL_QUESTIONS = [
-  {n:"MA-1",sec:"MA",text:"Which of the following shapes ALWAYS has all four sides equal in length AND all four angles equal to 90 degrees?",opts:["Rectangle","Parallelogram","Square","Trapezoid"],ans:2,exp:"A square must have all four sides equal AND all four angles of 90°. A rectangle has equal angles but not necessarily equal sides."},
-  {n:"MA-2",sec:"MA",text:"Four students recorded the number of pages they read over five days (see table).\n\nFrom Day 1 to Day 5, how many MORE pages did Zoe read on Day 5 than on Day 1?",opts:["10","12","14","16"],ans:1,exp:"Zoe read 18 pages on Day 1 and 30 on Day 5. The increase is 30 − 18 = 12 pages.",diag:"table_zoe"},
-  {n:"MA-3",sec:"MA",text:"Which fraction is equivalent to 0.6?",opts:["6/100","6/10","3/5","Both B and C"],ans:3,exp:"0.6 = 6/10 (option B) and 6/10 simplifies to 3/5 (option C). Both are equivalent to 0.6."},
-  {n:"MA-4",sec:"MA",text:"Daniel buys four items costing $6.75, $11.49, $3.29, and $9.89. What is the best estimate of the total cost?",opts:["Between $25 and $30","Between $30 and $35","Between $35 and $40","Between $40 and $45"],ans:1,exp:"Rounding: $7+$11+$3+$10=$31. The exact total $31.42 falls between $30 and $35."},
-  {n:"MA-5",sec:"MA",text:"The distance from London to Edinburgh is 414 miles. Which is closest to 1/4 of that distance?",opts:["Coventry — 94 miles","Leeds — 196 miles","York — 209 miles","Newcastle — 283 miles"],ans:0,exp:"1/4 of 414 = 103.5 miles. Coventry at 94 miles is the closest."},
-  {n:"MA-6",sec:"MA",text:"The perimeter of a square is 48 cm. Using P = 4s, which equation gives the side length s?",opts:["s = 48 ÷ 4","s = 4 × 48","s = 48 − 4","s = 48 + 4"],ans:0,exp:"From P = 4s, divide both sides by 4: s = 48 ÷ 4 = 12 cm."},
-  {n:"MA-7",sec:"MA",text:"Which fraction is between 3/4 and 9/10?",opts:["1/2","7/8","11/12","1/5"],ans:1,exp:"3/4=0.75 and 9/10=0.90. 7/8=0.875, which lies between them."},
-  {n:"MA-8",sec:"MA",text:"A recipe calls for 6¼ cups of oats. Tom already has 2⅜ cups. How many more cups does he need?",opts:["3 3/8","3 7/8","4 1/8","4 3/8"],ans:1,exp:"Convert to eighths: 6 2/8 − 2 3/8. Borrow: 5 10/8 − 2 3/8 = 3 7/8 cups."},
-  {n:"MA-9",sec:"MA",text:"An L-shaped room has an outer rectangle 14 m wide and 10 m tall. A corner 6 m wide and 4 m tall is removed. What is the floor area in square metres?",opts:["116 m²","124 m²","132 m²","140 m²"],ans:0,exp:"Full rectangle = 14×10 = 140 m². Cut-out = 6×4 = 24 m². Total = 140−24 = 116 m².",diag:"lshape"},
-  {n:"MA-10",sec:"MA",text:"There are 5 more cats than dogs at a shelter. If there are 8 dogs, what fraction of all animals are dogs?",opts:["8/13","8/21","5/13","8/5"],ans:1,exp:"8 dogs + 13 cats = 21 total. Fraction of dogs = 8/21."},
-  {n:"MA-11",sec:"MA",text:"A school surveyed 320 students about their favourite sport. The most popular gets a trophy; 2nd and 3rd get certificates. Which sports get the certificate?",opts:["Swimming and Cricket","Basketball and Swimming","Basketball and Tennis","Tennis and Swimming"],ans:2,exp:"Ranked: Football 95, Basketball 72, Tennis 61, Swimming 48, Cricket 44. Certificate = Basketball and Tennis.",diag:"sports_table"},
-  {n:"QR-1",sec:"QR",text:"The perimeter of this 6-sided polygon is 48 cm. Known sides: 9 cm, 4 cm, 4 cm, 7 cm, and 7 cm. Find x.",opts:["13 cm","15 cm","17 cm","19 cm"],ans:2,exp:"9+4+4+7+7 = 31 cm. x = 48−31 = 17 cm.",diag:"hexagon"},
-  {n:"QR-2",sec:"QR",text:"A car covers 150 miles in 3 hours at constant speed. How long to travel 250 miles?",opts:["4 hours","4 hrs 30 min","5 hours","5 hrs 30 min"],ans:2,exp:"Speed = 150÷3 = 50 mph. Time = 250÷50 = 5 hours."},
-  {n:"QR-3",sec:"QR",text:"Which is the smallest fraction?",opts:["5/9","4/7","3/8","7/12"],ans:2,exp:"As decimals: 5/9≈0.556, 4/7≈0.571, 3/8=0.375, 7/12≈0.583. Smallest is 3/8."},
-  {n:"QR-4",sec:"QR",text:"If y can be divided by both 4 and 9 without remainder, y must also be divisible by which number?",opts:["13","18","24","36"],ans:3,exp:"LCM of 4 and 9 is 36. Any number divisible by both must be divisible by 36."},
-  {n:"QR-5",sec:"QR",text:"A Venn diagram shows 'Multiples of 4' and 'Multiples of 6'. The shaded overlap = multiples of BOTH. Which number belongs in the shaded region?",opts:["8","9","14","24"],ans:3,exp:"24 is divisible by both 4 (÷6) and 6 (÷4). 8 is only ×4; 14 is neither.",diag:"venn"},
-  {n:"QR-6",sec:"QR",text:"Use the table to find the rule for the function.",opts:["□ + 10 = △","□ × 3 + 4 = △","□ × 4 + 1 = △","□ × 5 − 2 = △"],ans:2,exp:"Check: 3×4+1=13✓, 5×4+1=21✓, 7×4+1=29✓, 9×4+1=37✓. Rule: □×4+1=△.",diag:"func_table"},
-  {n:"QR-7",sec:"QR",text:"Use the pattern:\np + q = 2 + 4\np + q + r = 2 + 4 + 6\np + q + r + s = 2 + 4 + 6 + 8\n\nWhat is p + q + r + s + t + u?",opts:["20","30","42","56"],ans:2,exp:"The pattern sums even numbers. For 6 variables: 2+4+6+8+10+12 = 42."},
-  {n:"QR-8",sec:"QR",text:"A baker made 4 loaves: two used 2½ cups each, one used 4 cups, one used 3 cups. What is the mean cups of flour per loaf?",opts:["2¾","3","3¼","3½"],ans:1,exp:"Total = 2.5+2.5+4+3 = 12 cups. Mean = 12÷4 = 3 cups."},
-  {n:"QR-9",sec:"QR",text:"A survey of 80 students' favourite subject is in a circle graph with four equal sections (Maths, Science, English, History). About how many chose Maths?",opts:["10","15","20","25"],ans:2,exp:"Each section = 1/4. 1/4 × 80 = 20 students.",diag:"pie"},
-  {n:"QR-10",sec:"QR",text:"A number line from 3.0 to 5.0 is divided into 10 equal intervals. Two arrows point to the 3rd and 7th marks from the left. Which numbers are they pointing to?",opts:["3.2 and 3.6","3.3 and 3.7","3.4 and 4.2","3.5 and 3.9"],ans:2,exp:"Range 2.0 over 10 steps → each step = 0.2. 3rd mark = 3.4. 7th mark = 4.2.",diag:"numline1"},
-  {n:"QR-11",sec:"QR",text:"A small cube has volume 1 unit³. A larger cube is made from these, 3 cubes in each direction. What is the volume of the larger cube?",opts:["9 units³","18 units³","24 units³","27 units³"],ans:3,exp:"3×3×3 = 27 unit cubes. Volume = 27 units³.",diag:"cube"},
-  {n:"QR-12",sec:"QR",text:"Points P, Q, R, S are in order on a line. PS = a, PQ = b, RS = c.\n\nWhat is the length of QR?",opts:["a + b + c","a + b − c","a − b − c","b − a − c"],ans:2,exp:"QR = PS − PQ − RS = a − b − c.",diag:"segment"},
-  {n:"QR-13",sec:"QR",text:"Tank A and Tank B each hold 10 litres. Tank A is about ¼ full; Tank B about ¾ full. Combined, how much liquid is there approximately?",opts:["2.5 litres","5 litres","7.5 litres","10 litres"],ans:3,exp:"Tank A: ¼×10=2.5 L. Tank B: ¾×10=7.5 L. Total = 10 litres.",diag:"tanks"},
-  {n:"QR-14",sec:"QR",text:"A jar has red and blue sweets. P(red) = 3 out of 7. There are 16 blue sweets. How many red sweets are in the jar?",opts:["6","8","10","24"],ans:1,exp:"P(blue)=4/7. If 4 parts=16, then 1 part=4. Red = 3 parts = 3×4 = 8."},
-  {n:"QR-15",sec:"QR",text:"A box holds black, white, and grey counters. P(black) = 3 out of 8. Which combination is possible?",opts:["3 black and 5 others","6 black and 10 others","9 black and 15 others","12 black and 20 others"],ans:1,exp:"6 out of 16 total = 6/16 = 3/8 ✓"},
-  {n:"QR-16",sec:"QR",text:"Emma bought 4 ride tickets at $9 each and a meal deal. Her total was $52. Which equation finds the cost of the meal deal, m?",opts:["$52 = 9 + m","$52 = 4m","$52 = 4(9) + m","$52 = 4(9) + 4m"],ans:2,exp:"Total = (4×$9) + m = 36 + m = 52, so m = $16."},
-  {n:"QR-17",sec:"QR",text:"Five athletes ran these laps: 8, 6, 10, 6, 10. What was the mean?",opts:["6","7","8","10"],ans:2,exp:"Total = 8+6+10+6+10 = 40. Mean = 40÷5 = 8 laps.",diag:"barchart"},
-  {n:"QR-18",sec:"QR",text:"Which equation means '5 less than 3 times a number equals 7 more than the number'? Let n = unknown.",opts:["3n − 5 = n + 7","3n + 5 = n − 7","5 − 3n = n + 7","3n − 5 = 7n"],ans:0,exp:"3n−5 = n+7. Solving: 2n=12, n=6."},
-  {n:"QR-19",sec:"QR",text:"On a number line (each mark = 2 units): X is at the 4th mark (=8). Y is at the 9th mark (=18). Y is the average of X and Z. What is Z?",opts:["22","26","28","32"],ans:2,exp:"Y=(X+Z)÷2 → 18=(8+Z)÷2 → 36=8+Z → Z=28.",diag:"numline2"},
-  {n:"QR-20",sec:"QR",text:"Vertices of a quadrilateral: (1,2) (1,6) (5,2) (5,6).\n\nWhich term best describes the shape formed?",opts:["Trapezoid","Rhombus","Rectangle","Kite"],ans:2,exp:"Width=4, Height=4, all angles=90°. This is a square — a special rectangle.",diag:"coords"}
-
-  // ╔══════════════════════════════════════════════════════════════╗
-  // ║  PASTE NEW QUESTIONS HERE — above this comment              ║
-  // ║  Every question except the last needs a comma after }       ║
-  // ╚══════════════════════════════════════════════════════════════╝
-];
-
-/* ════════════════════════════════════════════
-   DIAGRAMS
-════════════════════════════════════════════ */
-function diagrams(key){
-  const d={
-    table_zoe:`<table class="dtable"><thead><tr><th></th><th>Liam</th><th>Zoe</th><th>Marcus</th><th>Priya</th></tr></thead><tbody><tr><td><b>Day 1</b></td><td>12</td><td>18</td><td>20</td><td>15</td></tr><tr><td><b>Day 2</b></td><td>14</td><td>20</td><td>22</td><td>17</td></tr><tr><td><b>Day 3</b></td><td>16</td><td>24</td><td>24</td><td>20</td></tr><tr><td><b>Day 4</b></td><td>20</td><td>28</td><td>26</td><td>23</td></tr><tr><td><b>Day 5</b></td><td>24</td><td>30</td><td>28</td><td>26</td></tr></tbody></table>`,
-    sports_table:`<table class="dtable"><thead><tr><th>Sport</th><th>Votes</th></tr></thead><tbody><tr><td>Football</td><td>95</td></tr><tr><td>Basketball</td><td>72</td></tr><tr><td>Tennis</td><td>61</td></tr><tr><td>Swimming</td><td>48</td></tr><tr><td>Cricket</td><td>44</td></tr></tbody></table>`,
-    func_table:`<table class="dtable"><thead><tr><th>Input (□)</th><th>Output (△)</th></tr></thead><tbody><tr><td>3</td><td>13</td></tr><tr><td>5</td><td>21</td></tr><tr><td>7</td><td>29</td></tr><tr><td>9</td><td>37</td></tr></tbody></table>`,
-    lshape:`<svg width="260" height="175" viewBox="0 0 260 175" xmlns="http://www.w3.org/2000/svg"><polygon points="15,15 195,15 195,85 150,85 150,160 15,160" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.5"/><text x="105" y="11" font-size="13" fill="#1e40af" text-anchor="middle" font-family="Arial">14 m</text><text x="200" y="53" font-size="13" fill="#1e40af" font-family="Arial">6 m</text><text x="155" y="125" font-size="13" fill="#1e40af" font-family="Arial">4 m</text><text x="2" y="92" font-size="13" fill="#1e40af" font-family="Arial">10 m</text><line x1="150" y1="90" x2="192" y2="90" stroke="#94a3b8" stroke-dasharray="4,3" stroke-width="1.5"/><line x1="150" y1="90" x2="150" y2="157" stroke="#94a3b8" stroke-dasharray="4,3" stroke-width="1.5"/><text x="85" y="128" font-size="12" fill="#94a3b8" font-style="italic" font-family="Arial">removed corner</text></svg>`,
-    hexagon:`<svg width="270" height="160" viewBox="0 0 270 160" xmlns="http://www.w3.org/2000/svg"><polygon points="15,15 165,15 165,70 220,70 220,150 15,150" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.5"/><text x="90" y="11" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">9 cm</text><text x="170" y="47" font-size="12" fill="#1e40af" font-family="Arial">4 cm</text><text x="193" y="65" font-size="14" fill="#dc2626" font-weight="bold" font-family="Arial">x</text><text x="225" y="114" font-size="12" fill="#1e40af" font-family="Arial">7 cm</text><text x="105" y="158" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">7 cm</text><text x="2" y="88" font-size="12" fill="#1e40af" font-family="Arial">4 cm</text></svg>`,
-    venn:`<svg width="300" height="148" viewBox="0 0 300 148" xmlns="http://www.w3.org/2000/svg"><ellipse cx="108" cy="74" rx="88" ry="58" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" fill-opacity="0.8"/><ellipse cx="192" cy="74" rx="88" ry="58" fill="#d1fae5" stroke="#22c55e" stroke-width="2" fill-opacity="0.8"/><ellipse cx="150" cy="74" rx="38" ry="43" fill="#86efac" fill-opacity="0.85"/><text x="68" y="70" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">Multiples</text><text x="68" y="85" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">of 4</text><text x="232" y="70" font-size="12" fill="#065f46" text-anchor="middle" font-family="Arial">Multiples</text><text x="232" y="85" font-size="12" fill="#065f46" text-anchor="middle" font-family="Arial">of 6</text><text x="150" y="78" font-size="12" fill="#14532d" text-anchor="middle" font-weight="bold" font-family="Arial">Both</text></svg>`,
-    pie:`<svg width="220" height="195" viewBox="0 0 220 195" xmlns="http://www.w3.org/2000/svg"><path d="M110,100 L110,22 A78,78 0 0,1 188,100 Z" fill="#3b82f6"/><path d="M110,100 L188,100 A78,78 0 0,1 110,178 Z" fill="#22c55e"/><path d="M110,100 L110,178 A78,78 0 0,1 32,100 Z" fill="#f59e0b"/><path d="M110,100 L32,100 A78,78 0 0,1 110,22 Z" fill="#ef4444"/><circle cx="110" cy="100" r="78" fill="none" stroke="white" stroke-width="3"/><line x1="110" y1="22" x2="110" y2="178" stroke="white" stroke-width="2"/><line x1="32" y1="100" x2="188" y2="100" stroke="white" stroke-width="2"/><text x="148" y="68" font-size="12" fill="white" text-anchor="middle" font-family="Arial" font-weight="bold">Maths</text><text x="148" y="140" font-size="12" fill="white" text-anchor="middle" font-family="Arial" font-weight="bold">Science</text><text x="72" y="140" font-size="12" fill="white" text-anchor="middle" font-family="Arial" font-weight="bold">History</text><text x="72" y="68" font-size="12" fill="white" text-anchor="middle" font-family="Arial" font-weight="bold">English</text><text x="110" y="192" font-size="11" fill="#6b7280" text-anchor="middle" font-family="Arial">Each section = 25%</text></svg>`,
-    numline1:(()=>{const t=Array.from({length:11},(_,i)=>`<line x1="${30+i*26}" y1="46" x2="${30+i*26}" y2="58" stroke="#3b82f6" stroke-width="1.5"/>`).join('');return`<svg width="320" height="88" viewBox="0 0 320 88" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="52" x2="300" y2="52" stroke="#3b82f6" stroke-width="2"/><polygon points="300,48 310,52 300,56" fill="#3b82f6"/><polygon points="20,48 10,52 20,56" fill="#3b82f6"/>${t}<text x="30" y="72" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">3.0</text><text x="290" y="72" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">5.0</text><line x1="82" y1="28" x2="82" y2="46" stroke="#dc2626" stroke-width="2"/><polygon points="78,28 82,18 86,28" fill="#dc2626"/><text x="82" y="15" font-size="11" fill="#dc2626" text-anchor="middle" font-family="Arial" font-weight="bold">3.4</text><line x1="186" y1="28" x2="186" y2="46" stroke="#dc2626" stroke-width="2"/><polygon points="182,28 186,18 190,28" fill="#dc2626"/><text x="186" y="15" font-size="11" fill="#dc2626" text-anchor="middle" font-family="Arial" font-weight="bold">4.2</text><text x="155" y="85" font-size="11" fill="#6b7280" text-anchor="middle" font-family="Arial">Each interval = 0.2</text></svg>`;})(),
-    cube:`<svg width="200" height="170" viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg"><polygon points="30,60 100,25 170,60 170,135 100,170 30,135" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/><polygon points="30,60 100,25 100,100 30,135" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2"/><polygon points="100,25 170,60 170,135 100,100" fill="#93c5fd" stroke="#3b82f6" stroke-width="2"/><polygon points="30,135 100,100 170,135 100,170" fill="#60a5fa" stroke="#3b82f6" stroke-width="2"/><rect x="30" y="60" width="32" height="28" fill="#1d4ed8" stroke="#1e3a8a" stroke-width="1.5" opacity="0.9"/><text x="46" y="79" font-size="10" fill="white" text-anchor="middle" font-family="Arial" font-weight="bold">1u³</text><text x="100" y="168" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">Larger = 3×3×3</text></svg>`,
-    segment:`<svg width="340" height="78" viewBox="0 0 340 78" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="38" x2="320" y2="38" stroke="#3b82f6" stroke-width="2.5"/><circle cx="20" cy="38" r="6" fill="#1d4ed8"/><circle cx="110" cy="38" r="6" fill="#15803d"/><circle cx="230" cy="38" r="6" fill="#15803d"/><circle cx="320" cy="38" r="6" fill="#1d4ed8"/><text x="20" y="62" font-size="14" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">P</text><text x="110" y="62" font-size="14" fill="#166534" text-anchor="middle" font-family="Arial" font-weight="bold">Q</text><text x="230" y="62" font-size="14" fill="#166534" text-anchor="middle" font-family="Arial" font-weight="bold">R</text><text x="320" y="62" font-size="14" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">S</text><line x1="20" y1="18" x2="320" y2="18" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,3"/><text x="170" y="14" font-size="11" fill="#64748b" text-anchor="middle" font-family="Arial">a = PS</text><line x1="20" y1="74" x2="110" y2="74" stroke="#dc2626" stroke-width="1.5"/><text x="65" y="73" font-size="10" fill="#991b1b" text-anchor="middle" font-family="Arial">b=PQ</text><line x1="230" y1="74" x2="320" y2="74" stroke="#dc2626" stroke-width="1.5"/><text x="275" y="73" font-size="10" fill="#991b1b" text-anchor="middle" font-family="Arial">c=RS</text></svg>`,
-    tanks:`<svg width="260" height="152" viewBox="0 0 260 152" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="20" width="80" height="108" rx="5" fill="none" stroke="#3b82f6" stroke-width="2.5"/><rect x="20" y="101" width="80" height="27" rx="3" fill="#93c5fd"/><text x="60" y="14" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">Tank A (¼ full)</text><text x="60" y="148" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">= 2.5 L</text><rect x="160" y="20" width="80" height="108" rx="5" fill="none" stroke="#22c55e" stroke-width="2.5"/><rect x="160" y="47" width="80" height="81" rx="3" fill="#86efac"/><text x="200" y="14" font-size="12" fill="#166534" text-anchor="middle" font-family="Arial" font-weight="bold">Tank B (¾ full)</text><text x="200" y="148" font-size="12" fill="#166534" text-anchor="middle" font-family="Arial">= 7.5 L</text><text x="130" y="87" font-size="20" fill="#94a3b8" text-anchor="middle" font-family="Arial">+</text></svg>`,
-    barchart:(()=>{const v=[8,6,10,6,10],c=["#3b82f6","#60a5fa","#1d4ed8","#60a5fa","#1d4ed8"];const b=v.map((val,i)=>{const x=50+i*50,h=val*9,y=130-h;return`<rect x="${x}" y="${y}" width="32" height="${h}" fill="${c[i]}" rx="3"/><text x="${x+16}" y="${y-5}" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">${val}</text><text x="${x+16}" y="148" font-size="11" fill="#6b7280" text-anchor="middle" font-family="Arial">A${i+1}</text>`;}).join('');return`<svg width="300" height="158" viewBox="0 0 300 158" xmlns="http://www.w3.org/2000/svg"><line x1="35" y1="15" x2="35" y2="132" stroke="#94a3b8" stroke-width="1.5"/><line x1="35" y1="132" x2="295" y2="132" stroke="#94a3b8" stroke-width="1.5"/><text x="28" y="135" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">0</text><text x="28" y="87" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">5</text><text x="28" y="42" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">10</text>${b}</svg>`;})(),
-    numline2:(()=>{const m=Array.from({length:13},(_,i)=>`<line x1="${20+i*22}" y1="47" x2="${20+i*22}" y2="58" stroke="#3b82f6" stroke-width="1.5"/>`).join('');return`<svg width="320" height="100" viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg"><line x1="10" y1="52" x2="305" y2="52" stroke="#3b82f6" stroke-width="2"/><polygon points="305,48 315,52 305,56" fill="#3b82f6"/>${m}<text x="20" y="72" font-size="11" fill="#1e40af" text-anchor="middle" font-family="Arial">0</text><circle cx="108" cy="52" r="5" fill="#3b82f6"/><text x="108" y="39" font-size="11" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">X=8</text><circle cx="218" cy="52" r="5" fill="#22c55e"/><text x="218" y="39" font-size="11" fill="#166534" text-anchor="middle" font-family="Arial" font-weight="bold">Y=18</text><text x="160" y="94" font-size="11" fill="#6b7280" text-anchor="middle" font-family="Arial">Each mark = 2 units</text></svg>`;})(),
-    coords:(()=>{const gx=x=>20+x*30,gy=y=>190-y*25;const dots=[[1,2],[1,6],[5,2],[5,6]].map(([x,y])=>`<circle cx="${gx(x)}" cy="${gy(y)}" r="5" fill="#1d4ed8"/><text x="${gx(x)+(x>3?6:-28)}" y="${gy(y)+(y<4?14:-8)}" font-size="10" fill="#1e40af" font-family="Arial">(${x},${y})</text>`).join('');const tx=Array.from({length:7},(_,i)=>`<line x1="${gx(i)}" y1="188" x2="${gx(i)}" y2="192" stroke="#94a3b8" stroke-width="1"/><text x="${gx(i)}" y="204" font-size="10" fill="#94a3b8" text-anchor="middle" font-family="Arial">${i}</text>`).join('');const ty=Array.from({length:9},(_,i)=>`<line x1="18" y1="${gy(i)}" x2="22" y2="${gy(i)}" stroke="#94a3b8" stroke-width="1"/><text x="14" y="${gy(i)+4}" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">${i}</text>`).join('');return`<svg width="220" height="212" viewBox="0 0 220 212" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="190" x2="200" y2="190" stroke="#94a3b8" stroke-width="1.5"/><line x1="20" y1="190" x2="20" y2="10" stroke="#94a3b8" stroke-width="1.5"/>${tx}${ty}<rect x="${gx(1)}" y="${gy(6)}" width="${gx(5)-gx(1)}" height="${gy(2)-gy(6)}" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.5"/>${dots}</svg>`;})()
-    // PASTE NEW DIAGRAMS HERE — key must match "diag" field in question above
-    // Example:  ,q32_shape: `<svg width="200" height="150">...</svg>`
-  };
-  return d[key]||'';
-}
-
-/* ════════════════════════════════════════════
-   STATE
-════════════════════════════════════════════ */
-let mode='all', curQs=[], cur=0;
-const chosen={}, statuses={};
-let aiQuestions=[], aiDiagrams={};
-
-/* ════════════════════════════════════════════
-   AI QUESTION GENERATION
-════════════════════════════════════════════ */
-async function generateQuestions(sec){
-  const wrongQs = ALL_QUESTIONS.filter(q=>q.sec===sec && statuses[q.n]==='wrong');
-  if(wrongQs.length===0){setStatus('No incorrect answers in this section yet — complete some questions first!','error');return;}
-
-  const btn = document.getElementById(`gen-${sec.toLowerCase()}-btn`);
-  const spin = document.getElementById(`spin-${sec.toLowerCase()}`);
-  const btnText = document.getElementById(`gen-${sec.toLowerCase()}-text`);
-
-  btn.disabled=true; btn.classList.add('loading');
-  spin.style.display='block';
-  btnText.textContent='Generating personalised questions…';
-  setStatus(`✨ Analysing ${wrongQs.length} incorrect ${sec} question${wrongQs.length>1?'s':''} and generating 10 new practice questions…`,'thinking');
-
-  const wrongSummary = wrongQs.map(q=>`- Q${q.n}: "${q.text.split('\n')[0]}" (topic: ${q.exp.split('.')[0]})`).join('\n');
-
-  const prompt = `You are a maths teacher creating practice questions for a student aged 10-12.
-
-The student got these questions WRONG on their test:
-${wrongSummary}
-
-Create exactly 10 new multiple-choice questions that practise the SAME skills and topics as the wrong questions above, but with different numbers/contexts. Each question must be slightly different in approach to help the student truly understand the concept.
-
-Respond ONLY with a valid JSON array. No explanation, no markdown, no code fences. Just the raw JSON array.
-
-Format:
-[
-  {
-    "text": "Question text here",
-    "opts": ["Option A", "Option B", "Option C", "Option D"],
-    "ans": 0,
-    "exp": "Brief explanation of why the answer is correct.",
-    "svgDiagram": null
-  }
-]
-
-Rules:
-- "ans" is the index (0-3) of the correct option in "opts"
-- "exp" should be 1-2 sentences max, clear and encouraging
-- "svgDiagram": if the question benefits from a simple diagram, provide a self-contained SVG string using only basic shapes (rect, circle, line, polygon, text). Use fill="#dbeafe" stroke="#1d4ed8" for shapes and fill="#1e40af" for text. Width max 300, height max 200. Otherwise set to null.
-- Keep language appropriate for age 10-12
-- Make questions varied — different contexts, same maths skills
-- All 10 questions must target the specific weak areas identified above`;
-
-  try{
-    const resp = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-6',
-        max_tokens:4000,
-        system:'You are a maths question generator. Always respond with valid JSON only — no markdown, no code fences, no extra text.',
-        messages:[{role:'user',content:prompt}]
-      })
-    });
-
-    if(!resp.ok) throw new Error(`API error ${resp.status}`);
-    const data = await resp.json();
-    const raw = data.content.filter(b=>b.type==='text').map(b=>b.text).join('');
-
-    let parsed;
-    try{
-      parsed = JSON.parse(raw.trim());
-    }catch(e){
-      const match = raw.match(/\[[\s\S]*\]/);
-      if(match) parsed = JSON.parse(match[0]);
-      else throw new Error('Could not parse JSON from response');
-    }
-
-    if(!Array.isArray(parsed)||parsed.length===0) throw new Error('No questions returned');
-
-    aiQuestions = parsed.map((q,i)=>({
-      n:`AI-${sec}-${i+1}`,
-      sec:sec,
-      text:q.text,
-      opts:q.opts,
-      ans:q.ans,
-      exp:q.exp,
-      diag:q.svgDiagram?`ai_${sec}_${i}`:null,
-      isAI:true
-    }));
-
-    aiDiagrams={};
-    parsed.forEach((q,i)=>{if(q.svgDiagram) aiDiagrams[`ai_${sec}_${i}`]=q.svgDiagram;});
-
-    const wrongTopics = wrongQs.length===1 ? `1 weak topic` : `${wrongQs.length} weak topics`;
-    document.getElementById('ai-section').style.display='block';
-    document.getElementById('ai-section-title').textContent=`✨ ${sec==='MA'?'Mathematics Achievement':'Quantitative Reasoning'} — Personalised Practice`;
-    document.getElementById('ai-section-desc').textContent=`10 new questions generated targeting your ${wrongTopics}. These focus on exactly what you found difficult.`;
-
-    setStatus(`✅ 10 personalised questions ready! Scroll down to start your practice set.`,'done');
-    btnText.textContent=`✨ Regenerate ${sec} practice questions`;
-    btn.disabled=false; btn.classList.remove('loading'); spin.style.display='none';
-
-  }catch(err){
-    setStatus(`❌ Could not generate questions: ${err.message}. Please try again.`,'error');
-    btnText.textContent=`⚠️ Try again — Generate ${sec} questions`;
-    btn.disabled=false; btn.classList.remove('loading'); spin.style.display='none';
-  }
-}
-
-function setStatus(msg,type){
-  const el=document.getElementById('ai-status');
-  el.textContent=msg; el.className=`ai-status show ${type}`;
-}
-
-function startAIQuiz(){
-  mode='ai'; curQs=[...aiQuestions]; cur=0;
-  document.getElementById('quiz-title').textContent='✨ AI Personalised Practice';
-  document.getElementById('bar-fill').className='bar-fill ai';
-  showScreen('screen-quiz'); renderQ();
-}
-
-/* ════════════════════════════════════════════
-   QUIZ LOGIC
-════════════════════════════════════════════ */
-function startQuiz(m){
-  mode=m;
-  curQs = m==='ma'?ALL_QUESTIONS.filter(q=>q.sec==='MA')
-        : m==='qr'?ALL_QUESTIONS.filter(q=>q.sec==='QR')
-        : [...ALL_QUESTIONS];
-  cur=0;
-  document.getElementById('quiz-title').textContent =
-    m==='ma'?'Mathematics Achievement':m==='qr'?'Quantitative Reasoning':'All Questions';
-  document.getElementById('bar-fill').className='bar-fill '+m;
-  showScreen('screen-quiz'); renderQ();
-}
-
-function go(i){
-  if(i<0||i>=curQs.length)return;
-  cur=i; renderQ();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function pick(idx){
-  const q=curQs[cur];
-  const key=String(q.n);
-  if(chosen[key]!=null)return;
-  attempts[key]=(attempts[key]||0)+1;
-  chosen[key]=idx;
-  const isCorrect=idx===q.ans;
-  statuses[key]=isCorrect?'correct':'wrong';
-  saveResultToSupabase(q, idx, isCorrect);
-  saveProgress();
-  renderQ(); updateDash(); checkUnlocks(); renderQLIfVisible();
-}
-
-function checkUnlocks(){
-  const maQs=ALL_QUESTIONS.filter(q=>q.sec==='MA');
-  const qrQs=ALL_QUESTIONS.filter(q=>q.sec==='QR');
-  const maWrong=maQs.filter(q=>statuses[String(q.n)]==='wrong').length;
-  const qrWrong=qrQs.filter(q=>statuses[String(q.n)]==='wrong').length;
-  const maAnswered=maQs.filter(q=>chosen[String(q.n)]!=null).length;
-  const qrAnswered=qrQs.filter(q=>chosen[String(q.n)]!=null).length;
-
-  const maBtn=document.getElementById('gen-ma-btn');
-  const qrBtn=document.getElementById('gen-qr-btn');
-  const maText=document.getElementById('gen-ma-text');
-  const qrText=document.getElementById('gen-qr-text');
-
-  if(maWrong>0){
-    maBtn.disabled=false;
-    maText.textContent=`📐 Generate 10 new MA practice questions (${maWrong} weak area${maWrong>1?'s':''} detected)`;
-  } else if(maAnswered>0){
-    maBtn.disabled=true;
-    maText.textContent=`📐 Perfect score on MA! No weak areas to target.`;
-  }
-
-  if(qrWrong>0){
-    qrBtn.disabled=false;
-    qrText.textContent=`🔢 Generate 10 new QR practice questions (${qrWrong} weak area${qrWrong>1?'s':''} detected)`;
-  } else if(qrAnswered>0){
-    qrBtn.disabled=true;
-    qrText.textContent=`🔢 Perfect score on QR! No weak areas to target.`;
-  }
-}
-
-function renderTabs(){
-  document.getElementById('tabs').innerHTML=curQs.map((q,i)=>{
-    const key=String(q.n);
-    let c='tab';
-    if(q.isAI) c+=' ai-q';
-    if(statuses[key]==='correct') c+=' correct';
-    if(statuses[key]==='wrong') c+=' wrong';
-    if(i===cur) c+=' active';
-    const label=q.isAI?(i+1)+'✦':q.n.replace('MA-','M').replace('QR-','Q');
-    return`<button class="${c}" onclick="go(${i})" title="${q.n}">${label}</button>`;
-  }).join('');
-}
-
-function getDiagram(q){
-  if(!q.diag) return '';
-  if(q.isAI && aiDiagrams[q.diag]) return `<div class="q-diagram">${aiDiagrams[q.diag]}</div>`;
-  const svg=diagrams(q.diag);
-  return svg?`<div class="q-diagram">${svg}</div>`:'';
-}
-
-function renderQ(){
-  const q=curQs[cur];
-  const key=String(q.n);
-  const answered=chosen[key]!=null;
-  const diag=getDiagram(q);
-  const opts=q.opts.map((o,i)=>{
-    let c='opt';
-    if(answered){if(i===q.ans)c+=' correct-ans';else if(i===chosen[key])c+=' wrong-sel';}
-    return`<button class="${c}" ${answered?'disabled':''} onclick="pick(${i})">
-      <span class="badge">${['A','B','C','D'][i]}</span><span>${o}</span>
-    </button>`;
-  }).join('');
-  const fb=answered?`<div class="feedback ${chosen[key]===q.ans?'correct':'incorrect'} show">
-    <div class="fb-title">${chosen[key]===q.ans?'✓ Correct!':'✗ Not quite.'}</div>${q.exp}
-  </div>`:'';
-  const done=curQs.filter(q2=>chosen[String(q2.n)]!=null).length;
-  const corr=curQs.filter(q2=>statuses[String(q2.n)]==='correct').length;
-  const isAI=q.isAI;
-  const metaLabel=isAI?`✨ AI Practice — ${q.sec==='MA'?'Mathematics Achievement':'Quantitative Reasoning'}`
-    :`${q.n} — ${q.sec==='MA'?'Mathematics Achievement':'Quantitative Reasoning'}`;
-  document.getElementById('q-area').innerHTML=`
-    <div class="q-card ${isAI?'ai-card':''}">
-      <div class="q-meta ${isAI?'ai':q.sec.toLowerCase()}">${metaLabel}</div>
-      <div class="q-text">${q.text}</div>${diag}
-      <div class="options">${opts}</div>${fb}
-    </div>`;
-  document.getElementById('prog-label').textContent=`${done} of ${curQs.length} answered`;
-  document.getElementById('score-badge').textContent=`Score: ${corr}/${done}`;
-  document.getElementById('bar-fill').style.width=(done/curQs.length*100)+'%';
-  document.getElementById('btn-prev').disabled=cur===0;
-  document.getElementById('btn-next').disabled=cur===curQs.length-1;
-  renderTabs();
-}
-
-/* ════════════════════════════════════════════
-   DASHBOARD
-════════════════════════════════════════════ */
-function updateDash(){
-  const total=ALL_QUESTIONS.length;
-  const ans=ALL_QUESTIONS.filter(q=>chosen[String(q.n)]!=null).length;
-  const corr=ALL_QUESTIONS.filter(q=>statuses[String(q.n)]==='correct').length;
-  const wrg=ans-corr;
-  const sec=(s)=>ALL_QUESTIONS.filter(q=>q.sec===s);
-  const maAns=sec('MA').filter(q=>chosen[String(q.n)]!=null).length;
-  const maCor=sec('MA').filter(q=>statuses[String(q.n)]==='correct').length;
-  const maWrg=maAns-maCor;
-  const qrAns=sec('QR').filter(q=>chosen[String(q.n)]!=null).length;
-  const qrCor=sec('QR').filter(q=>statuses[String(q.n)]==='correct').length;
-  const qrWrg=qrAns-qrCor;
-  document.getElementById('d-total').textContent=total;
-  document.getElementById('d-answered').textContent=ans;
-  document.getElementById('d-correct').textContent=corr;
-  document.getElementById('d-wrong').textContent=wrg;
-  document.getElementById('d-ans-pct').textContent=Math.round(ans/total*100)+'%';
-  document.getElementById('d-cor-pct').textContent=ans?Math.round(corr/ans*100)+'%':'0%';
-  document.getElementById('d-wrg-pct').textContent=ans?Math.round(wrg/ans*100)+'%':'0%';
-  document.getElementById('bar-answered').style.width=(ans/total*100)+'%';
-  document.getElementById('bar-correct').style.width=(ans?corr/ans*100:0)+'%';
-  document.getElementById('bar-wrong').style.width=(ans?wrg/ans*100:0)+'%';
-  document.getElementById('d-ma-ans').textContent=maAns;
-  document.getElementById('d-ma-cor').textContent=maCor;
-  document.getElementById('d-ma-wrg').textContent=maWrg;
-  document.getElementById('d-qr-ans').textContent=qrAns;
-  document.getElementById('d-qr-cor').textContent=qrCor;
-  document.getElementById('d-qr-wrg').textContent=qrWrg;
-}
-
-
-/* ════════════════════════════════════════════
-   ATTEMPTS TRACKING
-════════════════════════════════════════════ */
-const attempts = {}; // key -> number of times answered
-
-const _origPick = pick;
-function pick(idx){
-  const q = curQs[cur];
-  const key = String(q.n);
-  if(chosen[key] != null) return; // already answered this attempt
-  attempts[key] = (attempts[key] || 0) + 1;
-  chosen[key] = idx;
-  statuses[key] = idx === q.ans ? 'correct' : 'wrong';
-  renderQ(); updateDash(); checkUnlocks(); renderQLIfVisible();
-}
-
-/* ════════════════════════════════════════════
-   RESET SECTION
-════════════════════════════════════════════ */
-function resetSection(sec){
-  const label = sec === 'MA' ? 'Mathematics Achievement' : 'Quantitative Reasoning';
-  if(!confirm(`Reset all ${label} answers?\n\nAttempt counts will be kept so you can track how many times each question was tried.`)) return;
-  ALL_QUESTIONS.filter(q=>q.sec===sec).forEach(q=>{
-    const key = String(q.n);
-    delete chosen[key];
-    delete statuses[key];
-    // attempts kept intentionally
-  });
-  saveProgress();
-  updateDash(); checkUnlocks();
-  // hide AI section if relevant section was reset
-  const aiSec = document.getElementById('ai-section');
-  if(aiSec) aiSec.style.display='none';
-  const aiStatus = document.getElementById('ai-status');
-  if(aiStatus){ aiStatus.textContent=''; aiStatus.className='ai-status'; }
-  // reset gen button text
-  const btn = document.getElementById('gen-'+sec.toLowerCase()+'-btn');
-  const txt = document.getElementById('gen-'+sec.toLowerCase()+'-text');
-  if(btn){ btn.disabled=true; }
-  if(txt){ txt.textContent = sec==='MA' ? '📐 Complete MA questions first to unlock' : '🔢 Complete QR questions first to unlock'; }
-}
-
-/* ════════════════════════════════════════════
-   QUESTION LIST
-════════════════════════════════════════════ */
-let qlCurrentFilter = 'all';
-
-function showQL(){
-  renderQL();
-  showScreen('screen-ql');
-}
-
-function qlFilter(f, btn){
-  qlCurrentFilter = f;
-  document.querySelectorAll('.ql-filter-btn').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  renderQL();
-}
-
-function renderQLIfVisible(){
-  if(document.getElementById('screen-ql').classList.contains('active')) renderQL();
-}
-
-function renderQL(){
-  let qs = [...ALL_QUESTIONS];
-  if(qlCurrentFilter==='MA') qs = qs.filter(q=>q.sec==='MA');
-  else if(qlCurrentFilter==='QR') qs = qs.filter(q=>q.sec==='QR');
-  else if(qlCurrentFilter==='correct') qs = qs.filter(q=>statuses[String(q.n)]==='correct');
-  else if(qlCurrentFilter==='wrong') qs = qs.filter(q=>statuses[String(q.n)]==='wrong');
-  else if(qlCurrentFilter==='unanswered') qs = qs.filter(q=>chosen[String(q.n)]==null);
-
-  const tbody = document.getElementById('ql-tbody');
-  if(!tbody) return;
-
-  if(qs.length===0){
-    tbody.innerHTML=`<tr><td colspan="4" style="text-align:center;padding:2rem;color:#94a3b8;font-size:0.9rem;">No questions match this filter.</td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = qs.map(q=>{
-    const key = String(q.n);
-    const st = statuses[key];
-    const att = attempts[key] || 0;
-    const shortText = q.text.split('\n')[0];
-    const preview = shortText.length > 70 ? shortText.slice(0,68)+'…' : shortText;
-    const badge = st==='correct'
-      ? '<span class="ql-badge correct">✓ Correct</span>'
-      : st==='wrong'
-        ? '<span class="ql-badge wrong">✗ Incorrect</span>'
-        : '<span class="ql-badge unanswered">— Not answered</span>';
-    const attDisplay = att===0 ? '<span style="color:#cbd5e1">—</span>' : att;
-    const secClass = q.sec.toLowerCase();
-    // clicking Go navigates to that question in the right quiz mode
-    const goFn = `goToQuestion('${q.n}')`;
-    return `<tr>
-      <td>
-        <div class="ql-q-num ${secClass}">${q.n} · ${q.sec==='MA'?'Mathematics Achievement':'Quantitative Reasoning'}</div>
-        <div class="ql-q-text">${preview}</div>
-      </td>
-      <td>${attDisplay}</td>
-      <td>${badge}</td>
-      <td><button class="ql-go-btn" onclick="${goFn}">Go →</button></td>
-    </tr>`;
-  }).join('');
-}
-
-function goToQuestion(n){
-  const q = ALL_QUESTIONS.find(q=>q.n===n);
-  if(!q) return;
-  mode = q.sec.toLowerCase();
-  curQs = ALL_QUESTIONS.filter(qq=>qq.sec===q.sec);
-  cur = curQs.findIndex(qq=>qq.n===n);
-  document.getElementById('quiz-title').textContent = q.sec==='MA'?'Mathematics Achievement':'Quantitative Reasoning';
-  document.getElementById('bar-fill').className = 'bar-fill ' + mode;
-  showScreen('screen-quiz');
-  renderQ();
-}
-
-
-/* ════════════════════════════════════════════
    SUPABASE CONFIG
 ════════════════════════════════════════════ */
 const SUPA_URL = 'https://yajqvfwzhudghivzgijt.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlhanF2Znd6aHVkZ2hpdnpnaWp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzNTA0MjUsImV4cCI6MjA5NjkyNjQyNX0.9jFDuKr-mL9gl_skZcP5THhnJNjs-8ogzG4zmV6fIyk';
-
-// Generate a unique session ID each time the page loads
-// This lets you track a single sitting — date + random suffix
-// Persist session ID across page refreshes (same sitting = same session)
-const _todayKey = 'quiz_session_' + new Date().toISOString().slice(0,10);
-const SESSION_ID = localStorage.getItem(_todayKey) || 
-  (() => { const id = new Date().toISOString().slice(0,10) + '_' + Math.random().toString(36).slice(2,8); localStorage.setItem(_todayKey, id); return id; })();
 
 async function supaInsert(row) {
   try {
@@ -786,17 +319,17 @@ async function supaInsert(row) {
   }
 }
 
-// Called every time an answer is picked
-function saveResultToSupabase(q, chosenIdx, correct) {
-  supaInsert({
-    session_id:   SESSION_ID,
-    question_id:  String(q.n),
-    section:      q.sec,
-    correct:      correct,
-    attempts:     attempts[String(q.n)] || 1,
-    answered_at:  new Date().toISOString()
-  });
-}
+// Generate a unique session ID each time the page loads
+// This lets you track a single sitting — date + random suffix
+// Persist session ID across page refreshes (same sitting = same session)
+const _todayKey = 'quiz_session_' + new Date().toISOString().slice(0,10);
+
+
+const SESSION_ID = localStorage.getItem(_todayKey) || 
+  (() => { const id = new Date().toISOString().slice(0,10) + '_' + Math.random().toString(36).slice(2,8); localStorage.setItem(_todayKey, id); return id; })();
+
+
+
 
 /* ════════════════════════════════════════════
    PARENT DASHBOARD — fetch from Supabase
@@ -1024,6 +557,466 @@ async function runDiagnostic() {
   }
 
   el.innerHTML = steps.join('<br>');
+}
+
+
+
+
+/* ════════════════════════════════════════════
+   QUESTION BANK
+════════════════════════════════════════════ */
+const ALL_QUESTIONS = [
+  {n:"MA-1",sec:"MA",text:"Which of the following shapes ALWAYS has all four sides equal in length AND all four angles equal to 90 degrees?",opts:["Rectangle","Parallelogram","Square","Trapezoid"],ans:2,exp:"A square must have all four sides equal AND all four angles of 90°. A rectangle has equal angles but not necessarily equal sides."},
+  {n:"MA-2",sec:"MA",text:"Four students recorded the number of pages they read over five days (see table).\n\nFrom Day 1 to Day 5, how many MORE pages did Zoe read on Day 5 than on Day 1?",opts:["10","12","14","16"],ans:1,exp:"Zoe read 18 pages on Day 1 and 30 on Day 5. The increase is 30 − 18 = 12 pages.",diag:"table_zoe"},
+  {n:"MA-3",sec:"MA",text:"Which fraction is equivalent to 0.6?",opts:["6/100","6/10","3/5","Both B and C"],ans:3,exp:"0.6 = 6/10 (option B) and 6/10 simplifies to 3/5 (option C). Both are equivalent to 0.6."},
+  {n:"MA-4",sec:"MA",text:"Daniel buys four items costing $6.75, $11.49, $3.29, and $9.89. What is the best estimate of the total cost?",opts:["Between $25 and $30","Between $30 and $35","Between $35 and $40","Between $40 and $45"],ans:1,exp:"Rounding: $7+$11+$3+$10=$31. The exact total $31.42 falls between $30 and $35."},
+  {n:"MA-5",sec:"MA",text:"The distance from London to Edinburgh is 414 miles. Which is closest to 1/4 of that distance?",opts:["Coventry — 94 miles","Leeds — 196 miles","York — 209 miles","Newcastle — 283 miles"],ans:0,exp:"1/4 of 414 = 103.5 miles. Coventry at 94 miles is the closest."},
+  {n:"MA-6",sec:"MA",text:"The perimeter of a square is 48 cm. Using P = 4s, which equation gives the side length s?",opts:["s = 48 ÷ 4","s = 4 × 48","s = 48 − 4","s = 48 + 4"],ans:0,exp:"From P = 4s, divide both sides by 4: s = 48 ÷ 4 = 12 cm."},
+  {n:"MA-7",sec:"MA",text:"Which fraction is between 3/4 and 9/10?",opts:["1/2","7/8","11/12","1/5"],ans:1,exp:"3/4=0.75 and 9/10=0.90. 7/8=0.875, which lies between them."},
+  {n:"MA-8",sec:"MA",text:"A recipe calls for 6¼ cups of oats. Tom already has 2⅜ cups. How many more cups does he need?",opts:["3 3/8","3 7/8","4 1/8","4 3/8"],ans:1,exp:"Convert to eighths: 6 2/8 − 2 3/8. Borrow: 5 10/8 − 2 3/8 = 3 7/8 cups."},
+  {n:"MA-9",sec:"MA",text:"An L-shaped room has an outer rectangle 14 m wide and 10 m tall. A corner 6 m wide and 4 m tall is removed. What is the floor area in square metres?",opts:["116 m²","124 m²","132 m²","140 m²"],ans:0,exp:"Full rectangle = 14×10 = 140 m². Cut-out = 6×4 = 24 m². Total = 140−24 = 116 m².",diag:"lshape"},
+  {n:"MA-10",sec:"MA",text:"There are 5 more cats than dogs at a shelter. If there are 8 dogs, what fraction of all animals are dogs?",opts:["8/13","8/21","5/13","8/5"],ans:1,exp:"8 dogs + 13 cats = 21 total. Fraction of dogs = 8/21."},
+  {n:"MA-11",sec:"MA",text:"A school surveyed 320 students about their favourite sport. The most popular gets a trophy; 2nd and 3rd get certificates. Which sports get the certificate?",opts:["Swimming and Cricket","Basketball and Swimming","Basketball and Tennis","Tennis and Swimming"],ans:2,exp:"Ranked: Football 95, Basketball 72, Tennis 61, Swimming 48, Cricket 44. Certificate = Basketball and Tennis.",diag:"sports_table"},
+  {n:"QR-1",sec:"QR",text:"The perimeter of this 6-sided polygon is 48 cm. Known sides: 9 cm, 4 cm, 4 cm, 7 cm, and 7 cm. Find x.",opts:["13 cm","15 cm","17 cm","19 cm"],ans:2,exp:"9+4+4+7+7 = 31 cm. x = 48−31 = 17 cm.",diag:"hexagon"},
+  {n:"QR-2",sec:"QR",text:"A car covers 150 miles in 3 hours at constant speed. How long to travel 250 miles?",opts:["4 hours","4 hrs 30 min","5 hours","5 hrs 30 min"],ans:2,exp:"Speed = 150÷3 = 50 mph. Time = 250÷50 = 5 hours."},
+  {n:"QR-3",sec:"QR",text:"Which is the smallest fraction?",opts:["5/9","4/7","3/8","7/12"],ans:2,exp:"As decimals: 5/9≈0.556, 4/7≈0.571, 3/8=0.375, 7/12≈0.583. Smallest is 3/8."},
+  {n:"QR-4",sec:"QR",text:"If y can be divided by both 4 and 9 without remainder, y must also be divisible by which number?",opts:["13","18","24","36"],ans:3,exp:"LCM of 4 and 9 is 36. Any number divisible by both must be divisible by 36."},
+  {n:"QR-5",sec:"QR",text:"A Venn diagram shows 'Multiples of 4' and 'Multiples of 6'. The shaded overlap = multiples of BOTH. Which number belongs in the shaded region?",opts:["8","9","14","24"],ans:3,exp:"24 is divisible by both 4 (÷6) and 6 (÷4). 8 is only ×4; 14 is neither.",diag:"venn"},
+  {n:"QR-6",sec:"QR",text:"Use the table to find the rule for the function.",opts:["□ + 10 = △","□ × 3 + 4 = △","□ × 4 + 1 = △","□ × 5 − 2 = △"],ans:2,exp:"Check: 3×4+1=13✓, 5×4+1=21✓, 7×4+1=29✓, 9×4+1=37✓. Rule: □×4+1=△.",diag:"func_table"},
+  {n:"QR-7",sec:"QR",text:"Use the pattern:\np + q = 2 + 4\np + q + r = 2 + 4 + 6\np + q + r + s = 2 + 4 + 6 + 8\n\nWhat is p + q + r + s + t + u?",opts:["20","30","42","56"],ans:2,exp:"The pattern sums even numbers. For 6 variables: 2+4+6+8+10+12 = 42."},
+  {n:"QR-8",sec:"QR",text:"A baker made 4 loaves: two used 2½ cups each, one used 4 cups, one used 3 cups. What is the mean cups of flour per loaf?",opts:["2¾","3","3¼","3½"],ans:1,exp:"Total = 2.5+2.5+4+3 = 12 cups. Mean = 12÷4 = 3 cups."},
+  {n:"QR-9",sec:"QR",text:"A survey of 80 students' favourite subject is in a circle graph with four equal sections (Maths, Science, English, History). About how many chose Maths?",opts:["10","15","20","25"],ans:2,exp:"Each section = 1/4. 1/4 × 80 = 20 students.",diag:"pie"},
+  {n:"QR-10",sec:"QR",text:"A number line from 3.0 to 5.0 is divided into 10 equal intervals. Two arrows point to the 3rd and 7th marks from the left. Which numbers are they pointing to?",opts:["3.2 and 3.6","3.3 and 3.7","3.4 and 4.2","3.5 and 3.9"],ans:2,exp:"Range 2.0 over 10 steps → each step = 0.2. 3rd mark = 3.4. 7th mark = 4.2.",diag:"numline1"},
+  {n:"QR-11",sec:"QR",text:"A small cube has volume 1 unit³. A larger cube is made from these, 3 cubes in each direction. What is the volume of the larger cube?",opts:["9 units³","18 units³","24 units³","27 units³"],ans:3,exp:"3×3×3 = 27 unit cubes. Volume = 27 units³.",diag:"cube"},
+  {n:"QR-12",sec:"QR",text:"Points P, Q, R, S are in order on a line. PS = a, PQ = b, RS = c.\n\nWhat is the length of QR?",opts:["a + b + c","a + b − c","a − b − c","b − a − c"],ans:2,exp:"QR = PS − PQ − RS = a − b − c.",diag:"segment"},
+  {n:"QR-13",sec:"QR",text:"Tank A and Tank B each hold 10 litres. Tank A is about ¼ full; Tank B about ¾ full. Combined, how much liquid is there approximately?",opts:["2.5 litres","5 litres","7.5 litres","10 litres"],ans:3,exp:"Tank A: ¼×10=2.5 L. Tank B: ¾×10=7.5 L. Total = 10 litres.",diag:"tanks"},
+  {n:"QR-14",sec:"QR",text:"A jar has red and blue sweets. P(red) = 3 out of 7. There are 16 blue sweets. How many red sweets are in the jar?",opts:["6","8","10","24"],ans:1,exp:"P(blue)=4/7. If 4 parts=16, then 1 part=4. Red = 3 parts = 3×4 = 8."},
+  {n:"QR-15",sec:"QR",text:"A box holds black, white, and grey counters. P(black) = 3 out of 8. Which combination is possible?",opts:["3 black and 5 others","6 black and 10 others","9 black and 15 others","12 black and 20 others"],ans:1,exp:"6 out of 16 total = 6/16 = 3/8 ✓"},
+  {n:"QR-16",sec:"QR",text:"Emma bought 4 ride tickets at $9 each and a meal deal. Her total was $52. Which equation finds the cost of the meal deal, m?",opts:["$52 = 9 + m","$52 = 4m","$52 = 4(9) + m","$52 = 4(9) + 4m"],ans:2,exp:"Total = (4×$9) + m = 36 + m = 52, so m = $16."},
+  {n:"QR-17",sec:"QR",text:"Five athletes ran these laps: 8, 6, 10, 6, 10. What was the mean?",opts:["6","7","8","10"],ans:2,exp:"Total = 8+6+10+6+10 = 40. Mean = 40÷5 = 8 laps.",diag:"barchart"},
+  {n:"QR-18",sec:"QR",text:"Which equation means '5 less than 3 times a number equals 7 more than the number'? Let n = unknown.",opts:["3n − 5 = n + 7","3n + 5 = n − 7","5 − 3n = n + 7","3n − 5 = 7n"],ans:0,exp:"3n−5 = n+7. Solving: 2n=12, n=6."},
+  {n:"QR-19",sec:"QR",text:"On a number line (each mark = 2 units): X is at the 4th mark (=8). Y is at the 9th mark (=18). Y is the average of X and Z. What is Z?",opts:["22","26","28","32"],ans:2,exp:"Y=(X+Z)÷2 → 18=(8+Z)÷2 → 36=8+Z → Z=28.",diag:"numline2"},
+  {n:"QR-20",sec:"QR",text:"Vertices of a quadrilateral: (1,2) (1,6) (5,2) (5,6).\n\nWhich term best describes the shape formed?",opts:["Trapezoid","Rhombus","Rectangle","Kite"],ans:2,exp:"Width=4, Height=4, all angles=90°. This is a square — a special rectangle.",diag:"coords"}
+
+  // ╔══════════════════════════════════════════════════════════════╗
+  // ║  PASTE NEW QUESTIONS HERE — above this comment              ║
+  // ║  Every question except the last needs a comma after }       ║
+  // ╚══════════════════════════════════════════════════════════════╝
+];
+
+/* ════════════════════════════════════════════
+   DIAGRAMS
+════════════════════════════════════════════ */
+function diagrams(key){
+  const d={
+    table_zoe:`<table class="dtable"><thead><tr><th></th><th>Liam</th><th>Zoe</th><th>Marcus</th><th>Priya</th></tr></thead><tbody><tr><td><b>Day 1</b></td><td>12</td><td>18</td><td>20</td><td>15</td></tr><tr><td><b>Day 2</b></td><td>14</td><td>20</td><td>22</td><td>17</td></tr><tr><td><b>Day 3</b></td><td>16</td><td>24</td><td>24</td><td>20</td></tr><tr><td><b>Day 4</b></td><td>20</td><td>28</td><td>26</td><td>23</td></tr><tr><td><b>Day 5</b></td><td>24</td><td>30</td><td>28</td><td>26</td></tr></tbody></table>`,
+    sports_table:`<table class="dtable"><thead><tr><th>Sport</th><th>Votes</th></tr></thead><tbody><tr><td>Football</td><td>95</td></tr><tr><td>Basketball</td><td>72</td></tr><tr><td>Tennis</td><td>61</td></tr><tr><td>Swimming</td><td>48</td></tr><tr><td>Cricket</td><td>44</td></tr></tbody></table>`,
+    func_table:`<table class="dtable"><thead><tr><th>Input (□)</th><th>Output (△)</th></tr></thead><tbody><tr><td>3</td><td>13</td></tr><tr><td>5</td><td>21</td></tr><tr><td>7</td><td>29</td></tr><tr><td>9</td><td>37</td></tr></tbody></table>`,
+    lshape:`<svg width="260" height="175" viewBox="0 0 260 175" xmlns="http://www.w3.org/2000/svg"><polygon points="15,15 195,15 195,85 150,85 150,160 15,160" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.5"/><text x="105" y="11" font-size="13" fill="#1e40af" text-anchor="middle" font-family="Arial">14 m</text><text x="200" y="53" font-size="13" fill="#1e40af" font-family="Arial">6 m</text><text x="155" y="125" font-size="13" fill="#1e40af" font-family="Arial">4 m</text><text x="2" y="92" font-size="13" fill="#1e40af" font-family="Arial">10 m</text><line x1="150" y1="90" x2="192" y2="90" stroke="#94a3b8" stroke-dasharray="4,3" stroke-width="1.5"/><line x1="150" y1="90" x2="150" y2="157" stroke="#94a3b8" stroke-dasharray="4,3" stroke-width="1.5"/><text x="85" y="128" font-size="12" fill="#94a3b8" font-style="italic" font-family="Arial">removed corner</text></svg>`,
+    hexagon:`<svg width="270" height="160" viewBox="0 0 270 160" xmlns="http://www.w3.org/2000/svg"><polygon points="15,15 165,15 165,70 220,70 220,150 15,150" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.5"/><text x="90" y="11" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">9 cm</text><text x="170" y="47" font-size="12" fill="#1e40af" font-family="Arial">4 cm</text><text x="193" y="65" font-size="14" fill="#dc2626" font-weight="bold" font-family="Arial">x</text><text x="225" y="114" font-size="12" fill="#1e40af" font-family="Arial">7 cm</text><text x="105" y="158" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">7 cm</text><text x="2" y="88" font-size="12" fill="#1e40af" font-family="Arial">4 cm</text></svg>`,
+    venn:`<svg width="300" height="148" viewBox="0 0 300 148" xmlns="http://www.w3.org/2000/svg"><ellipse cx="108" cy="74" rx="88" ry="58" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" fill-opacity="0.8"/><ellipse cx="192" cy="74" rx="88" ry="58" fill="#d1fae5" stroke="#22c55e" stroke-width="2" fill-opacity="0.8"/><ellipse cx="150" cy="74" rx="38" ry="43" fill="#86efac" fill-opacity="0.85"/><text x="68" y="70" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">Multiples</text><text x="68" y="85" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">of 4</text><text x="232" y="70" font-size="12" fill="#065f46" text-anchor="middle" font-family="Arial">Multiples</text><text x="232" y="85" font-size="12" fill="#065f46" text-anchor="middle" font-family="Arial">of 6</text><text x="150" y="78" font-size="12" fill="#14532d" text-anchor="middle" font-weight="bold" font-family="Arial">Both</text></svg>`,
+    pie:`<svg width="220" height="195" viewBox="0 0 220 195" xmlns="http://www.w3.org/2000/svg"><path d="M110,100 L110,22 A78,78 0 0,1 188,100 Z" fill="#3b82f6"/><path d="M110,100 L188,100 A78,78 0 0,1 110,178 Z" fill="#22c55e"/><path d="M110,100 L110,178 A78,78 0 0,1 32,100 Z" fill="#f59e0b"/><path d="M110,100 L32,100 A78,78 0 0,1 110,22 Z" fill="#ef4444"/><circle cx="110" cy="100" r="78" fill="none" stroke="white" stroke-width="3"/><line x1="110" y1="22" x2="110" y2="178" stroke="white" stroke-width="2"/><line x1="32" y1="100" x2="188" y2="100" stroke="white" stroke-width="2"/><text x="148" y="68" font-size="12" fill="white" text-anchor="middle" font-family="Arial" font-weight="bold">Maths</text><text x="148" y="140" font-size="12" fill="white" text-anchor="middle" font-family="Arial" font-weight="bold">Science</text><text x="72" y="140" font-size="12" fill="white" text-anchor="middle" font-family="Arial" font-weight="bold">History</text><text x="72" y="68" font-size="12" fill="white" text-anchor="middle" font-family="Arial" font-weight="bold">English</text><text x="110" y="192" font-size="11" fill="#6b7280" text-anchor="middle" font-family="Arial">Each section = 25%</text></svg>`,
+    numline1:(()=>{const t=Array.from({length:11},(_,i)=>`<line x1="${30+i*26}" y1="46" x2="${30+i*26}" y2="58" stroke="#3b82f6" stroke-width="1.5"/>`).join('');return`<svg width="320" height="88" viewBox="0 0 320 88" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="52" x2="300" y2="52" stroke="#3b82f6" stroke-width="2"/><polygon points="300,48 310,52 300,56" fill="#3b82f6"/><polygon points="20,48 10,52 20,56" fill="#3b82f6"/>${t}<text x="30" y="72" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">3.0</text><text x="290" y="72" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">5.0</text><line x1="82" y1="28" x2="82" y2="46" stroke="#dc2626" stroke-width="2"/><polygon points="78,28 82,18 86,28" fill="#dc2626"/><text x="82" y="15" font-size="11" fill="#dc2626" text-anchor="middle" font-family="Arial" font-weight="bold">3.4</text><line x1="186" y1="28" x2="186" y2="46" stroke="#dc2626" stroke-width="2"/><polygon points="182,28 186,18 190,28" fill="#dc2626"/><text x="186" y="15" font-size="11" fill="#dc2626" text-anchor="middle" font-family="Arial" font-weight="bold">4.2</text><text x="155" y="85" font-size="11" fill="#6b7280" text-anchor="middle" font-family="Arial">Each interval = 0.2</text></svg>`;})(),
+    cube:`<svg width="200" height="170" viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg"><polygon points="30,60 100,25 170,60 170,135 100,170 30,135" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/><polygon points="30,60 100,25 100,100 30,135" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2"/><polygon points="100,25 170,60 170,135 100,100" fill="#93c5fd" stroke="#3b82f6" stroke-width="2"/><polygon points="30,135 100,100 170,135 100,170" fill="#60a5fa" stroke="#3b82f6" stroke-width="2"/><rect x="30" y="60" width="32" height="28" fill="#1d4ed8" stroke="#1e3a8a" stroke-width="1.5" opacity="0.9"/><text x="46" y="79" font-size="10" fill="white" text-anchor="middle" font-family="Arial" font-weight="bold">1u³</text><text x="100" y="168" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">Larger = 3×3×3</text></svg>`,
+    segment:`<svg width="340" height="78" viewBox="0 0 340 78" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="38" x2="320" y2="38" stroke="#3b82f6" stroke-width="2.5"/><circle cx="20" cy="38" r="6" fill="#1d4ed8"/><circle cx="110" cy="38" r="6" fill="#15803d"/><circle cx="230" cy="38" r="6" fill="#15803d"/><circle cx="320" cy="38" r="6" fill="#1d4ed8"/><text x="20" y="62" font-size="14" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">P</text><text x="110" y="62" font-size="14" fill="#166534" text-anchor="middle" font-family="Arial" font-weight="bold">Q</text><text x="230" y="62" font-size="14" fill="#166534" text-anchor="middle" font-family="Arial" font-weight="bold">R</text><text x="320" y="62" font-size="14" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">S</text><line x1="20" y1="18" x2="320" y2="18" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,3"/><text x="170" y="14" font-size="11" fill="#64748b" text-anchor="middle" font-family="Arial">a = PS</text><line x1="20" y1="74" x2="110" y2="74" stroke="#dc2626" stroke-width="1.5"/><text x="65" y="73" font-size="10" fill="#991b1b" text-anchor="middle" font-family="Arial">b=PQ</text><line x1="230" y1="74" x2="320" y2="74" stroke="#dc2626" stroke-width="1.5"/><text x="275" y="73" font-size="10" fill="#991b1b" text-anchor="middle" font-family="Arial">c=RS</text></svg>`,
+    tanks:`<svg width="260" height="152" viewBox="0 0 260 152" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="20" width="80" height="108" rx="5" fill="none" stroke="#3b82f6" stroke-width="2.5"/><rect x="20" y="101" width="80" height="27" rx="3" fill="#93c5fd"/><text x="60" y="14" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">Tank A (¼ full)</text><text x="60" y="148" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">= 2.5 L</text><rect x="160" y="20" width="80" height="108" rx="5" fill="none" stroke="#22c55e" stroke-width="2.5"/><rect x="160" y="47" width="80" height="81" rx="3" fill="#86efac"/><text x="200" y="14" font-size="12" fill="#166534" text-anchor="middle" font-family="Arial" font-weight="bold">Tank B (¾ full)</text><text x="200" y="148" font-size="12" fill="#166534" text-anchor="middle" font-family="Arial">= 7.5 L</text><text x="130" y="87" font-size="20" fill="#94a3b8" text-anchor="middle" font-family="Arial">+</text></svg>`,
+    barchart:(()=>{const v=[8,6,10,6,10],c=["#3b82f6","#60a5fa","#1d4ed8","#60a5fa","#1d4ed8"];const b=v.map((val,i)=>{const x=50+i*50,h=val*9,y=130-h;return`<rect x="${x}" y="${y}" width="32" height="${h}" fill="${c[i]}" rx="3"/><text x="${x+16}" y="${y-5}" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">${val}</text><text x="${x+16}" y="148" font-size="11" fill="#6b7280" text-anchor="middle" font-family="Arial">A${i+1}</text>`;}).join('');return`<svg width="300" height="158" viewBox="0 0 300 158" xmlns="http://www.w3.org/2000/svg"><line x1="35" y1="15" x2="35" y2="132" stroke="#94a3b8" stroke-width="1.5"/><line x1="35" y1="132" x2="295" y2="132" stroke="#94a3b8" stroke-width="1.5"/><text x="28" y="135" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">0</text><text x="28" y="87" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">5</text><text x="28" y="42" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">10</text>${b}</svg>`;})(),
+    numline2:(()=>{const m=Array.from({length:13},(_,i)=>`<line x1="${20+i*22}" y1="47" x2="${20+i*22}" y2="58" stroke="#3b82f6" stroke-width="1.5"/>`).join('');return`<svg width="320" height="100" viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg"><line x1="10" y1="52" x2="305" y2="52" stroke="#3b82f6" stroke-width="2"/><polygon points="305,48 315,52 305,56" fill="#3b82f6"/>${m}<text x="20" y="72" font-size="11" fill="#1e40af" text-anchor="middle" font-family="Arial">0</text><circle cx="108" cy="52" r="5" fill="#3b82f6"/><text x="108" y="39" font-size="11" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">X=8</text><circle cx="218" cy="52" r="5" fill="#22c55e"/><text x="218" y="39" font-size="11" fill="#166534" text-anchor="middle" font-family="Arial" font-weight="bold">Y=18</text><text x="160" y="94" font-size="11" fill="#6b7280" text-anchor="middle" font-family="Arial">Each mark = 2 units</text></svg>`;})(),
+    coords:(()=>{const gx=x=>20+x*30,gy=y=>190-y*25;const dots=[[1,2],[1,6],[5,2],[5,6]].map(([x,y])=>`<circle cx="${gx(x)}" cy="${gy(y)}" r="5" fill="#1d4ed8"/><text x="${gx(x)+(x>3?6:-28)}" y="${gy(y)+(y<4?14:-8)}" font-size="10" fill="#1e40af" font-family="Arial">(${x},${y})</text>`).join('');const tx=Array.from({length:7},(_,i)=>`<line x1="${gx(i)}" y1="188" x2="${gx(i)}" y2="192" stroke="#94a3b8" stroke-width="1"/><text x="${gx(i)}" y="204" font-size="10" fill="#94a3b8" text-anchor="middle" font-family="Arial">${i}</text>`).join('');const ty=Array.from({length:9},(_,i)=>`<line x1="18" y1="${gy(i)}" x2="22" y2="${gy(i)}" stroke="#94a3b8" stroke-width="1"/><text x="14" y="${gy(i)+4}" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">${i}</text>`).join('');return`<svg width="220" height="212" viewBox="0 0 220 212" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="190" x2="200" y2="190" stroke="#94a3b8" stroke-width="1.5"/><line x1="20" y1="190" x2="20" y2="10" stroke="#94a3b8" stroke-width="1.5"/>${tx}${ty}<rect x="${gx(1)}" y="${gy(6)}" width="${gx(5)-gx(1)}" height="${gy(2)-gy(6)}" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.5"/>${dots}</svg>`;})()
+    // PASTE NEW DIAGRAMS HERE — key must match "diag" field in question above
+    // Example:  ,q32_shape: `<svg width="200" height="150">...</svg>`
+  };
+  return d[key]||'';
+}
+
+/* ════════════════════════════════════════════
+   STATE
+════════════════════════════════════════════ */
+let mode='all', curQs=[], cur=0;
+const chosen={}, statuses={};
+let aiQuestions=[], aiDiagrams={};
+
+/* ════════════════════════════════════════════
+   AI QUESTION GENERATION
+════════════════════════════════════════════ */
+async function generateQuestions(sec){
+  const wrongQs = ALL_QUESTIONS.filter(q=>q.sec===sec && statuses[q.n]==='wrong');
+  if(wrongQs.length===0){setStatus('No incorrect answers in this section yet — complete some questions first!','error');return;}
+
+  const btn = document.getElementById(`gen-${sec.toLowerCase()}-btn`);
+  const spin = document.getElementById(`spin-${sec.toLowerCase()}`);
+  const btnText = document.getElementById(`gen-${sec.toLowerCase()}-text`);
+
+  btn.disabled=true; btn.classList.add('loading');
+  spin.style.display='block';
+  btnText.textContent='Generating personalised questions…';
+  setStatus(`✨ Analysing ${wrongQs.length} incorrect ${sec} question${wrongQs.length>1?'s':''} and generating 10 new practice questions…`,'thinking');
+
+  const wrongSummary = wrongQs.map(q=>`- Q${q.n}: "${q.text.split('\n')[0]}" (topic: ${q.exp.split('.')[0]})`).join('\n');
+
+  const prompt = `You are a maths teacher creating practice questions for a student aged 10-12.
+
+The student got these questions WRONG on their test:
+${wrongSummary}
+
+Create exactly 10 new multiple-choice questions that practise the SAME skills and topics as the wrong questions above, but with different numbers/contexts. Each question must be slightly different in approach to help the student truly understand the concept.
+
+Respond ONLY with a valid JSON array. No explanation, no markdown, no code fences. Just the raw JSON array.
+
+Format:
+[
+  {
+    "text": "Question text here",
+    "opts": ["Option A", "Option B", "Option C", "Option D"],
+    "ans": 0,
+    "exp": "Brief explanation of why the answer is correct.",
+    "svgDiagram": null
+  }
+]
+
+Rules:
+- "ans" is the index (0-3) of the correct option in "opts"
+- "exp" should be 1-2 sentences max, clear and encouraging
+- "svgDiagram": if the question benefits from a simple diagram, provide a self-contained SVG string using only basic shapes (rect, circle, line, polygon, text). Use fill="#dbeafe" stroke="#1d4ed8" for shapes and fill="#1e40af" for text. Width max 300, height max 200. Otherwise set to null.
+- Keep language appropriate for age 10-12
+- Make questions varied — different contexts, same maths skills
+- All 10 questions must target the specific weak areas identified above`;
+
+  try{
+    const resp = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:4000,
+        system:'You are a maths question generator. Always respond with valid JSON only — no markdown, no code fences, no extra text.',
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+
+    if(!resp.ok) throw new Error(`API error ${resp.status}`);
+    const data = await resp.json();
+    const raw = data.content.filter(b=>b.type==='text').map(b=>b.text).join('');
+
+    let parsed;
+    try{
+      parsed = JSON.parse(raw.trim());
+    }catch(e){
+      const match = raw.match(/\[[\s\S]*\]/);
+      if(match) parsed = JSON.parse(match[0]);
+      else throw new Error('Could not parse JSON from response');
+    }
+
+    if(!Array.isArray(parsed)||parsed.length===0) throw new Error('No questions returned');
+
+    aiQuestions = parsed.map((q,i)=>({
+      n:`AI-${sec}-${i+1}`,
+      sec:sec,
+      text:q.text,
+      opts:q.opts,
+      ans:q.ans,
+      exp:q.exp,
+      diag:q.svgDiagram?`ai_${sec}_${i}`:null,
+      isAI:true
+    }));
+
+    aiDiagrams={};
+    parsed.forEach((q,i)=>{if(q.svgDiagram) aiDiagrams[`ai_${sec}_${i}`]=q.svgDiagram;});
+
+    const wrongTopics = wrongQs.length===1 ? `1 weak topic` : `${wrongQs.length} weak topics`;
+    document.getElementById('ai-section').style.display='block';
+    document.getElementById('ai-section-title').textContent=`✨ ${sec==='MA'?'Mathematics Achievement':'Quantitative Reasoning'} — Personalised Practice`;
+    document.getElementById('ai-section-desc').textContent=`10 new questions generated targeting your ${wrongTopics}. These focus on exactly what you found difficult.`;
+
+    setStatus(`✅ 10 personalised questions ready! Scroll down to start your practice set.`,'done');
+    btnText.textContent=`✨ Regenerate ${sec} practice questions`;
+    btn.disabled=false; btn.classList.remove('loading'); spin.style.display='none';
+
+  }catch(err){
+    setStatus(`❌ Could not generate questions: ${err.message}. Please try again.`,'error');
+    btnText.textContent=`⚠️ Try again — Generate ${sec} questions`;
+    btn.disabled=false; btn.classList.remove('loading'); spin.style.display='none';
+  }
+}
+
+function setStatus(msg,type){
+  const el=document.getElementById('ai-status');
+  el.textContent=msg; el.className=`ai-status show ${type}`;
+}
+
+function startAIQuiz(){
+  mode='ai'; curQs=[...aiQuestions]; cur=0;
+  document.getElementById('quiz-title').textContent='✨ AI Personalised Practice';
+  document.getElementById('bar-fill').className='bar-fill ai';
+  showScreen('screen-quiz'); renderQ();
+}
+
+/* ════════════════════════════════════════════
+   QUIZ LOGIC
+════════════════════════════════════════════ */
+function startQuiz(m){
+  mode=m;
+  curQs = m==='ma'?ALL_QUESTIONS.filter(q=>q.sec==='MA')
+        : m==='qr'?ALL_QUESTIONS.filter(q=>q.sec==='QR')
+        : [...ALL_QUESTIONS];
+  cur=0;
+  document.getElementById('quiz-title').textContent =
+    m==='ma'?'Mathematics Achievement':m==='qr'?'Quantitative Reasoning':'All Questions';
+  document.getElementById('bar-fill').className='bar-fill '+m;
+  showScreen('screen-quiz'); renderQ();
+}
+
+function go(i){
+  if(i<0||i>=curQs.length)return;
+  cur=i; renderQ();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function pick(idx){
+  const q=curQs[cur];
+  const key=String(q.n);
+  if(chosen[key]!=null)return;
+  attempts[key]=(attempts[key]||0)+1;
+  chosen[key]=idx;
+  const isCorrect=idx===q.ans;
+  statuses[key]=isCorrect?'correct':'wrong';
+  saveProgress();
+  renderQ(); updateDash(); checkUnlocks(); renderQLIfVisible();
+  // Save to Supabase — done last so UI updates instantly
+  supaInsert({
+    session_id:   SESSION_ID,
+    question_id:  String(q.n),
+    section:      q.sec,
+    correct:      isCorrect,
+    attempts:     attempts[key],
+    answered_at:  new Date().toISOString()
+  });
+}
+
+function checkUnlocks(){
+  const maQs=ALL_QUESTIONS.filter(q=>q.sec==='MA');
+  const qrQs=ALL_QUESTIONS.filter(q=>q.sec==='QR');
+  const maWrong=maQs.filter(q=>statuses[String(q.n)]==='wrong').length;
+  const qrWrong=qrQs.filter(q=>statuses[String(q.n)]==='wrong').length;
+  const maAnswered=maQs.filter(q=>chosen[String(q.n)]!=null).length;
+  const qrAnswered=qrQs.filter(q=>chosen[String(q.n)]!=null).length;
+
+  const maBtn=document.getElementById('gen-ma-btn');
+  const qrBtn=document.getElementById('gen-qr-btn');
+  const maText=document.getElementById('gen-ma-text');
+  const qrText=document.getElementById('gen-qr-text');
+
+  if(maWrong>0){
+    maBtn.disabled=false;
+    maText.textContent=`📐 Generate 10 new MA practice questions (${maWrong} weak area${maWrong>1?'s':''} detected)`;
+  } else if(maAnswered>0){
+    maBtn.disabled=true;
+    maText.textContent=`📐 Perfect score on MA! No weak areas to target.`;
+  }
+
+  if(qrWrong>0){
+    qrBtn.disabled=false;
+    qrText.textContent=`🔢 Generate 10 new QR practice questions (${qrWrong} weak area${qrWrong>1?'s':''} detected)`;
+  } else if(qrAnswered>0){
+    qrBtn.disabled=true;
+    qrText.textContent=`🔢 Perfect score on QR! No weak areas to target.`;
+  }
+}
+
+function renderTabs(){
+  document.getElementById('tabs').innerHTML=curQs.map((q,i)=>{
+    const key=String(q.n);
+    let c='tab';
+    if(q.isAI) c+=' ai-q';
+    if(statuses[key]==='correct') c+=' correct';
+    if(statuses[key]==='wrong') c+=' wrong';
+    if(i===cur) c+=' active';
+    const label=q.isAI?(i+1)+'✦':q.n.replace('MA-','M').replace('QR-','Q');
+    return`<button class="${c}" onclick="go(${i})" title="${q.n}">${label}</button>`;
+  }).join('');
+}
+
+function getDiagram(q){
+  if(!q.diag) return '';
+  if(q.isAI && aiDiagrams[q.diag]) return `<div class="q-diagram">${aiDiagrams[q.diag]}</div>`;
+  const svg=diagrams(q.diag);
+  return svg?`<div class="q-diagram">${svg}</div>`:'';
+}
+
+function renderQ(){
+  const q=curQs[cur];
+  const key=String(q.n);
+  const answered=chosen[key]!=null;
+  const diag=getDiagram(q);
+  const opts=q.opts.map((o,i)=>{
+    let c='opt';
+    if(answered){if(i===q.ans)c+=' correct-ans';else if(i===chosen[key])c+=' wrong-sel';}
+    return`<button class="${c}" ${answered?'disabled':''} onclick="pick(${i})">
+      <span class="badge">${['A','B','C','D'][i]}</span><span>${o}</span>
+    </button>`;
+  }).join('');
+  const fb=answered?`<div class="feedback ${chosen[key]===q.ans?'correct':'incorrect'} show">
+    <div class="fb-title">${chosen[key]===q.ans?'✓ Correct!':'✗ Not quite.'}</div>${q.exp}
+  </div>`:'';
+  const done=curQs.filter(q2=>chosen[String(q2.n)]!=null).length;
+  const corr=curQs.filter(q2=>statuses[String(q2.n)]==='correct').length;
+  const isAI=q.isAI;
+  const metaLabel=isAI?`✨ AI Practice — ${q.sec==='MA'?'Mathematics Achievement':'Quantitative Reasoning'}`
+    :`${q.n} — ${q.sec==='MA'?'Mathematics Achievement':'Quantitative Reasoning'}`;
+  document.getElementById('q-area').innerHTML=`
+    <div class="q-card ${isAI?'ai-card':''}">
+      <div class="q-meta ${isAI?'ai':q.sec.toLowerCase()}">${metaLabel}</div>
+      <div class="q-text">${q.text}</div>${diag}
+      <div class="options">${opts}</div>${fb}
+    </div>`;
+  document.getElementById('prog-label').textContent=`${done} of ${curQs.length} answered`;
+  document.getElementById('score-badge').textContent=`Score: ${corr}/${done}`;
+  document.getElementById('bar-fill').style.width=(done/curQs.length*100)+'%';
+  document.getElementById('btn-prev').disabled=cur===0;
+  document.getElementById('btn-next').disabled=cur===curQs.length-1;
+  renderTabs();
+}
+
+/* ════════════════════════════════════════════
+   DASHBOARD
+════════════════════════════════════════════ */
+function updateDash(){
+  const total=ALL_QUESTIONS.length;
+  const ans=ALL_QUESTIONS.filter(q=>chosen[String(q.n)]!=null).length;
+  const corr=ALL_QUESTIONS.filter(q=>statuses[String(q.n)]==='correct').length;
+  const wrg=ans-corr;
+  const sec=(s)=>ALL_QUESTIONS.filter(q=>q.sec===s);
+  const maAns=sec('MA').filter(q=>chosen[String(q.n)]!=null).length;
+  const maCor=sec('MA').filter(q=>statuses[String(q.n)]==='correct').length;
+  const maWrg=maAns-maCor;
+  const qrAns=sec('QR').filter(q=>chosen[String(q.n)]!=null).length;
+  const qrCor=sec('QR').filter(q=>statuses[String(q.n)]==='correct').length;
+  const qrWrg=qrAns-qrCor;
+  document.getElementById('d-total').textContent=total;
+  document.getElementById('d-answered').textContent=ans;
+  document.getElementById('d-correct').textContent=corr;
+  document.getElementById('d-wrong').textContent=wrg;
+  document.getElementById('d-ans-pct').textContent=Math.round(ans/total*100)+'%';
+  document.getElementById('d-cor-pct').textContent=ans?Math.round(corr/ans*100)+'%':'0%';
+  document.getElementById('d-wrg-pct').textContent=ans?Math.round(wrg/ans*100)+'%':'0%';
+  document.getElementById('bar-answered').style.width=(ans/total*100)+'%';
+  document.getElementById('bar-correct').style.width=(ans?corr/ans*100:0)+'%';
+  document.getElementById('bar-wrong').style.width=(ans?wrg/ans*100:0)+'%';
+  document.getElementById('d-ma-ans').textContent=maAns;
+  document.getElementById('d-ma-cor').textContent=maCor;
+  document.getElementById('d-ma-wrg').textContent=maWrg;
+  document.getElementById('d-qr-ans').textContent=qrAns;
+  document.getElementById('d-qr-cor').textContent=qrCor;
+  document.getElementById('d-qr-wrg').textContent=qrWrg;
+}
+
+
+/* ════════════════════════════════════════════
+   ATTEMPTS TRACKING
+════════════════════════════════════════════ */
+const attempts = {}; // key -> number of times answered
+
+
+/* ════════════════════════════════════════════
+   RESET SECTION
+════════════════════════════════════════════ */
+function resetSection(sec){
+  const label = sec === 'MA' ? 'Mathematics Achievement' : 'Quantitative Reasoning';
+  if(!confirm(`Reset all ${label} answers?\n\nAttempt counts will be kept so you can track how many times each question was tried.`)) return;
+  ALL_QUESTIONS.filter(q=>q.sec===sec).forEach(q=>{
+    const key = String(q.n);
+    delete chosen[key];
+    delete statuses[key];
+    // attempts kept intentionally
+  });
+  saveProgress();
+  updateDash(); checkUnlocks();
+  // hide AI section if relevant section was reset
+  const aiSec = document.getElementById('ai-section');
+  if(aiSec) aiSec.style.display='none';
+  const aiStatus = document.getElementById('ai-status');
+  if(aiStatus){ aiStatus.textContent=''; aiStatus.className='ai-status'; }
+  // reset gen button text
+  const btn = document.getElementById('gen-'+sec.toLowerCase()+'-btn');
+  const txt = document.getElementById('gen-'+sec.toLowerCase()+'-text');
+  if(btn){ btn.disabled=true; }
+  if(txt){ txt.textContent = sec==='MA' ? '📐 Complete MA questions first to unlock' : '🔢 Complete QR questions first to unlock'; }
+}
+
+/* ════════════════════════════════════════════
+   QUESTION LIST
+════════════════════════════════════════════ */
+let qlCurrentFilter = 'all';
+
+function showQL(){
+  renderQL();
+  showScreen('screen-ql');
+}
+
+function qlFilter(f, btn){
+  qlCurrentFilter = f;
+  document.querySelectorAll('.ql-filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderQL();
+}
+
+function renderQLIfVisible(){
+  if(document.getElementById('screen-ql').classList.contains('active')) renderQL();
+}
+
+function renderQL(){
+  let qs = [...ALL_QUESTIONS];
+  if(qlCurrentFilter==='MA') qs = qs.filter(q=>q.sec==='MA');
+  else if(qlCurrentFilter==='QR') qs = qs.filter(q=>q.sec==='QR');
+  else if(qlCurrentFilter==='correct') qs = qs.filter(q=>statuses[String(q.n)]==='correct');
+  else if(qlCurrentFilter==='wrong') qs = qs.filter(q=>statuses[String(q.n)]==='wrong');
+  else if(qlCurrentFilter==='unanswered') qs = qs.filter(q=>chosen[String(q.n)]==null);
+
+  const tbody = document.getElementById('ql-tbody');
+  if(!tbody) return;
+
+  if(qs.length===0){
+    tbody.innerHTML=`<tr><td colspan="4" style="text-align:center;padding:2rem;color:#94a3b8;font-size:0.9rem;">No questions match this filter.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = qs.map(q=>{
+    const key = String(q.n);
+    const st = statuses[key];
+    const att = attempts[key] || 0;
+    const shortText = q.text.split('\n')[0];
+    const preview = shortText.length > 70 ? shortText.slice(0,68)+'…' : shortText;
+    const badge = st==='correct'
+      ? '<span class="ql-badge correct">✓ Correct</span>'
+      : st==='wrong'
+        ? '<span class="ql-badge wrong">✗ Incorrect</span>'
+        : '<span class="ql-badge unanswered">— Not answered</span>';
+    const attDisplay = att===0 ? '<span style="color:#cbd5e1">—</span>' : att;
+    const secClass = q.sec.toLowerCase();
+    // clicking Go navigates to that question in the right quiz mode
+    const goFn = `goToQuestion('${q.n}')`;
+    return `<tr>
+      <td>
+        <div class="ql-q-num ${secClass}">${q.n} · ${q.sec==='MA'?'Mathematics Achievement':'Quantitative Reasoning'}</div>
+        <div class="ql-q-text">${preview}</div>
+      </td>
+      <td>${attDisplay}</td>
+      <td>${badge}</td>
+      <td><button class="ql-go-btn" onclick="${goFn}">Go →</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function goToQuestion(n){
+  const q = ALL_QUESTIONS.find(q=>q.n===n);
+  if(!q) return;
+  mode = q.sec.toLowerCase();
+  curQs = ALL_QUESTIONS.filter(qq=>qq.sec===q.sec);
+  cur = curQs.findIndex(qq=>qq.n===n);
+  document.getElementById('quiz-title').textContent = q.sec==='MA'?'Mathematics Achievement':'Quantitative Reasoning';
+  document.getElementById('bar-fill').className = 'bar-fill ' + mode;
+  showScreen('screen-quiz');
+  renderQ();
 }
 
 
