@@ -322,6 +322,7 @@ const ALL_QUESTIONS = [
 
 ,{n:"QR-21",sec:"QR",text:"A small piece of material is cut into 5 squares. A large piece of material is cut into 4 times as many squares as the small piece. How many squares is the large piece of material cut into?",opts:["9 squares","16 squares","20 squares","25 squares"],ans:2,exp:"The small piece is cut into 5 squares. The large piece is cut into 4 times as many: 4 × 5 = 20 squares."}
 ,{n:"QR-22",sec:"QR",text:"The second number in a pattern is 14, the third number in the pattern is 23, and the fourth number in the pattern is 32. What is the first number in the pattern?",opts:["4","5","6","7"],ans:1,exp:"The pattern increases by 9 each time (14→23→32). Working backwards: 14 − 9 = 5, so the first number is 5."}
+,{n:"QR-23",sec:"QR",text:"The largest square shown below is divided into smaller, equally-sized squares. The perimeter of the shaded square is 20 inches.\n\nWhat is the length of a side of the largest square?",opts:["5 inches","20 inches","25 inches","30 inches"],ans:2,exp:"The perimeter of one small square is 20 inches, so each side = 20 ÷ 4 = 5 inches. The large square is 5 small squares wide, so its side = 5 × 5 = 25 inches.",diag:"qr23_grid"}
   // ╔═══════════════════════════════════════════╗
   // ║  PASTE NEW QUESTIONS ABOVE THIS LINE       ║
   // ║  Each new question needs a comma before { ║
@@ -347,6 +348,24 @@ function diagrams(key) {
     barchart:(()=>{const v=[8,6,10,6,10],c=["#3b82f6","#60a5fa","#1d4ed8","#60a5fa","#1d4ed8"];const b=v.map((val,i)=>{const x=50+i*50,h=val*9,y=130-h;return`<rect x="${x}" y="${y}" width="32" height="${h}" fill="${c[i]}" rx="3"/><text x="${x+16}" y="${y-5}" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">${val}</text><text x="${x+16}" y="148" font-size="11" fill="#6b7280" text-anchor="middle" font-family="Arial">A${i+1}</text>`;}).join('');return`<svg width="300" height="158" viewBox="0 0 300 158" xmlns="http://www.w3.org/2000/svg"><line x1="35" y1="15" x2="35" y2="132" stroke="#94a3b8" stroke-width="1.5"/><line x1="35" y1="132" x2="295" y2="132" stroke="#94a3b8" stroke-width="1.5"/><text x="28" y="135" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">0</text><text x="28" y="87" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">5</text><text x="28" y="42" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">10</text>${b}</svg>`;})(),
     numline2:(()=>{const m=Array.from({length:13},(_,i)=>`<line x1="${20+i*22}" y1="47" x2="${20+i*22}" y2="58" stroke="#3b82f6" stroke-width="1.5"/>`).join('');return`<svg width="320" height="100" viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg"><line x1="10" y1="52" x2="305" y2="52" stroke="#3b82f6" stroke-width="2"/><polygon points="305,48 315,52 305,56" fill="#3b82f6"/>${m}<text x="20" y="72" font-size="11" fill="#1e40af" text-anchor="middle" font-family="Arial">0</text><circle cx="108" cy="52" r="5" fill="#3b82f6"/><text x="108" y="39" font-size="11" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">X=8</text><circle cx="218" cy="52" r="5" fill="#22c55e"/><text x="218" y="39" font-size="11" fill="#166534" text-anchor="middle" font-family="Arial" font-weight="bold">Y=18</text><text x="160" y="94" font-size="11" fill="#6b7280" text-anchor="middle" font-family="Arial">Each mark = 2 units</text></svg>`;})(),
     coords:(()=>{const gx=x=>20+x*30,gy=y=>190-y*25;const dots=[[1,2],[1,6],[5,2],[5,6]].map(([x,y])=>`<circle cx="${gx(x)}" cy="${gy(y)}" r="5" fill="#1d4ed8"/><text x="${gx(x)+(x>3?6:-28)}" y="${gy(y)+(y<4?14:-8)}" font-size="10" fill="#1e40af" font-family="Arial">(${x},${y})</text>`).join('');const tx=Array.from({length:7},(_,i)=>`<line x1="${gx(i)}" y1="188" x2="${gx(i)}" y2="192" stroke="#94a3b8" stroke-width="1"/><text x="${gx(i)}" y="204" font-size="10" fill="#94a3b8" text-anchor="middle" font-family="Arial">${i}</text>`).join('');const ty=Array.from({length:9},(_,i)=>`<line x1="18" y1="${gy(i)}" x2="22" y2="${gy(i)}" stroke="#94a3b8" stroke-width="1"/><text x="14" y="${gy(i)+4}" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">${i}</text>`).join('');return`<svg width="220" height="212" viewBox="0 0 220 212" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="190" x2="200" y2="190" stroke="#94a3b8" stroke-width="1.5"/><line x1="20" y1="190" x2="20" y2="10" stroke="#94a3b8" stroke-width="1.5"/>${tx}${ty}<rect x="${gx(1)}" y="${gy(6)}" width="${gx(5)-gx(1)}" height="${gy(2)-gy(6)}" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.5"/>${dots}</svg>`;})()
+,qr23_grid: `<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- 5x5 grid of small squares -->
+  <rect x="10" y="10" width="180" height="180" fill="white" stroke="#334155" stroke-width="2"/>
+  <!-- vertical lines -->
+  <line x1="46" y1="10" x2="46" y2="190" stroke="#334155" stroke-width="1"/>
+  <line x1="82" y1="10" x2="82" y2="190" stroke="#334155" stroke-width="1"/>
+  <line x1="118" y1="10" x2="118" y2="190" stroke="#334155" stroke-width="1"/>
+  <line x1="154" y1="10" x2="154" y2="190" stroke="#334155" stroke-width="1"/>
+  <!-- horizontal lines -->
+  <line x1="10" y1="46" x2="190" y2="46" stroke="#334155" stroke-width="1"/>
+  <line x1="10" y1="82" x2="190" y2="82" stroke="#334155" stroke-width="1"/>
+  <line x1="10" y1="118" x2="190" y2="118" stroke="#334155" stroke-width="1"/>
+  <line x1="10" y1="154" x2="190" y2="154" stroke="#334155" stroke-width="1"/>
+  <!-- shaded square at row 2, col 2 (0-indexed) -->
+  <rect x="46" y="46" width="36" height="36" fill="#94a3b8"/>
+  <!-- label -->
+  <text x="100" y="198" font-size="11" fill="#64748b" text-anchor="middle" font-family="Arial">Perimeter of shaded square = 20 in</text>
+</svg>`
     // PASTE NEW DIAGRAMS HERE — key must match "diag" field in question above
     // Example:  ,q32_shape: `<svg width="200" height="150">...</svg>`
     // PASTE NEW DIAGRAMS HERE
