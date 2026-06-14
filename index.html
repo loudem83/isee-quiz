@@ -3,24 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maths Practice Quiz</title>
+<title>ISEE Maths Practice Quiz</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:#f0f4f9;color:#1a1a2e;min-height:100vh;}
 .screen{display:none;min-height:100vh;}.screen.active{display:block;}
+
+/* TOP BAR */
 .top-bar{background:#1a3a5c;color:white;padding:1rem 1.5rem;display:flex;align-items:center;gap:12px;}
 .top-bar h1{font-size:1.1rem;font-weight:600;}
 .back-btn{background:rgba(255,255,255,0.15);border:none;color:white;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:600;margin-left:auto;}
 .back-btn:hover{background:rgba(255,255,255,0.25);}
+
+/* HOME */
 .home-hero{background:linear-gradient(135deg,#1a3a5c 0%,#0f6e56 100%);color:white;padding:3rem 1.5rem 2.5rem;text-align:center;}
 .home-hero h2{font-size:2rem;font-weight:700;margin-bottom:8px;}
 .home-hero p{font-size:1rem;opacity:0.85;}
 .home-body{max-width:700px;margin:0 auto;padding:2rem 1rem;}
+.dash-section{background:white;border-radius:14px;padding:1.25rem;margin-bottom:1.25rem;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+.dash-title{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;margin-bottom:12px;}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+@media(max-width:400px){.stats-grid{grid-template-columns:repeat(2,1fr);}}
+.stat-card{border-radius:10px;padding:12px 8px;text-align:center;}
+.stat-card .val{font-size:1.8rem;font-weight:700;line-height:1;}
+.stat-card .lbl{font-size:0.72rem;font-weight:600;margin-top:4px;opacity:0.8;}
+.stat-card.total{background:#f1f5f9;color:#334155;}
+.stat-card.answered{background:#dbeafe;color:#1e40af;}
+.stat-card.correct{background:#d1fae5;color:#065f46;}
+.stat-card.wrong{background:#fee2e2;color:#991b1b;}
+.mini-bar-wrap{margin-top:12px;}
+.mini-bar-label{display:flex;justify-content:space-between;font-size:0.8rem;color:#64748b;margin-bottom:5px;}
+.mini-bar-track{background:#e2e8f0;border-radius:99px;height:8px;margin-bottom:8px;overflow:hidden;}
+.mini-bar-fill{height:8px;border-radius:99px;transition:width 0.5s;}
+.mini-bar-fill.answered{background:#3b82f6;}
+.mini-bar-fill.correct{background:#22c55e;}
+.mini-bar-fill.wrong{background:#ef4444;}
 .pathway-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem;}
 @media(max-width:540px){.pathway-grid{grid-template-columns:1fr;}}
 .pathway-card{background:white;border-radius:16px;padding:1.75rem 1.5rem;cursor:pointer;border:2px solid transparent;transition:all 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.07);text-align:center;}
 .pathway-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.12);}
-.pathway-card.ma:hover{border-color:#1d4ed8;}.pathway-card.qr:hover{border-color:#0f6e56;}
+.pathway-card.ma:hover{border-color:#1d4ed8;}
+.pathway-card.qr:hover{border-color:#0f6e56;}
 .pathway-card .icon{font-size:2.8rem;margin-bottom:12px;}
 .pathway-card h3{font-size:1.1rem;font-weight:700;margin-bottom:6px;}
 .pathway-card p{font-size:0.85rem;color:#64748b;line-height:1.5;}
@@ -29,46 +52,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 .pathway-card.qr .pill{background:#d1fae5;color:#065f46;}
 .all-btn{width:100%;background:white;border:2px dashed #c4b5fd;border-radius:16px;padding:1.1rem;cursor:pointer;font-size:1rem;font-weight:600;color:#5b21b6;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:1.25rem;}
 .all-btn:hover{background:#ede9fe;border-color:#7c3aed;}
-.dash-section{background:white;border-radius:14px;padding:1.25rem;margin-bottom:1.25rem;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
-.dash-title{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;margin-bottom:12px;}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
-@media(max-width:400px){.stats-grid{grid-template-columns:repeat(2,1fr);}}
-.stat-card{border-radius:10px;padding:12px 8px;text-align:center;}
-.stat-card .val{font-size:1.8rem;font-weight:700;line-height:1;}
-.stat-card .lbl{font-size:0.72rem;font-weight:600;margin-top:4px;opacity:0.8;}
-.stat-card.total{background:#f1f5f9;color:#334155;}.stat-card.answered{background:#dbeafe;color:#1e40af;}
-.stat-card.correct{background:#d1fae5;color:#065f46;}.stat-card.wrong{background:#fee2e2;color:#991b1b;}
-.mini-bar-wrap{margin-top:12px;}
-.mini-bar-label{display:flex;justify-content:space-between;font-size:0.8rem;color:#64748b;margin-bottom:5px;}
-.mini-bar-track{background:#e2e8f0;border-radius:99px;height:8px;margin-bottom:8px;overflow:hidden;}
-.mini-bar-fill{height:8px;border-radius:99px;transition:width 0.5s;}
-.mini-bar-fill.answered{background:#3b82f6;}.mini-bar-fill.correct{background:#22c55e;}.mini-bar-fill.wrong{background:#ef4444;}
+.reset-btn{width:100%;margin-top:8px;padding:9px 14px;border-radius:10px;border:1.5px solid #fca5a5;background:#fff;color:#dc2626;font-size:0.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all 0.15s;}
+.reset-btn:hover{background:#fef2f2;border-color:#ef4444;}
 
-/* ── AI GENERATE BUTTON ── */
-.gen-btn{width:100%;padding:1rem;border-radius:12px;border:none;cursor:pointer;font-size:0.95rem;font-weight:700;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:10px;}
-.gen-btn.ma-gen{background:linear-gradient(135deg,#1d4ed8,#1a3a5c);color:white;}
-.gen-btn.qr-gen{background:linear-gradient(135deg,#0f6e56,#065f46);color:white;}
-.gen-btn:hover{opacity:0.9;transform:translateY(-1px);}
-.gen-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
-.gen-btn .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.4);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;display:none;}
-.gen-btn.loading .spinner{display:block;}
-.gen-btn.loading .btn-text{opacity:0.7;}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-/* ── AI STATUS BOX ── */
-.ai-status{border-radius:10px;padding:12px 16px;font-size:0.875rem;line-height:1.5;margin-top:10px;display:none;}
-.ai-status.show{display:block;}
-.ai-status.thinking{background:#fef9c3;border:1px solid #fde047;color:#713f12;}
-.ai-status.done{background:#d1fae5;border:1px solid #22c55e;color:#064e3b;}
-.ai-status.error{background:#fee2e2;border:1px solid #ef4444;color:#7f1d1d;}
-
-/* ── AI GENERATED SECTION ── */
-.ai-section{background:white;border-radius:14px;padding:1.25rem;margin-bottom:1.25rem;box-shadow:0 1px 4px rgba(0,0,0,0.07);border-left:4px solid #8b5cf6;}
-.ai-badge{display:inline-flex;align-items:center;gap:6px;background:#ede9fe;color:#5b21b6;padding:4px 12px;border-radius:99px;font-size:0.75rem;font-weight:700;margin-bottom:10px;}
-
-/* ── QUIZ SCREEN ── */
+/* QUIZ */
 .quiz-wrap{max-width:760px;margin:0 auto;padding:1.1rem 1rem 3rem;}
 .progress-wrap{background:white;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+.sync-bar{font-size:0.8rem;font-weight:600;text-align:center;padding:6px;margin-bottom:6px;border-radius:8px;background:#f0fdf4;display:none;}
 .progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:0.85rem;color:#555;}
 .score-badge{background:#1a3a5c;color:white;border-radius:99px;padding:3px 12px;font-size:0.8rem;font-weight:600;}
 .bar-track{background:#e8edf2;border-radius:99px;height:8px;}
@@ -76,7 +66,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 .bar-fill.ma{background:linear-gradient(90deg,#3b82f6,#1a3a5c);}
 .bar-fill.qr{background:linear-gradient(90deg,#22c55e,#0f6e56);}
 .bar-fill.all{background:linear-gradient(90deg,#8b5cf6,#1a3a5c);}
-.bar-fill.ai{background:linear-gradient(90deg,#a78bfa,#5b21b6);}
 .tabs-wrap{background:white;border-radius:12px;padding:0.9rem 1rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
 .tabs-label{font-size:0.72rem;color:#94a3b8;margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;}
 .tabs{display:flex;flex-wrap:wrap;gap:5px;}
@@ -87,12 +76,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 .tab.wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b;}
 .tab.correct.active{background:#15803d;border-color:#15803d;color:white;}
 .tab.wrong.active{background:#dc2626;border-color:#dc2626;color:white;}
-.tab.ai-q{border-color:#a78bfa;color:#5b21b6;}
-.tab.ai-q.active{background:#5b21b6;border-color:#5b21b6;color:white;}
 .q-card{background:white;border-radius:14px;padding:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-bottom:1rem;}
-.q-card.ai-card{border-left:4px solid #8b5cf6;}
 .q-meta{font-size:0.72rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:10px;}
-.q-meta.ma{color:#1d4ed8;}.q-meta.qr{color:#0f6e56;}.q-meta.ai{color:#5b21b6;}
+.q-meta.ma{color:#1d4ed8;}.q-meta.qr{color:#0f6e56;}
 .q-text{font-size:1rem;line-height:1.65;color:#1a1a2e;margin-bottom:14px;white-space:pre-line;}
 .q-diagram{margin:10px 0 16px;overflow-x:auto;}
 .dtable{border-collapse:collapse;font-size:0.875rem;margin:10px 0;}
@@ -119,45 +105,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 .nav-btn:disabled{opacity:0.35;cursor:default;}
 .nav-btn.primary{background:#1a3a5c;color:white;border-color:#1a3a5c;}
 .nav-btn.primary:hover:not(:disabled){background:#0f2640;}
-/* ── RESET BUTTONS ── */
-.reset-btn{width:100%;margin-top:8px;padding:9px 14px;border-radius:10px;border:1.5px solid #fca5a5;background:#fff;color:#dc2626;font-size:0.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all 0.15s;}
-.reset-btn:hover{background:#fef2f2;border-color:#ef4444;}
 
-/* ── QUESTION LIST SCREEN ── */
+/* PARENT DASHBOARD */
 .ql-wrap{max-width:760px;margin:0 auto;padding:1.1rem 1rem 3rem;}
-.ql-filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;}
-.ql-filter-btn{padding:6px 14px;border-radius:8px;border:1.5px solid #dce3ea;background:white;font-size:0.8rem;font-weight:600;cursor:pointer;color:#555;transition:all 0.15s;}
-.ql-filter-btn:hover{border-color:#3b82f6;color:#1d4ed8;}
-.ql-filter-btn.active{background:#1a3a5c;border-color:#1a3a5c;color:white;}
-.ql-table-wrap{background:white;border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,0.07);overflow:hidden;}
-.ql-table{width:100%;border-collapse:collapse;font-size:0.875rem;}
-.ql-table thead tr{background:#f8fafc;}
-.ql-table th{padding:12px 16px;text-align:left;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#94a3b8;border-bottom:1px solid #e2e8f0;}
-.ql-table th:nth-child(2),.ql-table th:nth-child(3){text-align:center;}
-.ql-table td{padding:12px 16px;border-bottom:1px solid #f1f5f9;vertical-align:middle;color:#1a1a2e;}
-.ql-table tr:last-child td{border-bottom:none;}
-.ql-table tr:hover td{background:#f8fafc;}
-.ql-table td:nth-child(2){text-align:center;font-weight:600;color:#64748b;}
-.ql-table td:nth-child(3){text-align:center;}
-.ql-q-text{font-size:0.875rem;line-height:1.4;color:#1a1a2e;max-width:380px;}
-.ql-q-num{font-size:0.75rem;font-weight:700;margin-bottom:3px;}
-.ql-q-num.ma{color:#1d4ed8;}.ql-q-num.qr{color:#0f6e56;}
-.ql-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:99px;font-size:0.75rem;font-weight:700;}
-.ql-badge.correct{background:#d1fae5;color:#065f46;}
-.ql-badge.wrong{background:#fee2e2;color:#991b1b;}
-.ql-badge.unanswered{background:#f1f5f9;color:#94a3b8;}
-.ql-go-btn{padding:5px 12px;border-radius:7px;border:1.5px solid #dce3ea;background:white;font-size:0.78rem;font-weight:600;cursor:pointer;color:#1a3a5c;white-space:nowrap;}
-.ql-go-btn:hover{background:#f0f7ff;border-color:#3b82f6;}
-@media(max-width:600px){.ql-q-text{max-width:180px;font-size:0.8rem;}.ql-table th:nth-child(4),.ql-table td:nth-child(4){display:none;}}
-
 </style>
 </head>
 <body>
 
-<!-- ══ SCREEN 1: HOME ══ -->
+<!-- SCREEN 1: HOME -->
 <div id="screen-home" class="screen active">
   <div class="home-hero">
-    <h2>🎓 Maths Practice Quiz</h2>
+    <h2>🎓 ISEE Maths Practice Quiz</h2>
     <p>Interactive practice for Mathematics Achievement &amp; Quantitative Reasoning</p>
   </div>
   <div class="home-body">
@@ -185,16 +143,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
         <div style="background:#dbeafe;border-radius:10px;padding:12px;">
           <div style="font-size:0.8rem;font-weight:700;color:#1e40af;margin-bottom:6px;">Mathematics Achievement</div>
-          <div style="font-size:0.82rem;color:#1e40af;">Questions: <b>1–11</b></div>
-          <div style="font-size:0.82rem;color:#1e40af;">Answered: <b id="d-ma-ans">0</b> / 11</div>
+          <div style="font-size:0.82rem;color:#1e40af;">Questions: <b id="d-ma-range">MA-1 to MA-11</b></div>
+          <div style="font-size:0.82rem;color:#1e40af;">Answered: <b id="d-ma-ans">0</b> / <b id="d-ma-total">11</b></div>
           <div style="font-size:0.82rem;color:#1e40af;">Correct: <b id="d-ma-cor">0</b></div>
           <div style="font-size:0.82rem;color:#1e40af;">Wrong: <b id="d-ma-wrg">0</b></div>
           <button class="reset-btn" onclick="resetSection('MA')">🔄 Reset MA answers</button>
         </div>
         <div style="background:#d1fae5;border-radius:10px;padding:12px;">
           <div style="font-size:0.8rem;font-weight:700;color:#065f46;margin-bottom:6px;">Quantitative Reasoning</div>
-          <div style="font-size:0.82rem;color:#065f46;">Questions: <b>12–31</b></div>
-          <div style="font-size:0.82rem;color:#065f46;">Answered: <b id="d-qr-ans">0</b> / 20</div>
+          <div style="font-size:0.82rem;color:#065f46;">Questions: <b id="d-qr-range">QR-1 to QR-20</b></div>
+          <div style="font-size:0.82rem;color:#065f46;">Answered: <b id="d-qr-ans">0</b> / <b id="d-qr-total">20</b></div>
           <div style="font-size:0.82rem;color:#065f46;">Correct: <b id="d-qr-cor">0</b></div>
           <div style="font-size:0.82rem;color:#065f46;">Wrong: <b id="d-qr-wrg">0</b></div>
           <button class="reset-btn" onclick="resetSection('QR')">🔄 Reset QR answers</button>
@@ -209,67 +167,36 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
           <div class="icon">📐</div>
           <h3>Mathematics Achievement</h3>
           <p>Shapes, fractions, estimation, area, word problems</p>
-          <span class="pill">11 Questions</span>
+          <span class="pill" id="ma-pill">11 Questions</span>
         </div>
         <div class="pathway-card qr" onclick="startQuiz('qr')">
           <div class="icon">🔢</div>
           <h3>Quantitative Reasoning</h3>
           <p>Algebra, proportions, functions, probability, data</p>
-          <span class="pill">20 Questions</span>
+          <span class="pill" id="qr-pill">20 Questions</span>
         </div>
       </div>
-      <button class="all-btn" onclick="startQuiz('all')">⭐ Take all 31 questions together</button>
-      <button class="all-btn" onclick="showQL()" style="border-color:#94a3b8;color:#475569;">
-        📋 View Question List &amp; Progress
-      </button>
+      <button class="all-btn" onclick="startQuiz('all')">⭐ Take all questions together</button>
       <button class="all-btn" onclick="showScreen('screen-pd');loadParentDash();" style="border-color:#f59e0b;color:#92400e;background:#fffbeb;">
         👨&#x200D;👦 Parent Dashboard — View All Results
-      </button>
-    </div>
-
-    <div class="dash-section">
-      <div class="dash-title">🤖 AI Practice Generator</div>
-      <p style="font-size:0.875rem;color:#64748b;margin-bottom:14px;line-height:1.6;">
-        Finished a section? Click below to generate <b>10 new personalised questions</b> targeting exactly the topics you got wrong. Powered by AI — appears instantly as a new quiz.
-      </p>
-
-      <button class="gen-btn ma-gen" id="gen-ma-btn" onclick="generateQuestions('MA')" disabled>
-        <div class="spinner" id="spin-ma"></div>
-        <span class="btn-text" id="gen-ma-text">📐 Complete MA questions first to unlock</span>
-      </button>
-
-      <button class="gen-btn qr-gen" id="gen-qr-btn" onclick="generateQuestions('QR')" disabled style="margin-top:10px;">
-        <div class="spinner" id="spin-qr"></div>
-        <span class="btn-text" id="gen-qr-text">🔢 Complete QR questions first to unlock</span>
-      </button>
-
-      <div class="ai-status" id="ai-status"></div>
-    </div>
-
-    <div class="ai-section" id="ai-section" style="display:none;">
-      <div class="ai-badge">✨ AI Generated Practice</div>
-      <div class="dash-title" style="margin-bottom:8px;" id="ai-section-title">Personalised Practice Set</div>
-      <p style="font-size:0.85rem;color:#64748b;margin-bottom:12px;" id="ai-section-desc"></p>
-      <button class="nav-btn primary" onclick="startAIQuiz()" style="width:100%;padding:12px;">
-        Start Personalised Practice →
       </button>
     </div>
 
   </div>
 </div>
 
-<!-- ══ SCREEN 2: QUIZ ══ -->
+<!-- SCREEN 2: QUIZ -->
 <div id="screen-quiz" class="screen">
   <div class="top-bar">
     <h1 id="quiz-title">Quiz</h1>
-    <button class="back-btn" onclick="goHome()">← Home &amp; Dashboard</button>
+    <button class="back-btn" onclick="goHome()">← Home</button>
   </div>
   <div class="quiz-wrap">
     <div class="progress-wrap">
-      <div style="font-size:0.72rem;color:#94a3b8;text-align:right;margin-bottom:4px;" id="sync-indicator"></div>
-    <div class="progress-top">
+      <div id="sync-indicator" class="sync-bar"></div>
+      <div class="progress-top">
         <span id="prog-label">0 answered</span>
-        <span class="score-badge" id="score-badge">Score: 0</span>
+        <span class="score-badge" id="score-badge">Score: 0/0</span>
       </div>
       <div class="bar-track"><div class="bar-fill" id="bar-fill"></div></div>
     </div>
@@ -285,14 +212,37 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
   </div>
 </div>
 
+<!-- SCREEN 3: PARENT DASHBOARD -->
+<div id="screen-pd" class="screen">
+  <div class="top-bar">
+    <h1>👨‍👦 Parent Dashboard</h1>
+    <button class="back-btn" onclick="goHome()">← Home</button>
+  </div>
+  <div class="ql-wrap">
+    <div style="background:#fef9c3;border:1px solid #fde047;border-radius:10px;padding:12px 16px;font-size:0.85rem;color:#713f12;margin-bottom:1rem;">
+      🔒 Results are saved automatically every time your son answers a question.
+    </div>
+    <!-- Diagnostic Tool -->
+    <div id="pd-diag" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:1.1rem;margin-bottom:1rem;">
+      <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;margin-bottom:10px;">🔧 Connection Diagnostic</div>
+      <button onclick="runDiagnostic()" style="width:100%;padding:10px;border-radius:8px;background:#1a3a5c;color:white;border:none;font-size:0.9rem;font-weight:600;cursor:pointer;margin-bottom:10px;">Run Connection Test</button>
+      <div id="diag-result" style="font-size:0.82rem;line-height:1.7;display:none;"></div>
+    </div>
+    <div id="pd-status" style="font-size:0.9rem;color:#64748b;margin-bottom:1rem;"></div>
+    <div id="pd-content"></div>
+    <button onclick="loadParentDash()" style="width:100%;padding:11px;border-radius:10px;border:1.5px solid #dce3ea;background:white;cursor:pointer;font-size:0.9rem;font-weight:600;color:#1a3a5c;margin-top:0.5rem;">🔄 Refresh Results</button>
+  </div>
+</div>
+
 <script>
-/* ════════════════════════════════════════════
+/* ════════════════════════════════════════
    SUPABASE CONFIG
-════════════════════════════════════════════ */
+════════════════════════════════════════ */
 const SUPA_URL = 'https://yajqvfwzhudghivzgijt.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlhanF2Znd6aHVkZ2hpdnpnaWp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzNTA0MjUsImV4cCI6MjA5NjkyNjQyNX0.9jFDuKr-mL9gl_skZcP5THhnJNjs-8ogzG4zmV6fIyk';
 
 async function supaInsert(row) {
+  showSyncStatus('⏳ Saving…', '#92400e', '#fffbeb');
   try {
     const res = await fetch(SUPA_URL + '/rest/v1/quiz_results', {
       method: 'POST',
@@ -305,268 +255,40 @@ async function supaInsert(row) {
       body: JSON.stringify(row)
     });
     if (res.status === 201 || res.status === 200) {
-      // Success — update the sync indicator
-      const ind = document.getElementById('sync-indicator');
-      if (ind) { ind.textContent = '✅ Saved to database'; ind.style.color='#065f46'; }
+      showSyncStatus('✅ Saved', '#065f46', '#f0fdf4');
+      setTimeout(() => showSyncStatus('','',''), 2500);
     } else {
       const err = await res.text();
-      const ind = document.getElementById('sync-indicator');
-      if (ind) { ind.textContent = '⚠️ Save failed: ' + res.status + ' ' + err; ind.style.color='#991b1b'; }
+      showSyncStatus('⚠️ Save failed (' + res.status + '): ' + err.slice(0,60), '#991b1b', '#fef2f2');
     }
   } catch(e) {
-    const ind = document.getElementById('sync-indicator');
-    if (ind) { ind.textContent = '⚠️ Network error: ' + e.message; ind.style.color='#991b1b'; }
+    showSyncStatus('⚠️ Network error: ' + e.message, '#991b1b', '#fef2f2');
   }
 }
 
-// Generate a unique session ID each time the page loads
-// This lets you track a single sitting — date + random suffix
-// Persist session ID across page refreshes (same sitting = same session)
+function showSyncStatus(msg, color, bg) {
+  const el = document.getElementById('sync-indicator');
+  if (!el) return;
+  if (!msg) { el.style.display = 'none'; el.textContent = ''; return; }
+  el.textContent = msg;
+  el.style.color = color;
+  el.style.background = bg;
+  el.style.display = 'block';
+}
+
+// Persist session ID per day
 const _todayKey = 'quiz_session_' + new Date().toISOString().slice(0,10);
-
-
-const SESSION_ID = localStorage.getItem(_todayKey) || 
+const SESSION_ID = localStorage.getItem(_todayKey) ||
   (() => { const id = new Date().toISOString().slice(0,10) + '_' + Math.random().toString(36).slice(2,8); localStorage.setItem(_todayKey, id); return id; })();
 
-
-
-
-/* ════════════════════════════════════════════
-   PARENT DASHBOARD — fetch from Supabase
-════════════════════════════════════════════ */
-async function loadParentDash() {
-  document.getElementById('pd-status').textContent = 'Loading results…';
-  try {
-    const res = await fetch(
-      SUPA_URL + '/rest/v1/quiz_results?select=*&order=answered_at.desc',
-      { headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY } }
-    );
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const rows = await res.json();
-    renderParentDash(rows);
-  } catch(e) {
-    document.getElementById('pd-status').textContent = '❌ Could not load results: ' + e.message;
-  }
-}
-
-function renderParentDash(rows) {
-  if (rows.length === 0) {
-    document.getElementById('pd-status').textContent = 'No results yet — complete some questions first.';
-    document.getElementById('pd-content').innerHTML = '';
-    return;
-  }
-  document.getElementById('pd-status').textContent = '';
-
-  // Group by session
-  const sessions = {};
-  rows.forEach(r => {
-    if (!sessions[r.session_id]) sessions[r.session_id] = [];
-    sessions[r.session_id].push(r);
-  });
-
-  // Overall stats
-  const totalAttempts = rows.length;
-  const totalCorrect = rows.filter(r=>r.correct).length;
-
-  // Per-question summary (latest attempt only)
-  const latest = {};
-  // rows are ordered desc so first occurrence of each q_id is latest
-  rows.forEach(r => {
-    if (!latest[r.question_id]) latest[r.question_id] = r;
-  });
-
-  const maRows = Object.values(latest).filter(r=>r.section==='MA').sort((a,b)=>a.question_id.localeCompare(b.question_id,undefined,{numeric:true}));
-  const qrRows = Object.values(latest).filter(r=>r.section==='QR').sort((a,b)=>a.question_id.localeCompare(b.question_id,undefined,{numeric:true}));
-
-  // Session history table
-  const sessionKeys = Object.keys(sessions).sort().reverse().slice(0,10);
-  const sessionRows = sessionKeys.map(sid => {
-    const srows = sessions[sid];
-    const date = sid.slice(0,10);
-    const corr = srows.filter(r=>r.correct).length;
-    const tot = srows.length;
-    const maC = srows.filter(r=>r.section==='MA'&&r.correct).length;
-    const maT = srows.filter(r=>r.section==='MA').length;
-    const qrC = srows.filter(r=>r.section==='QR'&&r.correct).length;
-    const qrT = srows.filter(r=>r.section==='QR').length;
-    return `<tr>
-      <td style="padding:10px 14px;border-bottom:1px solid #f1f5f9;font-size:0.85rem;color:#334155;">${date}</td>
-      <td style="padding:10px 14px;border-bottom:1px solid #f1f5f9;text-align:center;font-weight:700;color:#1a3a5c;">${corr}/${tot}</td>
-      <td style="padding:10px 14px;border-bottom:1px solid #f1f5f9;text-align:center;color:#1d4ed8;">${maT>0?maC+'/'+maT:'—'}</td>
-      <td style="padding:10px 14px;border-bottom:1px solid #f1f5f9;text-align:center;color:#0f6e56;">${qrT>0?qrC+'/'+qrT:'—'}</td>
-    </tr>`;
-  }).join('');
-
-  // Per-question detail rows
-  function qDetailRow(r) {
-    const icon = r.correct ? '✓' : '✗';
-    const col  = r.correct ? '#065f46' : '#991b1b';
-    const bg   = r.correct ? '#d1fae5' : '#fee2e2';
-    const q    = ALL_QUESTIONS.find(q=>String(q.n)===r.question_id);
-    const preview = q ? q.text.split('\n')[0].slice(0,55)+(q.text.length>55?'…':'') : r.question_id;
-    return `<tr style="cursor:pointer" onclick="goToQuestion('${r.question_id}');showScreen('screen-quiz');renderQ();">
-      <td style="padding:9px 14px;border-bottom:1px solid #f1f5f9;font-size:0.8rem;font-weight:700;color:#64748b;white-space:nowrap;">${r.question_id}</td>
-      <td style="padding:9px 14px;border-bottom:1px solid #f1f5f9;font-size:0.82rem;color:#334155;">${preview}</td>
-      <td style="padding:9px 14px;border-bottom:1px solid #f1f5f9;text-align:center;"><span style="background:${bg};color:${col};padding:3px 10px;border-radius:99px;font-size:0.75rem;font-weight:700;">${icon} ${r.correct?'Correct':'Wrong'}</span></td>
-      <td style="padding:9px 14px;border-bottom:1px solid #f1f5f9;text-align:center;font-size:0.82rem;color:#64748b;">${r.attempts}</td>
-    </tr>`;
-  }
-
-  document.getElementById('pd-content').innerHTML = `
-    <!-- Summary cards -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.25rem;">
-      <div style="background:#f1f5f9;border-radius:10px;padding:14px;text-align:center;">
-        <div style="font-size:1.6rem;font-weight:700;color:#334155;">${totalAttempts}</div>
-        <div style="font-size:0.72rem;font-weight:600;color:#94a3b8;margin-top:3px;">Total Answers</div>
-      </div>
-      <div style="background:#d1fae5;border-radius:10px;padding:14px;text-align:center;">
-        <div style="font-size:1.6rem;font-weight:700;color:#065f46;">${totalCorrect}</div>
-        <div style="font-size:0.72rem;font-weight:600;color:#065f46;margin-top:3px;opacity:0.8;">Correct</div>
-      </div>
-      <div style="background:#fee2e2;border-radius:10px;padding:14px;text-align:center;">
-        <div style="font-size:1.6rem;font-weight:700;color:#991b1b;">${totalAttempts-totalCorrect}</div>
-        <div style="font-size:0.72rem;font-weight:600;color:#991b1b;margin-top:3px;opacity:0.8;">Incorrect</div>
-      </div>
-    </div>
-
-    <!-- Session history -->
-    <div style="background:white;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-bottom:1.25rem;overflow:hidden;">
-      <div style="padding:12px 16px;border-bottom:1px solid #f1f5f9;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;">Recent Sessions</div>
-      <table style="width:100%;border-collapse:collapse;">
-        <thead><tr style="background:#f8fafc;">
-          <th style="padding:10px 14px;text-align:left;font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#94a3b8;">Date</th>
-          <th style="padding:10px 14px;text-align:center;font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#94a3b8;">Total</th>
-          <th style="padding:10px 14px;text-align:center;font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#1d4ed8;">MA</th>
-          <th style="padding:10px 14px;text-align:center;font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#0f6e56;">QR</th>
-        </tr></thead>
-        <tbody>${sessionRows}</tbody>
-      </table>
-    </div>
-
-    <!-- MA questions -->
-    ${maRows.length > 0 ? `
-    <div style="background:white;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-bottom:1.25rem;overflow:hidden;">
-      <div style="padding:12px 16px;border-bottom:1px solid #f1f5f9;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#1d4ed8;">📐 Mathematics Achievement — Latest Results</div>
-      <table style="width:100%;border-collapse:collapse;">
-        <thead><tr style="background:#f8fafc;">
-          <th style="padding:9px 14px;text-align:left;font-size:0.72rem;font-weight:700;color:#94a3b8;">Q</th>
-          <th style="padding:9px 14px;text-align:left;font-size:0.72rem;font-weight:700;color:#94a3b8;">Question</th>
-          <th style="padding:9px 14px;text-align:center;font-size:0.72rem;font-weight:700;color:#94a3b8;">Result</th>
-          <th style="padding:9px 14px;text-align:center;font-size:0.72rem;font-weight:700;color:#94a3b8;">Attempts</th>
-        </tr></thead>
-        <tbody>${maRows.map(qDetailRow).join('')}</tbody>
-      </table>
-    </div>` : ''}
-
-    <!-- QR questions -->
-    ${qrRows.length > 0 ? `
-    <div style="background:white;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-bottom:1.25rem;overflow:hidden;">
-      <div style="padding:12px 16px;border-bottom:1px solid #f1f5f9;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#0f6e56;">🔢 Quantitative Reasoning — Latest Results</div>
-      <table style="width:100%;border-collapse:collapse;">
-        <thead><tr style="background:#f8fafc;">
-          <th style="padding:9px 14px;text-align:left;font-size:0.72rem;font-weight:700;color:#94a3b8;">Q</th>
-          <th style="padding:9px 14px;text-align:left;font-size:0.72rem;font-weight:700;color:#94a3b8;">Question</th>
-          <th style="padding:9px 14px;text-align:center;font-size:0.72rem;font-weight:700;color:#94a3b8;">Result</th>
-          <th style="padding:9px 14px;text-align:center;font-size:0.72rem;font-weight:700;color:#94a3b8;">Attempts</th>
-        </tr></thead>
-        <tbody>${qrRows.map(qDetailRow).join('')}</tbody>
-      </table>
-    </div>` : ''}
-  `;
-}
-
-
-async function runDiagnostic() {
-  const el = document.getElementById('diag-result');
-  el.style.display = 'block';
-  el.innerHTML = '⏳ Testing connection to Supabase…';
-
-  const steps = [];
-
-  // Step 1: Test basic fetch to Supabase URL
-  try {
-    const r1 = await fetch(SUPA_URL + '/rest/v1/', {
-      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
-    });
-    steps.push('✅ Step 1 — Reached Supabase server (HTTP ' + r1.status + ')');
-  } catch(e) {
-    steps.push('❌ Step 1 — Cannot reach Supabase: ' + e.message);
-    el.innerHTML = steps.join('<br>');
-    return;
-  }
-
-  // Step 2: Test SELECT from quiz_results
-  try {
-    const r2 = await fetch(SUPA_URL + '/rest/v1/quiz_results?limit=1', {
-      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
-    });
-    const body2 = await r2.text();
-    if (r2.ok) {
-      steps.push('✅ Step 2 — Can READ from quiz_results table (HTTP ' + r2.status + ')');
-    } else {
-      steps.push('❌ Step 2 — READ failed (HTTP ' + r2.status + '): ' + body2);
-    }
-  } catch(e) {
-    steps.push('❌ Step 2 — READ error: ' + e.message);
-  }
-
-  // Step 3: Test INSERT into quiz_results
-  try {
-    const r3 = await fetch(SUPA_URL + '/rest/v1/quiz_results', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPA_KEY,
-        'Authorization': 'Bearer ' + SUPA_KEY,
-        'Prefer': 'return=minimal'
-      },
-      body: JSON.stringify({
-        session_id:  'diagnostic_test',
-        question_id: 'MA-1',
-        section:     'MA',
-        correct:     true,
-        attempts:    1,
-        answered_at: new Date().toISOString()
-      })
-    });
-    const body3 = await r3.text();
-    if (r3.status === 201 || r3.status === 200) {
-      steps.push('✅ Step 3 — INSERT succeeded! A test row was written to Supabase.');
-    } else {
-      steps.push('❌ Step 3 — INSERT failed (HTTP ' + r3.status + '): ' + body3);
-    }
-  } catch(e) {
-    steps.push('❌ Step 3 — INSERT error: ' + e.message);
-  }
-
-  // Step 4: Check if test row appears in SELECT
-  try {
-    const r4 = await fetch(
-      SUPA_URL + '/rest/v1/quiz_results?session_id=eq.diagnostic_test&select=id,question_id,correct',
-      { headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY } }
-    );
-    const rows = await r4.json();
-    if (Array.isArray(rows) && rows.length > 0) {
-      steps.push('✅ Step 4 — Test row confirmed in database! Row count: ' + rows.length);
-      steps.push('<br><b>🎉 Everything is working!</b> Now answer a real question and click Refresh Results.');
-    } else {
-      steps.push('⚠️ Step 4 — INSERT appeared to work but row not found in SELECT. RLS policy may be blocking reads.');
-    }
-  } catch(e) {
-    steps.push('❌ Step 4 — Verification error: ' + e.message);
-  }
-
-  el.innerHTML = steps.join('<br>');
-}
-
-
-
-
-/* ════════════════════════════════════════════
+/* ════════════════════════════════════════
    QUESTION BANK
-════════════════════════════════════════════ */
+   To add a new question, paste a new object
+   before the closing ]; below.
+   Format: ,{n:"QR-21",sec:"QR",text:"...",opts:["A","B","C","D"],ans:0,exp:"..."}
+════════════════════════════════════════ */
 const ALL_QUESTIONS = [
-  {n:"MA-1",sec:"MA",text:"Which of the following shapes ALWAYS has all four sides equal in length AND all four angles equal to 90 degrees?",opts:["Rectangle","Parallelogram","Square","Trapezoid"],ans:2,exp:"A square must have all four sides equal AND all four angles of 90°. A rectangle has equal angles but not necessarily equal sides."},
+{n:"MA-1",sec:"MA",text:"Which of the following shapes ALWAYS has all four sides equal in length AND all four angles equal to 90 degrees?",opts:["Rectangle","Parallelogram","Square","Trapezoid"],ans:2,exp:"A square must have all four sides equal AND all four angles of 90°. A rectangle has equal angles but not necessarily equal sides."},
   {n:"MA-2",sec:"MA",text:"Four students recorded the number of pages they read over five days (see table).\n\nFrom Day 1 to Day 5, how many MORE pages did Zoe read on Day 5 than on Day 1?",opts:["10","12","14","16"],ans:1,exp:"Zoe read 18 pages on Day 1 and 30 on Day 5. The increase is 30 − 18 = 12 pages.",diag:"table_zoe"},
   {n:"MA-3",sec:"MA",text:"Which fraction is equivalent to 0.6?",opts:["6/100","6/10","3/5","Both B and C"],ans:3,exp:"0.6 = 6/10 (option B) and 6/10 simplifies to 3/5 (option C). Both are equivalent to 0.6."},
   {n:"MA-4",sec:"MA",text:"Daniel buys four items costing $6.75, $11.49, $3.29, and $9.89. What is the best estimate of the total cost?",opts:["Between $25 and $30","Between $30 and $35","Between $35 and $40","Between $40 and $45"],ans:1,exp:"Rounding: $7+$11+$3+$10=$31. The exact total $31.42 falls between $30 and $35."},
@@ -598,16 +320,18 @@ const ALL_QUESTIONS = [
   {n:"QR-19",sec:"QR",text:"On a number line (each mark = 2 units): X is at the 4th mark (=8). Y is at the 9th mark (=18). Y is the average of X and Z. What is Z?",opts:["22","26","28","32"],ans:2,exp:"Y=(X+Z)÷2 → 18=(8+Z)÷2 → 36=8+Z → Z=28.",diag:"numline2"},
   {n:"QR-20",sec:"QR",text:"Vertices of a quadrilateral: (1,2) (1,6) (5,2) (5,6).\n\nWhich term best describes the shape formed?",opts:["Trapezoid","Rhombus","Rectangle","Kite"],ans:2,exp:"Width=4, Height=4, all angles=90°. This is a square — a special rectangle.",diag:"coords"}
 
-  // ╔══════════════════════════════════════════════════════════════╗
-  // ║  PASTE NEW QUESTIONS HERE — above this comment              ║
-  // ║  Every question except the last needs a comma after }       ║
-  // ╚══════════════════════════════════════════════════════════════╝
+,{n:"QR-21",sec:"QR",text:"A small piece of material is cut into 5 squares. A large piece of material is cut into 4 times as many squares as the small piece. How many squares is the large piece of material cut into?",opts:["9 squares","16 squares","20 squares","25 squares"],ans:2,exp:"The small piece is cut into 5 squares. The large piece is cut into 4 times as many: 4 × 5 = 20 squares."}
+
+  // ╔═══════════════════════════════════════════╗
+  // ║  PASTE NEW QUESTIONS ABOVE THIS LINE       ║
+  // ║  Each new question needs a comma before { ║
+  // ╚═══════════════════════════════════════════╝
 ];
 
-/* ════════════════════════════════════════════
+/* ════════════════════════════════════════
    DIAGRAMS
-════════════════════════════════════════════ */
-function diagrams(key){
+════════════════════════════════════════ */
+function diagrams(key) {
   const d={
     table_zoe:`<table class="dtable"><thead><tr><th></th><th>Liam</th><th>Zoe</th><th>Marcus</th><th>Priya</th></tr></thead><tbody><tr><td><b>Day 1</b></td><td>12</td><td>18</td><td>20</td><td>15</td></tr><tr><td><b>Day 2</b></td><td>14</td><td>20</td><td>22</td><td>17</td></tr><tr><td><b>Day 3</b></td><td>16</td><td>24</td><td>24</td><td>20</td></tr><tr><td><b>Day 4</b></td><td>20</td><td>28</td><td>26</td><td>23</td></tr><tr><td><b>Day 5</b></td><td>24</td><td>30</td><td>28</td><td>26</td></tr></tbody></table>`,
     sports_table:`<table class="dtable"><thead><tr><th>Sport</th><th>Votes</th></tr></thead><tbody><tr><td>Football</td><td>95</td></tr><tr><td>Basketball</td><td>72</td></tr><tr><td>Tennis</td><td>61</td></tr><tr><td>Swimming</td><td>48</td></tr><tr><td>Cricket</td><td>44</td></tr></tbody></table>`,
@@ -625,412 +349,21 @@ function diagrams(key){
     coords:(()=>{const gx=x=>20+x*30,gy=y=>190-y*25;const dots=[[1,2],[1,6],[5,2],[5,6]].map(([x,y])=>`<circle cx="${gx(x)}" cy="${gy(y)}" r="5" fill="#1d4ed8"/><text x="${gx(x)+(x>3?6:-28)}" y="${gy(y)+(y<4?14:-8)}" font-size="10" fill="#1e40af" font-family="Arial">(${x},${y})</text>`).join('');const tx=Array.from({length:7},(_,i)=>`<line x1="${gx(i)}" y1="188" x2="${gx(i)}" y2="192" stroke="#94a3b8" stroke-width="1"/><text x="${gx(i)}" y="204" font-size="10" fill="#94a3b8" text-anchor="middle" font-family="Arial">${i}</text>`).join('');const ty=Array.from({length:9},(_,i)=>`<line x1="18" y1="${gy(i)}" x2="22" y2="${gy(i)}" stroke="#94a3b8" stroke-width="1"/><text x="14" y="${gy(i)+4}" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">${i}</text>`).join('');return`<svg width="220" height="212" viewBox="0 0 220 212" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="190" x2="200" y2="190" stroke="#94a3b8" stroke-width="1.5"/><line x1="20" y1="190" x2="20" y2="10" stroke="#94a3b8" stroke-width="1.5"/>${tx}${ty}<rect x="${gx(1)}" y="${gy(6)}" width="${gx(5)-gx(1)}" height="${gy(2)-gy(6)}" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.5"/>${dots}</svg>`;})()
     // PASTE NEW DIAGRAMS HERE — key must match "diag" field in question above
     // Example:  ,q32_shape: `<svg width="200" height="150">...</svg>`
+    // PASTE NEW DIAGRAMS HERE
+    // ,your_diag_key: `<svg ...>...</svg>`
   };
-  return d[key]||'';
+  return d[key] || '';
 }
 
-/* ════════════════════════════════════════════
-   STATE
-════════════════════════════════════════════ */
-let mode='all', curQs=[], cur=0;
-const chosen={}, statuses={};
-let aiQuestions=[], aiDiagrams={};
-
-/* ════════════════════════════════════════════
-   AI QUESTION GENERATION
-════════════════════════════════════════════ */
-async function generateQuestions(sec){
-  const wrongQs = ALL_QUESTIONS.filter(q=>q.sec===sec && statuses[q.n]==='wrong');
-  if(wrongQs.length===0){setStatus('No incorrect answers in this section yet — complete some questions first!','error');return;}
-
-  const btn = document.getElementById(`gen-${sec.toLowerCase()}-btn`);
-  const spin = document.getElementById(`spin-${sec.toLowerCase()}`);
-  const btnText = document.getElementById(`gen-${sec.toLowerCase()}-text`);
-
-  btn.disabled=true; btn.classList.add('loading');
-  spin.style.display='block';
-  btnText.textContent='Generating personalised questions…';
-  setStatus(`✨ Analysing ${wrongQs.length} incorrect ${sec} question${wrongQs.length>1?'s':''} and generating 10 new practice questions…`,'thinking');
-
-  const wrongSummary = wrongQs.map(q=>`- Q${q.n}: "${q.text.split('\n')[0]}" (topic: ${q.exp.split('.')[0]})`).join('\n');
-
-  const prompt = `You are a maths teacher creating practice questions for a student aged 10-12.
-
-The student got these questions WRONG on their test:
-${wrongSummary}
-
-Create exactly 10 new multiple-choice questions that practise the SAME skills and topics as the wrong questions above, but with different numbers/contexts. Each question must be slightly different in approach to help the student truly understand the concept.
-
-Respond ONLY with a valid JSON array. No explanation, no markdown, no code fences. Just the raw JSON array.
-
-Format:
-[
-  {
-    "text": "Question text here",
-    "opts": ["Option A", "Option B", "Option C", "Option D"],
-    "ans": 0,
-    "exp": "Brief explanation of why the answer is correct.",
-    "svgDiagram": null
-  }
-]
-
-Rules:
-- "ans" is the index (0-3) of the correct option in "opts"
-- "exp" should be 1-2 sentences max, clear and encouraging
-- "svgDiagram": if the question benefits from a simple diagram, provide a self-contained SVG string using only basic shapes (rect, circle, line, polygon, text). Use fill="#dbeafe" stroke="#1d4ed8" for shapes and fill="#1e40af" for text. Width max 300, height max 200. Otherwise set to null.
-- Keep language appropriate for age 10-12
-- Make questions varied — different contexts, same maths skills
-- All 10 questions must target the specific weak areas identified above`;
-
-  try{
-    const resp = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-6',
-        max_tokens:4000,
-        system:'You are a maths question generator. Always respond with valid JSON only — no markdown, no code fences, no extra text.',
-        messages:[{role:'user',content:prompt}]
-      })
-    });
-
-    if(!resp.ok) throw new Error(`API error ${resp.status}`);
-    const data = await resp.json();
-    const raw = data.content.filter(b=>b.type==='text').map(b=>b.text).join('');
-
-    let parsed;
-    try{
-      parsed = JSON.parse(raw.trim());
-    }catch(e){
-      const match = raw.match(/\[[\s\S]*\]/);
-      if(match) parsed = JSON.parse(match[0]);
-      else throw new Error('Could not parse JSON from response');
-    }
-
-    if(!Array.isArray(parsed)||parsed.length===0) throw new Error('No questions returned');
-
-    aiQuestions = parsed.map((q,i)=>({
-      n:`AI-${sec}-${i+1}`,
-      sec:sec,
-      text:q.text,
-      opts:q.opts,
-      ans:q.ans,
-      exp:q.exp,
-      diag:q.svgDiagram?`ai_${sec}_${i}`:null,
-      isAI:true
-    }));
-
-    aiDiagrams={};
-    parsed.forEach((q,i)=>{if(q.svgDiagram) aiDiagrams[`ai_${sec}_${i}`]=q.svgDiagram;});
-
-    const wrongTopics = wrongQs.length===1 ? `1 weak topic` : `${wrongQs.length} weak topics`;
-    document.getElementById('ai-section').style.display='block';
-    document.getElementById('ai-section-title').textContent=`✨ ${sec==='MA'?'Mathematics Achievement':'Quantitative Reasoning'} — Personalised Practice`;
-    document.getElementById('ai-section-desc').textContent=`10 new questions generated targeting your ${wrongTopics}. These focus on exactly what you found difficult.`;
-
-    setStatus(`✅ 10 personalised questions ready! Scroll down to start your practice set.`,'done');
-    btnText.textContent=`✨ Regenerate ${sec} practice questions`;
-    btn.disabled=false; btn.classList.remove('loading'); spin.style.display='none';
-
-  }catch(err){
-    setStatus(`❌ Could not generate questions: ${err.message}. Please try again.`,'error');
-    btnText.textContent=`⚠️ Try again — Generate ${sec} questions`;
-    btn.disabled=false; btn.classList.remove('loading'); spin.style.display='none';
-  }
-}
-
-function setStatus(msg,type){
-  const el=document.getElementById('ai-status');
-  el.textContent=msg; el.className=`ai-status show ${type}`;
-}
-
-function startAIQuiz(){
-  mode='ai'; curQs=[...aiQuestions]; cur=0;
-  document.getElementById('quiz-title').textContent='✨ AI Personalised Practice';
-  document.getElementById('bar-fill').className='bar-fill ai';
-  showScreen('screen-quiz'); renderQ();
-}
-
-/* ════════════════════════════════════════════
-   QUIZ LOGIC
-════════════════════════════════════════════ */
-function startQuiz(m){
-  mode=m;
-  curQs = m==='ma'?ALL_QUESTIONS.filter(q=>q.sec==='MA')
-        : m==='qr'?ALL_QUESTIONS.filter(q=>q.sec==='QR')
-        : [...ALL_QUESTIONS];
-  cur=0;
-  document.getElementById('quiz-title').textContent =
-    m==='ma'?'Mathematics Achievement':m==='qr'?'Quantitative Reasoning':'All Questions';
-  document.getElementById('bar-fill').className='bar-fill '+m;
-  showScreen('screen-quiz'); renderQ();
-}
-
-function go(i){
-  if(i<0||i>=curQs.length)return;
-  cur=i; renderQ();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function pick(idx){
-  const q=curQs[cur];
-  const key=String(q.n);
-  if(chosen[key]!=null)return;
-  attempts[key]=(attempts[key]||0)+1;
-  chosen[key]=idx;
-  const isCorrect=idx===q.ans;
-  statuses[key]=isCorrect?'correct':'wrong';
-  saveProgress();
-  renderQ(); updateDash(); checkUnlocks(); renderQLIfVisible();
-  // Save to Supabase — done last so UI updates instantly
-  supaInsert({
-    session_id:   SESSION_ID,
-    question_id:  String(q.n),
-    section:      q.sec,
-    correct:      isCorrect,
-    attempts:     attempts[key],
-    answered_at:  new Date().toISOString()
-  });
-}
-
-function checkUnlocks(){
-  const maQs=ALL_QUESTIONS.filter(q=>q.sec==='MA');
-  const qrQs=ALL_QUESTIONS.filter(q=>q.sec==='QR');
-  const maWrong=maQs.filter(q=>statuses[String(q.n)]==='wrong').length;
-  const qrWrong=qrQs.filter(q=>statuses[String(q.n)]==='wrong').length;
-  const maAnswered=maQs.filter(q=>chosen[String(q.n)]!=null).length;
-  const qrAnswered=qrQs.filter(q=>chosen[String(q.n)]!=null).length;
-
-  const maBtn=document.getElementById('gen-ma-btn');
-  const qrBtn=document.getElementById('gen-qr-btn');
-  const maText=document.getElementById('gen-ma-text');
-  const qrText=document.getElementById('gen-qr-text');
-
-  if(maWrong>0){
-    maBtn.disabled=false;
-    maText.textContent=`📐 Generate 10 new MA practice questions (${maWrong} weak area${maWrong>1?'s':''} detected)`;
-  } else if(maAnswered>0){
-    maBtn.disabled=true;
-    maText.textContent=`📐 Perfect score on MA! No weak areas to target.`;
-  }
-
-  if(qrWrong>0){
-    qrBtn.disabled=false;
-    qrText.textContent=`🔢 Generate 10 new QR practice questions (${qrWrong} weak area${qrWrong>1?'s':''} detected)`;
-  } else if(qrAnswered>0){
-    qrBtn.disabled=true;
-    qrText.textContent=`🔢 Perfect score on QR! No weak areas to target.`;
-  }
-}
-
-function renderTabs(){
-  document.getElementById('tabs').innerHTML=curQs.map((q,i)=>{
-    const key=String(q.n);
-    let c='tab';
-    if(q.isAI) c+=' ai-q';
-    if(statuses[key]==='correct') c+=' correct';
-    if(statuses[key]==='wrong') c+=' wrong';
-    if(i===cur) c+=' active';
-    const label=q.isAI?(i+1)+'✦':q.n.replace('MA-','M').replace('QR-','Q');
-    return`<button class="${c}" onclick="go(${i})" title="${q.n}">${label}</button>`;
-  }).join('');
-}
-
-function getDiagram(q){
-  if(!q.diag) return '';
-  if(q.isAI && aiDiagrams[q.diag]) return `<div class="q-diagram">${aiDiagrams[q.diag]}</div>`;
-  const svg=diagrams(q.diag);
-  return svg?`<div class="q-diagram">${svg}</div>`:'';
-}
-
-function renderQ(){
-  const q=curQs[cur];
-  const key=String(q.n);
-  const answered=chosen[key]!=null;
-  const diag=getDiagram(q);
-  const opts=q.opts.map((o,i)=>{
-    let c='opt';
-    if(answered){if(i===q.ans)c+=' correct-ans';else if(i===chosen[key])c+=' wrong-sel';}
-    return`<button class="${c}" ${answered?'disabled':''} onclick="pick(${i})">
-      <span class="badge">${['A','B','C','D'][i]}</span><span>${o}</span>
-    </button>`;
-  }).join('');
-  const fb=answered?`<div class="feedback ${chosen[key]===q.ans?'correct':'incorrect'} show">
-    <div class="fb-title">${chosen[key]===q.ans?'✓ Correct!':'✗ Not quite.'}</div>${q.exp}
-  </div>`:'';
-  const done=curQs.filter(q2=>chosen[String(q2.n)]!=null).length;
-  const corr=curQs.filter(q2=>statuses[String(q2.n)]==='correct').length;
-  const isAI=q.isAI;
-  const metaLabel=isAI?`✨ AI Practice — ${q.sec==='MA'?'Mathematics Achievement':'Quantitative Reasoning'}`
-    :`${q.n} — ${q.sec==='MA'?'Mathematics Achievement':'Quantitative Reasoning'}`;
-  document.getElementById('q-area').innerHTML=`
-    <div class="q-card ${isAI?'ai-card':''}">
-      <div class="q-meta ${isAI?'ai':q.sec.toLowerCase()}">${metaLabel}</div>
-      <div class="q-text">${q.text}</div>${diag}
-      <div class="options">${opts}</div>${fb}
-    </div>`;
-  document.getElementById('prog-label').textContent=`${done} of ${curQs.length} answered`;
-  document.getElementById('score-badge').textContent=`Score: ${corr}/${done}`;
-  document.getElementById('bar-fill').style.width=(done/curQs.length*100)+'%';
-  document.getElementById('btn-prev').disabled=cur===0;
-  document.getElementById('btn-next').disabled=cur===curQs.length-1;
-  renderTabs();
-}
-
-/* ════════════════════════════════════════════
-   DASHBOARD
-════════════════════════════════════════════ */
-function updateDash(){
-  const total=ALL_QUESTIONS.length;
-  const ans=ALL_QUESTIONS.filter(q=>chosen[String(q.n)]!=null).length;
-  const corr=ALL_QUESTIONS.filter(q=>statuses[String(q.n)]==='correct').length;
-  const wrg=ans-corr;
-  const sec=(s)=>ALL_QUESTIONS.filter(q=>q.sec===s);
-  const maAns=sec('MA').filter(q=>chosen[String(q.n)]!=null).length;
-  const maCor=sec('MA').filter(q=>statuses[String(q.n)]==='correct').length;
-  const maWrg=maAns-maCor;
-  const qrAns=sec('QR').filter(q=>chosen[String(q.n)]!=null).length;
-  const qrCor=sec('QR').filter(q=>statuses[String(q.n)]==='correct').length;
-  const qrWrg=qrAns-qrCor;
-  document.getElementById('d-total').textContent=total;
-  document.getElementById('d-answered').textContent=ans;
-  document.getElementById('d-correct').textContent=corr;
-  document.getElementById('d-wrong').textContent=wrg;
-  document.getElementById('d-ans-pct').textContent=Math.round(ans/total*100)+'%';
-  document.getElementById('d-cor-pct').textContent=ans?Math.round(corr/ans*100)+'%':'0%';
-  document.getElementById('d-wrg-pct').textContent=ans?Math.round(wrg/ans*100)+'%':'0%';
-  document.getElementById('bar-answered').style.width=(ans/total*100)+'%';
-  document.getElementById('bar-correct').style.width=(ans?corr/ans*100:0)+'%';
-  document.getElementById('bar-wrong').style.width=(ans?wrg/ans*100:0)+'%';
-  document.getElementById('d-ma-ans').textContent=maAns;
-  document.getElementById('d-ma-cor').textContent=maCor;
-  document.getElementById('d-ma-wrg').textContent=maWrg;
-  document.getElementById('d-qr-ans').textContent=qrAns;
-  document.getElementById('d-qr-cor').textContent=qrCor;
-  document.getElementById('d-qr-wrg').textContent=qrWrg;
-}
-
-
-/* ════════════════════════════════════════════
-   ATTEMPTS TRACKING
-════════════════════════════════════════════ */
-const attempts = {}; // key -> number of times answered
-
-
-/* ════════════════════════════════════════════
-   RESET SECTION
-════════════════════════════════════════════ */
-function resetSection(sec){
-  const label = sec === 'MA' ? 'Mathematics Achievement' : 'Quantitative Reasoning';
-  if(!confirm(`Reset all ${label} answers?\n\nAttempt counts will be kept so you can track how many times each question was tried.`)) return;
-  ALL_QUESTIONS.filter(q=>q.sec===sec).forEach(q=>{
-    const key = String(q.n);
-    delete chosen[key];
-    delete statuses[key];
-    // attempts kept intentionally
-  });
-  saveProgress();
-  updateDash(); checkUnlocks();
-  // hide AI section if relevant section was reset
-  const aiSec = document.getElementById('ai-section');
-  if(aiSec) aiSec.style.display='none';
-  const aiStatus = document.getElementById('ai-status');
-  if(aiStatus){ aiStatus.textContent=''; aiStatus.className='ai-status'; }
-  // reset gen button text
-  const btn = document.getElementById('gen-'+sec.toLowerCase()+'-btn');
-  const txt = document.getElementById('gen-'+sec.toLowerCase()+'-text');
-  if(btn){ btn.disabled=true; }
-  if(txt){ txt.textContent = sec==='MA' ? '📐 Complete MA questions first to unlock' : '🔢 Complete QR questions first to unlock'; }
-}
-
-/* ════════════════════════════════════════════
-   QUESTION LIST
-════════════════════════════════════════════ */
-let qlCurrentFilter = 'all';
-
-function showQL(){
-  renderQL();
-  showScreen('screen-ql');
-}
-
-function qlFilter(f, btn){
-  qlCurrentFilter = f;
-  document.querySelectorAll('.ql-filter-btn').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  renderQL();
-}
-
-function renderQLIfVisible(){
-  if(document.getElementById('screen-ql').classList.contains('active')) renderQL();
-}
-
-function renderQL(){
-  let qs = [...ALL_QUESTIONS];
-  if(qlCurrentFilter==='MA') qs = qs.filter(q=>q.sec==='MA');
-  else if(qlCurrentFilter==='QR') qs = qs.filter(q=>q.sec==='QR');
-  else if(qlCurrentFilter==='correct') qs = qs.filter(q=>statuses[String(q.n)]==='correct');
-  else if(qlCurrentFilter==='wrong') qs = qs.filter(q=>statuses[String(q.n)]==='wrong');
-  else if(qlCurrentFilter==='unanswered') qs = qs.filter(q=>chosen[String(q.n)]==null);
-
-  const tbody = document.getElementById('ql-tbody');
-  if(!tbody) return;
-
-  if(qs.length===0){
-    tbody.innerHTML=`<tr><td colspan="4" style="text-align:center;padding:2rem;color:#94a3b8;font-size:0.9rem;">No questions match this filter.</td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = qs.map(q=>{
-    const key = String(q.n);
-    const st = statuses[key];
-    const att = attempts[key] || 0;
-    const shortText = q.text.split('\n')[0];
-    const preview = shortText.length > 70 ? shortText.slice(0,68)+'…' : shortText;
-    const badge = st==='correct'
-      ? '<span class="ql-badge correct">✓ Correct</span>'
-      : st==='wrong'
-        ? '<span class="ql-badge wrong">✗ Incorrect</span>'
-        : '<span class="ql-badge unanswered">— Not answered</span>';
-    const attDisplay = att===0 ? '<span style="color:#cbd5e1">—</span>' : att;
-    const secClass = q.sec.toLowerCase();
-    // clicking Go navigates to that question in the right quiz mode
-    const goFn = `goToQuestion('${q.n}')`;
-    return `<tr>
-      <td>
-        <div class="ql-q-num ${secClass}">${q.n} · ${q.sec==='MA'?'Mathematics Achievement':'Quantitative Reasoning'}</div>
-        <div class="ql-q-text">${preview}</div>
-      </td>
-      <td>${attDisplay}</td>
-      <td>${badge}</td>
-      <td><button class="ql-go-btn" onclick="${goFn}">Go →</button></td>
-    </tr>`;
-  }).join('');
-}
-
-function goToQuestion(n){
-  const q = ALL_QUESTIONS.find(q=>q.n===n);
-  if(!q) return;
-  mode = q.sec.toLowerCase();
-  curQs = ALL_QUESTIONS.filter(qq=>qq.sec===q.sec);
-  cur = curQs.findIndex(qq=>qq.n===n);
-  document.getElementById('quiz-title').textContent = q.sec==='MA'?'Mathematics Achievement':'Quantitative Reasoning';
-  document.getElementById('bar-fill').className = 'bar-fill ' + mode;
-  showScreen('screen-quiz');
-  renderQ();
-}
-
-
-/* ════════════════════════════════════════════
-   LOCAL STORAGE — persist answers across refresh
-════════════════════════════════════════════ */
+/* ════════════════════════════════════════
+   LOCAL STORAGE
+════════════════════════════════════════ */
 const LS_KEY = 'quiz_progress_v1';
+const chosen = {}, statuses = {}, attempts = {};
 
 function saveProgress() {
-  try {
-    localStorage.setItem(LS_KEY, JSON.stringify({ chosen, statuses, attempts }));
-  } catch(e) {}
+  try { localStorage.setItem(LS_KEY, JSON.stringify({chosen, statuses, attempts})); } catch(e) {}
 }
-
 function loadProgress() {
   try {
     const saved = localStorage.getItem(LS_KEY);
@@ -1042,73 +375,290 @@ function loadProgress() {
   } catch(e) {}
 }
 
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+/* ════════════════════════════════════════
+   STATE
+════════════════════════════════════════ */
+let mode = 'all', curQs = [], cur = 0;
+
+/* ════════════════════════════════════════
+   QUIZ LOGIC
+════════════════════════════════════════ */
+function startQuiz(m) {
+  mode = m;
+  curQs = m === 'ma' ? ALL_QUESTIONS.filter(q => q.sec === 'MA')
+        : m === 'qr' ? ALL_QUESTIONS.filter(q => q.sec === 'QR')
+        : [...ALL_QUESTIONS];
+  cur = 0;
+  document.getElementById('quiz-title').textContent =
+    m === 'ma' ? 'Mathematics Achievement' :
+    m === 'qr' ? 'Quantitative Reasoning' : 'All Questions';
+  document.getElementById('bar-fill').className = 'bar-fill ' + m;
+  showScreen('screen-quiz');
+  renderQ();
+}
+
+function go(i) {
+  if (i < 0 || i >= curQs.length) return;
+  cur = i;
+  renderQ();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function pick(idx) {
+  const q = curQs[cur];
+  const key = String(q.n);
+  if (chosen[key] != null) return;
+  attempts[key] = (attempts[key] || 0) + 1;
+  chosen[key] = idx;
+  const isCorrect = idx === q.ans;
+  statuses[key] = isCorrect ? 'correct' : 'wrong';
+  saveProgress();
+  renderQ(); updateDash();
+  supaInsert({
+    session_id:  SESSION_ID,
+    question_id: key,
+    section:     q.sec,
+    correct:     isCorrect,
+    attempts:    attempts[key],
+    answered_at: new Date().toISOString()
+  });
+}
+
+function renderTabs() {
+  document.getElementById('tabs').innerHTML = curQs.map((q, i) => {
+    const key = String(q.n);
+    let c = 'tab';
+    if (statuses[key] === 'correct') c += ' correct';
+    if (statuses[key] === 'wrong')   c += ' wrong';
+    if (i === cur) c += ' active';
+    const label = q.n.replace('MA-','M').replace('QR-','Q');
+    return `<button class="${c}" onclick="go(${i})" title="${q.n}">${label}</button>`;
+  }).join('');
+}
+
+function renderQ() {
+  const q = curQs[cur];
+  const key = String(q.n);
+  const answered = chosen[key] != null;
+  const diag = q.diag ? `<div class="q-diagram">${diagrams(q.diag)}</div>` : '';
+  const opts = q.opts.map((o, i) => {
+    let c = 'opt';
+    if (answered) {
+      if (i === q.ans) c += ' correct-ans';
+      else if (i === chosen[key]) c += ' wrong-sel';
+    }
+    return `<button class="${c}" ${answered ? 'disabled' : ''} onclick="pick(${i})">
+      <span class="badge">${['A','B','C','D'][i]}</span><span>${o}</span>
+    </button>`;
+  }).join('');
+  const fb = answered ? `<div class="feedback ${chosen[key] === q.ans ? 'correct' : 'incorrect'} show">
+    <div class="fb-title">${chosen[key] === q.ans ? '✓ Correct!' : '✗ Not quite.'}</div>${q.exp}
+  </div>` : '';
+  const done = curQs.filter(q2 => chosen[String(q2.n)] != null).length;
+  const corr = curQs.filter(q2 => statuses[String(q2.n)] === 'correct').length;
+  document.getElementById('q-area').innerHTML = `
+    <div class="q-card">
+      <div class="q-meta ${q.sec.toLowerCase()}">${q.n} — ${q.sec === 'MA' ? 'Mathematics Achievement' : 'Quantitative Reasoning'}</div>
+      <div class="q-text">${q.text}</div>${diag}
+      <div class="options">${opts}</div>${fb}
+    </div>`;
+  document.getElementById('prog-label').textContent = `${done} of ${curQs.length} answered`;
+  document.getElementById('score-badge').textContent = `Score: ${corr}/${done}`;
+  document.getElementById('bar-fill').style.width = (done / curQs.length * 100) + '%';
+  document.getElementById('btn-prev').disabled = cur === 0;
+  document.getElementById('btn-next').disabled = cur === curQs.length - 1;
+  renderTabs();
+}
+
+/* ════════════════════════════════════════
+   RESET SECTION
+════════════════════════════════════════ */
+function resetSection(sec) {
+  const label = sec === 'MA' ? 'Mathematics Achievement' : 'Quantitative Reasoning';
+  if (!confirm(`Reset all ${label} answers?\n\nAttempt counts will be kept.`)) return;
+  ALL_QUESTIONS.filter(q => q.sec === sec).forEach(q => {
+    const key = String(q.n);
+    delete chosen[key];
+    delete statuses[key];
+  });
+  saveProgress();
+  updateDash();
+}
+
+/* ════════════════════════════════════════
+   DASHBOARD
+════════════════════════════════════════ */
+function updateDash() {
+  const maQs = ALL_QUESTIONS.filter(q => q.sec === 'MA');
+  const qrQs = ALL_QUESTIONS.filter(q => q.sec === 'QR');
+  const total = ALL_QUESTIONS.length;
+  const ans   = ALL_QUESTIONS.filter(q => chosen[String(q.n)] != null).length;
+  const corr  = ALL_QUESTIONS.filter(q => statuses[String(q.n)] === 'correct').length;
+  const wrg   = ans - corr;
+  const maAns = maQs.filter(q => chosen[String(q.n)] != null).length;
+  const maCor = maQs.filter(q => statuses[String(q.n)] === 'correct').length;
+  const qrAns = qrQs.filter(q => chosen[String(q.n)] != null).length;
+  const qrCor = qrQs.filter(q => statuses[String(q.n)] === 'correct').length;
+
+  document.getElementById('d-total').textContent    = total;
+  document.getElementById('d-answered').textContent = ans;
+  document.getElementById('d-correct').textContent  = corr;
+  document.getElementById('d-wrong').textContent    = wrg;
+  document.getElementById('d-ans-pct').textContent  = Math.round(ans / total * 100) + '%';
+  document.getElementById('d-cor-pct').textContent  = ans ? Math.round(corr / ans * 100) + '%' : '0%';
+  document.getElementById('d-wrg-pct').textContent  = ans ? Math.round(wrg / ans * 100) + '%' : '0%';
+  document.getElementById('bar-answered').style.width = (ans / total * 100) + '%';
+  document.getElementById('bar-correct').style.width  = (ans ? corr / ans * 100 : 0) + '%';
+  document.getElementById('bar-wrong').style.width    = (ans ? wrg / ans * 100 : 0) + '%';
+  document.getElementById('d-ma-ans').textContent  = maAns;
+  document.getElementById('d-ma-cor').textContent  = maCor;
+  document.getElementById('d-ma-wrg').textContent  = maAns - maCor;
+  document.getElementById('d-ma-total').textContent = maQs.length;
+  document.getElementById('d-qr-ans').textContent  = qrAns;
+  document.getElementById('d-qr-cor').textContent  = qrCor;
+  document.getElementById('d-qr-wrg').textContent  = qrAns - qrCor;
+  document.getElementById('d-qr-total').textContent = qrQs.length;
+  document.getElementById('ma-pill').textContent = maQs.length + ' Questions';
+  document.getElementById('qr-pill').textContent = qrQs.length + ' Questions';
+  document.getElementById('d-ma-range').textContent = 'MA-1 to MA-' + maQs.length;
+  document.getElementById('d-qr-range').textContent = 'QR-1 to QR-' + qrQs.length;
+}
+
+/* ════════════════════════════════════════
+   PARENT DASHBOARD
+════════════════════════════════════════ */
+async function loadParentDash() {
+  document.getElementById('pd-status').textContent = 'Loading results…';
+  try {
+    const res = await fetch(SUPA_URL + '/rest/v1/quiz_results?select=*&order=answered_at.desc',
+      { headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY } });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const rows = await res.json();
+    renderParentDash(rows);
+  } catch(e) {
+    document.getElementById('pd-status').textContent = '❌ Could not load: ' + e.message;
+  }
+}
+
+function renderParentDash(rows) {
+  if (rows.length === 0) {
+    document.getElementById('pd-status').textContent = 'No results yet.';
+    document.getElementById('pd-content').innerHTML = '';
+    return;
+  }
+  document.getElementById('pd-status').textContent = '';
+  const totalAns = rows.length;
+  const totalCor = rows.filter(r => r.correct).length;
+  const sessions = {};
+  rows.forEach(r => { if (!sessions[r.session_id]) sessions[r.session_id] = []; sessions[r.session_id].push(r); });
+  const latest = {};
+  rows.forEach(r => { if (!latest[r.question_id]) latest[r.question_id] = r; });
+  const maRows = Object.values(latest).filter(r => r.section === 'MA').sort((a,b) => a.question_id.localeCompare(b.question_id, undefined, {numeric:true}));
+  const qrRows = Object.values(latest).filter(r => r.section === 'QR').sort((a,b) => a.question_id.localeCompare(b.question_id, undefined, {numeric:true}));
+  const sessionRows = Object.keys(sessions).sort().reverse().slice(0,10).map(sid => {
+    const sr = sessions[sid];
+    const date = sid.slice(0,10);
+    const c = sr.filter(r => r.correct).length;
+    const t = sr.length;
+    const mac = sr.filter(r => r.section==='MA' && r.correct).length;
+    const mat = sr.filter(r => r.section==='MA').length;
+    const qrc = sr.filter(r => r.section==='QR' && r.correct).length;
+    const qrt = sr.filter(r => r.section==='QR').length;
+    return `<tr>
+      <td style="padding:10px 14px;border-bottom:1px solid #f1f5f9;font-size:0.85rem;">${date}</td>
+      <td style="padding:10px 14px;border-bottom:1px solid #f1f5f9;text-align:center;font-weight:700;color:#1a3a5c;">${c}/${t}</td>
+      <td style="padding:10px 14px;border-bottom:1px solid #f1f5f9;text-align:center;color:#1d4ed8;">${mat>0?mac+'/'+mat:'—'}</td>
+      <td style="padding:10px 14px;border-bottom:1px solid #f1f5f9;text-align:center;color:#0f6e56;">${qrt>0?qrc+'/'+qrt:'—'}</td>
+    </tr>`;
+  }).join('');
+  function qRow(r) {
+    const ok = r.correct;
+    const q = ALL_QUESTIONS.find(q => String(q.n) === r.question_id);
+    const preview = q ? q.text.split('\n')[0].slice(0,55)+(q.text.length>55?'…':'') : r.question_id;
+    return `<tr>
+      <td style="padding:9px 14px;border-bottom:1px solid #f1f5f9;font-size:0.8rem;font-weight:700;color:#64748b;white-space:nowrap;">${r.question_id}</td>
+      <td style="padding:9px 14px;border-bottom:1px solid #f1f5f9;font-size:0.82rem;color:#334155;">${preview}</td>
+      <td style="padding:9px 14px;border-bottom:1px solid #f1f5f9;text-align:center;">
+        <span style="background:${ok?'#d1fae5':'#fee2e2'};color:${ok?'#065f46':'#991b1b'};padding:3px 10px;border-radius:99px;font-size:0.75rem;font-weight:700;">${ok?'✓ Correct':'✗ Wrong'}</span>
+      </td>
+      <td style="padding:9px 14px;border-bottom:1px solid #f1f5f9;text-align:center;font-size:0.82rem;color:#64748b;">${r.attempts}</td>
+    </tr>`;
+  }
+  document.getElementById('pd-content').innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.25rem;">
+      <div style="background:#f1f5f9;border-radius:10px;padding:14px;text-align:center;"><div style="font-size:1.6rem;font-weight:700;color:#334155;">${totalAns}</div><div style="font-size:0.72rem;font-weight:600;color:#94a3b8;margin-top:3px;">Total Answers</div></div>
+      <div style="background:#d1fae5;border-radius:10px;padding:14px;text-align:center;"><div style="font-size:1.6rem;font-weight:700;color:#065f46;">${totalCor}</div><div style="font-size:0.72rem;font-weight:600;color:#065f46;margin-top:3px;opacity:0.8;">Correct</div></div>
+      <div style="background:#fee2e2;border-radius:10px;padding:14px;text-align:center;"><div style="font-size:1.6rem;font-weight:700;color:#991b1b;">${totalAns-totalCor}</div><div style="font-size:0.72rem;font-weight:600;color:#991b1b;margin-top:3px;opacity:0.8;">Incorrect</div></div>
+    </div>
+    <div style="background:white;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-bottom:1.25rem;overflow:hidden;">
+      <div style="padding:12px 16px;border-bottom:1px solid #f1f5f9;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;">Recent Sessions</div>
+      <table style="width:100%;border-collapse:collapse;"><thead><tr style="background:#f8fafc;">
+        <th style="padding:10px 14px;text-align:left;font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#94a3b8;">Date</th>
+        <th style="padding:10px 14px;text-align:center;font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#94a3b8;">Total</th>
+        <th style="padding:10px 14px;text-align:center;font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#1d4ed8;">MA</th>
+        <th style="padding:10px 14px;text-align:center;font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#0f6e56;">QR</th>
+      </tr></thead><tbody>${sessionRows}</tbody></table>
+    </div>
+    ${maRows.length > 0 ? `<div style="background:white;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-bottom:1.25rem;overflow:hidden;">
+      <div style="padding:12px 16px;border-bottom:1px solid #f1f5f9;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#1d4ed8;">📐 Mathematics Achievement</div>
+      <table style="width:100%;border-collapse:collapse;"><thead><tr style="background:#f8fafc;">
+        <th style="padding:9px 14px;text-align:left;font-size:0.72rem;font-weight:700;color:#94a3b8;">Q</th>
+        <th style="padding:9px 14px;text-align:left;font-size:0.72rem;font-weight:700;color:#94a3b8;">Question</th>
+        <th style="padding:9px 14px;text-align:center;font-size:0.72rem;font-weight:700;color:#94a3b8;">Result</th>
+        <th style="padding:9px 14px;text-align:center;font-size:0.72rem;font-weight:700;color:#94a3b8;">Attempts</th>
+      </tr></thead><tbody>${maRows.map(qRow).join('')}</tbody></table>
+    </div>` : ''}
+    ${qrRows.length > 0 ? `<div style="background:white;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-bottom:1.25rem;overflow:hidden;">
+      <div style="padding:12px 16px;border-bottom:1px solid #f1f5f9;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#0f6e56;">🔢 Quantitative Reasoning</div>
+      <table style="width:100%;border-collapse:collapse;"><thead><tr style="background:#f8fafc;">
+        <th style="padding:9px 14px;text-align:left;font-size:0.72rem;font-weight:700;color:#94a3b8;">Q</th>
+        <th style="padding:9px 14px;text-align:left;font-size:0.72rem;font-weight:700;color:#94a3b8;">Question</th>
+        <th style="padding:9px 14px;text-align:center;font-size:0.72rem;font-weight:700;color:#94a3b8;">Result</th>
+        <th style="padding:9px 14px;text-align:center;font-size:0.72rem;font-weight:700;color:#94a3b8;">Attempts</th>
+      </tr></thead><tbody>${qrRows.map(qRow).join('')}</tbody></table>
+    </div>` : ''}`;
+}
+
+/* ════════════════════════════════════════
+   DIAGNOSTIC
+════════════════════════════════════════ */
+async function runDiagnostic() {
+  const el = document.getElementById('diag-result');
+  el.style.display = 'block';
+  el.innerHTML = '⏳ Testing…';
+  const steps = [];
+  try {
+    const r1 = await fetch(SUPA_URL + '/rest/v1/', { headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY } });
+    steps.push('✅ Step 1 — Reached Supabase (HTTP ' + r1.status + ')');
+  } catch(e) { steps.push('❌ Step 1 — Cannot reach Supabase: ' + e.message); el.innerHTML = steps.join('<br>'); return; }
+  try {
+    const r2 = await fetch(SUPA_URL + '/rest/v1/quiz_results?limit=1', { headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY } });
+    steps.push(r2.ok ? '✅ Step 2 — Can READ table' : '❌ Step 2 — READ failed: ' + await r2.text());
+  } catch(e) { steps.push('❌ Step 2: ' + e.message); }
+  try {
+    const r3 = await fetch(SUPA_URL + '/rest/v1/quiz_results', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Prefer':'return=minimal'},
+      body: JSON.stringify({session_id:'diag_test',question_id:'MA-1',section:'MA',correct:true,attempts:1,answered_at:new Date().toISOString()})
+    });
+    steps.push((r3.status===201||r3.status===200) ? '✅ Step 3 — INSERT succeeded!' : '❌ Step 3 — INSERT failed: ' + await r3.text());
+  } catch(e) { steps.push('❌ Step 3: ' + e.message); }
+  steps.push('<br><b>🎉 Connection working!</b> Answer a question and click Refresh Results.');
+  el.innerHTML = steps.join('<br>');
+}
+
+/* ════════════════════════════════════════
+   SCREEN NAVIGATION
+════════════════════════════════════════ */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
-function goHome(){showScreen('screen-home');updateDash();checkUnlocks();}
+function goHome() { showScreen('screen-home'); updateDash(); }
 
-// Load saved progress when page opens
+// Initialise on load
 loadProgress();
 updateDash();
-checkUnlocks();
 </script>
-
-<!-- ══ SCREEN 3: QUESTION LIST ══ -->
-<div id="screen-ql" class="screen">
-  <div class="top-bar">
-    <h1>📋 Question List</h1>
-    <button class="back-btn" onclick="goHome()">← Home</button>
-  </div>
-  <div class="ql-wrap">
-    <div class="ql-filter-bar">
-      <button class="ql-filter-btn active" onclick="qlFilter('all',this)">All</button>
-      <button class="ql-filter-btn" onclick="qlFilter('MA',this)">📐 MA</button>
-      <button class="ql-filter-btn" onclick="qlFilter('QR',this)">🔢 QR</button>
-      <button class="ql-filter-btn" onclick="qlFilter('correct',this)">✓ Correct</button>
-      <button class="ql-filter-btn" onclick="qlFilter('wrong',this)">✗ Incorrect</button>
-      <button class="ql-filter-btn" onclick="qlFilter('unanswered',this)">— Not yet answered</button>
-    </div>
-    <div class="ql-table-wrap">
-      <table class="ql-table">
-        <thead>
-          <tr>
-            <th>Question</th>
-            <th>Attempts</th>
-            <th>Result</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody id="ql-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-
-<!-- ══ SCREEN 4: PARENT DASHBOARD ══ -->
-<div id="screen-pd" class="screen">
-  <div class="top-bar">
-    <h1>👨‍👦 Parent Dashboard</h1>
-    <button class="back-btn" onclick="goHome()">← Home</button>
-  </div>
-  <div class="ql-wrap">
-    <div style="background:#fef9c3;border:1px solid #fde047;border-radius:10px;padding:12px 16px;font-size:0.85rem;color:#713f12;margin-bottom:1rem;">
-      🔒 This page shows results saved from all sessions. Share the quiz link with your son — results appear here automatically.
-    </div>
-
-    <!-- Diagnostic Tool -->
-    <div id="pd-diag" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:1.1rem;margin-bottom:1rem;">
-      <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;margin-bottom:10px;">🔧 Connection Diagnostic</div>
-      <button onclick="runDiagnostic()" style="width:100%;padding:10px;border-radius:8px;background:#1a3a5c;color:white;border:none;font-size:0.9rem;font-weight:600;cursor:pointer;margin-bottom:10px;">Run Connection Test</button>
-      <div id="diag-result" style="font-size:0.82rem;line-height:1.7;display:none;"></div>
-    </div>
-
-    <div id="pd-status" style="font-size:0.9rem;color:#64748b;margin-bottom:1rem;"></div>
-    <div id="pd-content"></div>
-    <button onclick="loadParentDash()" style="width:100%;padding:11px;border-radius:10px;border:1.5px solid #dce3ea;background:white;cursor:pointer;font-size:0.9rem;font-weight:600;color:#1a3a5c;margin-top:0.5rem;">🔄 Refresh Results</button>
-  </div>
-</div>
-
 </body>
 </html>
