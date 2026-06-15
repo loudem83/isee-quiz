@@ -105,12 +105,35 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 .nav-btn:disabled{opacity:0.35;cursor:default;}
 .nav-btn.primary{background:#1a3a5c;color:white;border-color:#1a3a5c;}
 .nav-btn.primary:hover:not(:disabled){background:#0f2640;}
+/* ── TAXONOMY HEAT GRID ── */
+.heat-wrap{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;margin-top:0;}
+.heat-head{display:grid;grid-template-columns:150px repeat(3,1fr);background:var(--color-background-secondary);border-bottom:0.5px solid var(--color-border-tertiary);}
+.hh{padding:8px 6px;font-size:11px;font-weight:500;color:var(--color-text-secondary);text-align:center;}
+.hh:first-child{text-align:left;padding-left:12px;}
+.heat-row{display:grid;grid-template-columns:150px repeat(3,1fr);border-bottom:0.5px solid var(--color-border-tertiary);}
+.heat-row:last-child{border-bottom:none;}
+.hc{padding:8px 6px;font-size:12px;display:flex;align-items:center;justify-content:center;}
+.hc:first-child{justify-content:flex-start;padding-left:12px;color:var(--color-text-primary);font-size:12px;}
+.hcell{border-radius:6px;width:90%;text-align:center;padding:4px 4px;font-size:11px;font-weight:500;}
+.hc-strong{background:#EAF3DE;color:#27500A;}
+.hc-ok{background:#FAEEDA;color:#633806;}
+.hc-weak{background:#FCEBEB;color:#791F1F;}
+.hc-none{background:var(--color-background-secondary);color:var(--color-text-tertiary);font-size:11px;}
+.heat-legend{display:flex;gap:14px;margin-top:10px;flex-wrap:wrap;}
+.hl{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-text-secondary);}
+.hl-dot{width:8px;height:8px;border-radius:50%;}
+@media(max-width:500px){
+  .heat-head,.heat-row{grid-template-columns:110px repeat(3,1fr);}
+  .hh,.hc{font-size:10px;padding:6px 3px;}
+  .hh:first-child,.hc:first-child{padding-left:8px;}
+}
 
 /* PARENT DASHBOARD */
 .ql-wrap{max-width:760px;margin:0 auto;padding:1.1rem 1rem 3rem;}
 </style>
 </head>
 <body>
+
 
 <!-- SCREEN 1: HOME -->
 <div id="screen-home" class="screen active">
@@ -119,9 +142,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
     <p>Interactive practice for Mathematics Achievement &amp; Quantitative Reasoning</p>
   </div>
   <div class="home-body">
+    <div class="dash-section">
+      <div class="dash-title">🚀 Choose a Pathway</div>
+      <div class="pathway-grid">
+        <div class="pathway-card ma" onclick="startQuiz('ma')">
+          <div class="icon">📐</div>
+          <h3>Mathematics Achievement</h3>
+          <p>Shapes, fractions, estimation, area, word problems</p>
+          <span class="pill" id="ma-pill">11 Questions</span>
+        </div>
+        <div class="pathway-card qr" onclick="startQuiz('qr')">
+          <div class="icon">🔢</div>
+          <h3>Quantitative Reasoning</h3>
+          <p>Algebra, proportions, functions, probability, data</p>
+          <span class="pill" id="qr-pill">20 Questions</span>
+        </div>
+      </div>
+      <button class="all-btn" onclick="startQuiz('all')">⭐ Take all questions together</button>
+      <button class="all-btn" onclick="showScreen('screen-pd');loadParentDash();" style="border-color:#f59e0b;color:#92400e;background:#fffbeb;">
+        👨&#x200D;👦 Parent Dashboard — View All Results
+      </button>
+
+    </div>
+
 
     <div class="dash-section">
-      <div class="dash-title">📊 Overall Dashboard</div>
+      <div class="dash-title">📊 Dashboard</div>
       <div class="stats-grid">
         <div class="stat-card total"><div class="val" id="d-total">31</div><div class="lbl">Total Qs</div></div>
         <div class="stat-card answered"><div class="val" id="d-answered">0</div><div class="lbl">Answered</div></div>
@@ -160,27 +206,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
       </div>
     </div>
 
+
     <div class="dash-section">
-      <div class="dash-title">🚀 Choose a Pathway</div>
-      <div class="pathway-grid">
-        <div class="pathway-card ma" onclick="startQuiz('ma')">
-          <div class="icon">📐</div>
-          <h3>Mathematics Achievement</h3>
-          <p>Shapes, fractions, estimation, area, word problems</p>
-          <span class="pill" id="ma-pill">11 Questions</span>
+      <div class="dash-title">📊 Performance by strand &amp; difficulty</div>
+      <div class="heat-wrap">
+        <div class="heat-head">
+          <div class="hh">Strand</div>
+          <div class="hh">DoK 1<br><span style="font-weight:400;font-size:10px;">recall</span></div>
+          <div class="hh">DoK 2<br><span style="font-weight:400;font-size:10px;">conceptual</span></div>
+          <div class="hh">DoK 3<br><span style="font-weight:400;font-size:10px;">analytical</span></div>
         </div>
-        <div class="pathway-card qr" onclick="startQuiz('qr')">
-          <div class="icon">🔢</div>
-          <h3>Quantitative Reasoning</h3>
-          <p>Algebra, proportions, functions, probability, data</p>
-          <span class="pill" id="qr-pill">20 Questions</span>
+        <div id="heat-grid-body">
+          <div class="heat-row" style="grid-column:span 4;padding:14px;text-align:center;">
+            <div class="hc" style="grid-column:span 4;color:var(--color-text-tertiary);font-size:13px;">Answer some questions to see your performance map</div>
+          </div>
         </div>
       </div>
-      <button class="all-btn" onclick="startQuiz('all')">⭐ Take all questions together</button>
-      <button class="all-btn" onclick="showScreen('screen-pd');loadParentDash();" style="border-color:#f59e0b;color:#92400e;background:#fffbeb;">
-        👨&#x200D;👦 Parent Dashboard — View All Results
-      </button>
+      <div class="heat-legend">
+        <div class="hl"><div class="hl-dot" style="background:#639922"></div>Strong (70%+)</div>
+        <div class="hl"><div class="hl-dot" style="background:#BA7517"></div>Developing (50–69%)</div>
+        <div class="hl"><div class="hl-dot" style="background:#E24B4A"></div>Needs work (&lt;50%)</div>
+        <div class="hl"><div class="hl-dot" style="background:var(--color-border-tertiary)"></div>Not yet answered</div>
+      </div>
     </div>
+
 
   </div>
 </div>
@@ -233,6 +282,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
     <button onclick="loadParentDash()" style="width:100%;padding:11px;border-radius:10px;border:1.5px solid #dce3ea;background:white;cursor:pointer;font-size:0.9rem;font-weight:600;color:#1a3a5c;margin-top:0.5rem;">🔄 Refresh Results</button>
   </div>
 </div>
+
 
 <script>
 /* ════════════════════════════════════════
@@ -288,7 +338,7 @@ const SESSION_ID = localStorage.getItem(_todayKey) ||
    Format: ,{n:"QR-21",sec:"QR",text:"...",opts:["A","B","C","D"],ans:0,exp:"..."}
 ════════════════════════════════════════ */
 const ALL_QUESTIONS = [
-{n:"MA-1",sec:"MA",text:"Which of the following shapes ALWAYS has all four sides equal in length AND all four angles equal to 90 degrees?",opts:["Rectangle","Parallelogram","Square","Trapezoid"],ans:2,exp:"A square must have all four sides equal AND all four angles of 90°. A rectangle has equal angles but not necessarily equal sides."},
+  {n:"MA-1",sec:"MA",text:"Which of the following shapes ALWAYS has all four sides equal in length AND all four angles equal to 90 degrees?",opts:["Rectangle","Parallelogram","Square","Trapezoid"],ans:2,exp:"A square must have all four sides equal AND all four angles of 90°. A rectangle has equal angles but not necessarily equal sides."},
   {n:"MA-2",sec:"MA",text:"Four students recorded the number of pages they read over five days (see table).\n\nFrom Day 1 to Day 5, how many MORE pages did Zoe read on Day 5 than on Day 1?",opts:["10","12","14","16"],ans:1,exp:"Zoe read 18 pages on Day 1 and 30 on Day 5. The increase is 30 − 18 = 12 pages.",diag:"table_zoe"},
   {n:"MA-3",sec:"MA",text:"Which fraction is equivalent to 0.6?",opts:["6/100","6/10","3/5","Both B and C"],ans:3,exp:"0.6 = 6/10 (option B) and 6/10 simplifies to 3/5 (option C). Both are equivalent to 0.6."},
   {n:"MA-4",sec:"MA",text:"Daniel buys four items costing $6.75, $11.49, $3.29, and $9.89. What is the best estimate of the total cost?",opts:["Between $25 and $30","Between $30 and $35","Between $35 and $40","Between $40 and $45"],ans:1,exp:"Rounding: $7+$11+$3+$10=$31. The exact total $31.42 falls between $30 and $35."},
@@ -299,6 +349,14 @@ const ALL_QUESTIONS = [
   {n:"MA-9",sec:"MA",text:"An L-shaped room has an outer rectangle 14 m wide and 10 m tall. A corner 6 m wide and 4 m tall is removed. What is the floor area in square metres?",opts:["116 m²","124 m²","132 m²","140 m²"],ans:0,exp:"Full rectangle = 14×10 = 140 m². Cut-out = 6×4 = 24 m². Total = 140−24 = 116 m².",diag:"lshape"},
   {n:"MA-10",sec:"MA",text:"There are 5 more cats than dogs at a shelter. If there are 8 dogs, what fraction of all animals are dogs?",opts:["8/13","8/21","5/13","8/5"],ans:1,exp:"8 dogs + 13 cats = 21 total. Fraction of dogs = 8/21."},
   {n:"MA-11",sec:"MA",text:"A school surveyed 320 students about their favourite sport. The most popular gets a trophy; 2nd and 3rd get certificates. Which sports get the certificate?",opts:["Swimming and Cricket","Basketball and Swimming","Basketball and Tennis","Tennis and Swimming"],ans:2,exp:"Ranked: Football 95, Basketball 72, Tennis 61, Swimming 48, Cricket 44. Certificate = Basketball and Tennis.",diag:"sports_table"},
+  {n:"MA-12",sec:"MA",text:"Sara had 6 pencils and 9 pens. She lost half of her pencils and a third of her pens. How many pencils and pens does she have remaining?",opts:["5","7","9","11"],ans:2,exp:"Half of 6 pencils = 3 remaining. A third of 9 pens = 3 given away, leaving 6 pens. Total = 3 + 6 = 9."},
+  {n:"MA-13",sec:"MA",text:"Jamie and 7 other students each earned an equal number of bonus points. Which number could represent the total number of bonus points the students received?",opts:["1,100","1,420","1,610","1,920"],ans:3,exp:"There are 8 students total (Jamie + 7 others). The total must be divisible by 8. 1,920 ÷ 8 = 240 exactly. The other options do not divide evenly by 8."},
+  {n:"MA-14",sec:"MA",text:"Penny has a total of 252 eggs. She will fill empty egg cartons that each hold 14 eggs. What is the greatest number of egg cartons that Penny can fill completely?",opts:["16","17","18","19"],ans:2,exp:"252 ÷ 14 = 18 exactly with no eggs left over. So Penny can fill 18 cartons completely."},
+  {n:"MA-15",sec:"MA",text:"Use the set of numbers shown to answer the question.\n\n5   7   11   13   17\n\nWhich does NOT describe this set of numbers?",opts:["composite numbers","odd numbers","prime numbers","whole numbers"],ans:0,exp:"All five numbers are odd, prime, and whole numbers. None are composite — a composite number has more than two factors, but these numbers are all prime."},
+  {n:"MA-16",sec:"MA",text:"Which number leaves a remainder of 3 when divided by both 4 and 7?",opts:["27","31","55","59"],ans:3,exp:"59 ÷ 4 = 14 remainder 3 ✓ and 59 ÷ 7 = 8 remainder 3 ✓. No other option satisfies both conditions."},
+  {n:"MA-17",sec:"MA",text:"Which number is NOT a multiple of 6?",opts:["54","78","96","100"],ans:3,exp:"54÷6=9, 78÷6=13, and 96÷6=16 are all exact. But 100÷6=16.67, which is not a whole number, so 100 is not a multiple of 6."},
+  {n:"MA-18",sec:"MA",text:"Amy ran 7/8 of a mile. Ben ran 1/2 of a mile less than Amy. What fraction of a mile did Ben run?",opts:["1/4","3/8","1/2","3/4"],ans:1,exp:"7/8 − 1/2 = 7/8 − 4/8 = 3/8 of a mile."},
+  {n:"MA-19",sec:"MA",text:"A warehouse stores 120 boxes of tiles. Each box weighs 40 pounds. How many pounds of tiles are stored in the warehouse in total?",opts:["80","480","4,800","48,000"],ans:2,exp:"120 boxes × 40 pounds each = 4,800 pounds total."},
   {n:"QR-1",sec:"QR",text:"The perimeter of this 6-sided polygon is 48 cm. Known sides: 9 cm, 4 cm, 4 cm, 7 cm, and 7 cm. Find x.",opts:["13 cm","15 cm","17 cm","19 cm"],ans:2,exp:"9+4+4+7+7 = 31 cm. x = 48−31 = 17 cm.",diag:"hexagon"},
   {n:"QR-2",sec:"QR",text:"A car covers 150 miles in 3 hours at constant speed. How long to travel 250 miles?",opts:["4 hours","4 hrs 30 min","5 hours","5 hrs 30 min"],ans:2,exp:"Speed = 150÷3 = 50 mph. Time = 250÷50 = 5 hours."},
   {n:"QR-3",sec:"QR",text:"Which is the smallest fraction?",opts:["5/9","4/7","3/8","7/12"],ans:2,exp:"As decimals: 5/9≈0.556, 4/7≈0.571, 3/8=0.375, 7/12≈0.583. Smallest is 3/8."},
@@ -312,20 +370,54 @@ const ALL_QUESTIONS = [
   {n:"QR-11",sec:"QR",text:"A small cube has volume 1 unit³. A larger cube is made from these, 3 cubes in each direction. What is the volume of the larger cube?",opts:["9 units³","18 units³","24 units³","27 units³"],ans:3,exp:"3×3×3 = 27 unit cubes. Volume = 27 units³.",diag:"cube"},
   {n:"QR-12",sec:"QR",text:"Points P, Q, R, S are in order on a line. PS = a, PQ = b, RS = c.\n\nWhat is the length of QR?",opts:["a + b + c","a + b − c","a − b − c","b − a − c"],ans:2,exp:"QR = PS − PQ − RS = a − b − c.",diag:"segment"},
   {n:"QR-13",sec:"QR",text:"Tank A and Tank B each hold 10 litres. Tank A is about ¼ full; Tank B about ¾ full. Combined, how much liquid is there approximately?",opts:["2.5 litres","5 litres","7.5 litres","10 litres"],ans:3,exp:"Tank A: ¼×10=2.5 L. Tank B: ¾×10=7.5 L. Total = 10 litres.",diag:"tanks"},
-  {n:"QR-14",sec:"QR",text:"A jar has red and blue sweets. P(red) = 3 out of 7. There are 16 blue sweets. How many red sweets are in the jar?",opts:["6","8","10","24"],ans:1,exp:"P(blue)=4/7. If 4 parts=16, then 1 part=4. Red = 3 parts = 3×4 = 8."},
+  {n:"QR-14",sec:"QR",text:"A jar has red and blue sweets. P(red) = 3 out of 7. There are 16 blue sweets. How many red sweets are in the jar?",opts:["6","8","12","24"],ans:2,exp:"P(blue) = 4/7. If 4 parts = 16 blue sweets, then 1 part = 4. Red = 3 parts = 3 × 4 = 12. Check: 12 red + 16 blue = 28 total, and 12/28 = 3/7 ✓"},
   {n:"QR-15",sec:"QR",text:"A box holds black, white, and grey counters. P(black) = 3 out of 8. Which combination is possible?",opts:["3 black and 5 others","6 black and 10 others","9 black and 15 others","12 black and 20 others"],ans:1,exp:"6 out of 16 total = 6/16 = 3/8 ✓"},
   {n:"QR-16",sec:"QR",text:"Emma bought 4 ride tickets at $9 each and a meal deal. Her total was $52. Which equation finds the cost of the meal deal, m?",opts:["$52 = 9 + m","$52 = 4m","$52 = 4(9) + m","$52 = 4(9) + 4m"],ans:2,exp:"Total = (4×$9) + m = 36 + m = 52, so m = $16."},
   {n:"QR-17",sec:"QR",text:"Five athletes ran these laps: 8, 6, 10, 6, 10. What was the mean?",opts:["6","7","8","10"],ans:2,exp:"Total = 8+6+10+6+10 = 40. Mean = 40÷5 = 8 laps.",diag:"barchart"},
   {n:"QR-18",sec:"QR",text:"Which equation means '5 less than 3 times a number equals 7 more than the number'? Let n = unknown.",opts:["3n − 5 = n + 7","3n + 5 = n − 7","5 − 3n = n + 7","3n − 5 = 7n"],ans:0,exp:"3n−5 = n+7. Solving: 2n=12, n=6."},
   {n:"QR-19",sec:"QR",text:"On a number line (each mark = 2 units): X is at the 4th mark (=8). Y is at the 9th mark (=18). Y is the average of X and Z. What is Z?",opts:["22","26","28","32"],ans:2,exp:"Y=(X+Z)÷2 → 18=(8+Z)÷2 → 36=8+Z → Z=28.",diag:"numline2"},
-  {n:"QR-20",sec:"QR",text:"Vertices of a quadrilateral: (1,2) (1,6) (5,2) (5,6).\n\nWhich term best describes the shape formed?",opts:["Trapezoid","Rhombus","Rectangle","Kite"],ans:2,exp:"Width=4, Height=4, all angles=90°. This is a square — a special rectangle.",diag:"coords"}
+  {n:"QR-20",sec:"QR",text:"Vertices of a quadrilateral: (1,2) (1,6) (5,2) (5,6).\n\nWhich term best describes the shape formed?",opts:["Trapezoid","Rhombus","Rectangle","Kite"],ans:2,exp:"Width=4, Height=4, all angles=90°. This is a square — a special rectangle.",diag:"coords"},
+  {n:"QR-21",sec:"QR",text:"A small piece of material is cut into 5 squares. A large piece of material is cut into 4 times as many squares as the small piece. How many squares is the large piece of material cut into?",opts:["9 squares","16 squares","20 squares","25 squares"],ans:2,exp:"The small piece is cut into 5 squares. The large piece is cut into 4 times as many: 4 × 5 = 20 squares."}
 
-,{n:"QR-21",sec:"QR",text:"A small piece of material is cut into 5 squares. A large piece of material is cut into 4 times as many squares as the small piece. How many squares is the large piece of material cut into?",opts:["9 squares","16 squares","20 squares","25 squares"],ans:2,exp:"The small piece is cut into 5 squares. The large piece is cut into 4 times as many: 4 × 5 = 20 squares."}
 
-  // ╔═══════════════════════════════════════════╗
-  // ║  PASTE NEW QUESTIONS ABOVE THIS LINE       ║
-  // ║  Each new question needs a comma before { ║
-  // ╚═══════════════════════════════════════════╝
+  ,{n:"QR-22",sec:"QR",text:"Simon put 301 song files in 7 different folders in his computer. Each folder had the same number of song files. How many song files did Simon put in each folder?",opts:["40","41","42","43"],ans:3,exp:"Divide 301 by 7: 7 × 43 = 301 exactly with no remainder. So each folder contains 43 song files."}
+  ,{n:"QR-23",sec:"QR",text:"Mr. Richards is sorting numbers. He puts the numbers 5, 11, and 18 in a group together. Which is another number that belongs in Mr. Richards' group?",opts:["25","26","30","34"],ans:1,exp:"Look at the differences between consecutive terms: 11 − 5 = 6, 18 − 11 = 7. The differences increase by 1 each time, so the next difference must be 8. The next number is 18 + 8 = 26."}
+  ,{n:"QR-24",sec:"QR",text:"Nev will change the shape of his garden from a square to a rectangle. The width of the square is doubled, and the length is halved. The square has sides of 10 m. By what amount will Nev increase the width of his garden?",opts:["5 m","10 m","15 m","25 m"],ans:1,exp:"The original square has sides of 10 m. Doubling the width: 10 × 2 = 20 m. The increase in width = 20 − 10 = 10 m. Note: the length becomes 10 ÷ 2 = 5 m, so the new rectangle is 20 m × 5 m — same area as the original 10 m × 10 m square."}
+  ,{n:"QR-25",sec:"QR",text:"Two baskets of the same size hold apples. The first basket is n/8 full. The second basket is 3/8 full. The apples from both baskets are combined into the second basket. Which statement best describes the amount of apples once combined?",opts:["If n = 1, the amount is less than 1/3 of a basket","If n = 2, the amount is greater than 1/3 of a basket","If n = 3, the amount is less than 1/2 of a basket","If n = 4, the amount is equal to 1/2 of a basket"],ans:1,exp:"Combined = n/8 + 3/8 = (n+3)/8. Test each option: n=1 → 4/8 = 1/2, which is NOT less than 1/3 (A false). n=2 → 5/8 = 0.625, and 1/3 ≈ 0.333, so 5/8 > 1/3 ✓ (B true). n=3 → 6/8 = 3/4, which is NOT less than 1/2 (C false). n=4 → 7/8 ≠ 1/2 (D false)."}
+  ,{n:"QR-26",sec:"QR",text:"A right triangle has two legs each of length 2 units and a base of length 2 units. A rectangle has width 2 units and length 8 units. How many of the triangles can fit in the rectangle?",opts:["3","4","6","8"],ans:3,exp:"Area of the right triangle = 1/2 × base × height = 1/2 × 2 × 2 = 2 square units. Area of the rectangle = 2 × 8 = 16 square units. Number of triangles that fit = 16 ÷ 2 = 8."}
+  ,{n:"QR-27",sec:"QR",text:"Jeremiah had [square] pencils and then he gave [circle] pencils to Nathaniel. Now, Nathaniel has [triangle] times as many pencils as Jeremiah had originally. Which expression represents the number of pencils Nathaniel had to begin with?",opts:["[triangle] x [circle] + [square]","[triangle] x [circle] - [square]","[triangle] x [square] + [circle]","[triangle] x [square] - [circle]"],ans:3,exp:"Nathaniel now has [triangle] × [square] pencils (triangle times what Jeremiah originally had). He received [circle] pencils from Jeremiah to reach this total. So before receiving them, Nathaniel had: [triangle] × [square] − [circle]."}
+  ,{n:"QR-28",sec:"QR",text:"Two cubes are shown. Cube A has sides with length 2 millimetres. Cube B is 5 times as wide as Cube A. How many Cube A's can fit inside Cube B?",opts:["15","25","125","150"],ans:2,exp:"Cube B side length = 5 × 2 = 10 mm. Volume of Cube A = 2 × 2 × 2 = 8 mm³. Volume of Cube B = 10 × 10 × 10 = 1,000 mm³. Number of Cube A's that fit = 1,000 ÷ 8 = 125. The key insight: when a cube's side is multiplied by 5, its volume is multiplied by 5³ = 125."}
+  ,{n:"MA-20",sec:"MA",text:"Shari wrote two equations.\n\np x q = 80\n2 x 5 = q\n\nWhat is the value of p?",opts:["2","5","8","10"],ans:2,exp:"Step 1: Find q using the second equation: q = 2 × 5 = 10. Step 2: Substitute q into the first equation: p × 10 = 80. Step 3: Divide both sides by 10: p = 80 ÷ 10 = 8."}
+  ,{n:"MA-21",sec:"MA",text:"Mr. Roberts has 19 students in his class. About 3/5 of the students have brown eyes. Approximately how many students in Mr. Roberts' class have brown eyes?",opts:["2","6","8","12"],ans:3,exp:"Round 19 to the nearest multiple of 5 to make the calculation easier: 19 ≈ 20. Then find 3/5 of 20: 3/5 × 20 = 12. The exact answer is 3/5 × 19 = 11.4, but 12 is the closest option and the best approximation."}
+  ,{n:"MA-22",sec:"MA",text:"Which equation can be used to find the width, w, of a rectangle that has a perimeter of 94 centimetres and a length of 28 centimetres?",opts:["w = 2 x 28 + 2 x 94","94 = 2 x 28 + 2 x w","w = 28 x 94","94 = 28 x w"],ans:1,exp:"The perimeter formula is P = 2l + 2w. Substituting the known values: 94 = 2 × 28 + 2 × w, which simplifies to 94 = 56 + 2w. Solving: 2w = 38, so w = 19 cm."}
+  ,{n:"MA-23",sec:"MA",text:"Which number is NOT a multiple of 4?",opts:["92","124","144","162"],ans:3,exp:"Divide each by 4: 92 ÷ 4 = 23 (exact ✓), 124 ÷ 4 = 31 (exact ✓), 144 ÷ 4 = 36 (exact ✓). But 162 ÷ 4 = 40.5 — not a whole number. So 162 is NOT a multiple of 4."}
+  ,{n:"MA-24",sec:"MA",text:"Sal has a pitcher and a jug he can use to measure water. The pitcher holds 2 quarts of water, and the jug holds 3 quarts of water. Which combination of pitchers and jugs can be used to hold exactly 14 quarts of water?",opts:["3 pitchers and 3 jugs","3 pitchers and 5 jugs","4 pitchers and 2 jugs","4 pitchers and 5 jugs"],ans:2,exp:"Check each option by calculating total quarts: 3 pitchers + 3 jugs = (3×2) + (3×3) = 6 + 9 = 15 ✗. 3 pitchers + 5 jugs = 6 + 15 = 21 ✗. 4 pitchers + 2 jugs = (4×2) + (2×3) = 8 + 6 = 14 ✓. 4 pitchers + 5 jugs = 8 + 15 = 23 ✗."}
+  ,{n:"MA-25",sec:"MA",text:"What is 19/3 expressed as a mixed number?",opts:["3 1/6","5 2/3","6 1/9","6 1/3"],ans:3,exp:"Divide 19 by 3: 19 ÷ 3 = 6 with remainder 1 (since 3 × 6 = 18, and 19 − 18 = 1). So 19/3 = 6 whole groups of 3, with 1 left over. Written as a mixed number: 6 and 1/3."}
+  ,{n:"MA-26",sec:"MA",text:"What is the sum of 3.2 and 1.3?",opts:["3 1/3","4 1/4","4 1/3","4 1/2"],ans:3,exp:"Add the decimals: 3.2 + 1.3 = 4.5. Convert to a mixed number: 4.5 = 4 and 5/10 = 4 and 1/2. So the answer is 4 1/2."}
+  ,{n:"MA-27",sec:"MA",text:"Alex has 7 packs of baseball cards, each containing 14 cards, and 7 packs of basketball cards, each containing 15 cards. Which expression could be used to find the total number of cards Alex has?",opts:["7 x (14 + 15)","(7 + 7) + 29","(7 x 7) + 29","7 x (14 x 15)"],ans:0,exp:"Alex has 7 × 14 baseball cards and 7 × 15 basketball cards. Total = 7 × 14 + 7 × 15. By the distributive property, this equals 7 × (14 + 15) = 7 × 29 = 203. The other options give wrong totals: B gives 43, C gives 78, D gives 1,470."}
+  ,{n:"MA-28",sec:"MA",text:"When it is 9:00 a.m. in Anchorage, it is 1:00 p.m. in Philadelphia. When it is 6:00 p.m. in Philadelphia, what time is it in Anchorage?",opts:["1:00 p.m.","2:00 p.m.","3:00 p.m.","10:00 p.m."],ans:1,exp:"First find the time difference: 1:00 p.m. − 9:00 a.m. = 4 hours. Philadelphia is 4 hours ahead of Anchorage. So when it is 6:00 p.m. in Philadelphia, subtract 4 hours: 6:00 p.m. − 4 hours = 2:00 p.m. in Anchorage."}
+  ,{n:"MA-29",sec:"MA",text:"Mrs. Carter has 24 students in her class. About 3/4 of the students brought a packed lunch. Approximately how many students brought a packed lunch?",opts:["6","8","16","18"],ans:3,exp:"Round 24 to the nearest multiple of 4: 24 is already exact. 3/4 × 24 = 18 students. The exact and approximate answer is 18."}
+  ,{n:"MA-30",sec:"MA",text:"A number pattern is shown.\n\n3   9   6   18   12   36   ___\n\nWhat is the next number in the pattern?",opts:["18","24","48","72"],ans:1,exp:"The pattern alternates: ×3 then ÷2. So: 3×3=9, 9÷2 is not whole — actually the rule is ×3, then ÷1.5. Check: 3→9(×3), 9→6(÷1.5), 6→18(×3), 18→12(÷1.5), 12→36(×3), so next is 36÷1.5 = 24."}
+  ,{n:"MA-31",sec:"MA",text:"Which whole number is divisible by 9?",opts:["184","196","207","214"],ans:2,exp:"Add the digits of each number: 184→1+8+4=13 (not divisible by 9), 196→1+9+6=16 (no), 207→2+0+7=9 ✓, 214→2+1+4=7 (no). So 207 is divisible by 9."}
+  ,{n:"MA-32",sec:"MA",text:"The set of numbers shows Jake's test scores.\n\n72, 85, 91, 68, 74, 88, 95, 61, 79\n\nWhat is the range of this set of data?",opts:["23","27","30","34"],ans:3,exp:"Range = highest − lowest. Highest = 95, Lowest = 61. Range = 95 − 61 = 34."}
+  ,{n:"MA-33",sec:"MA",text:"Marcus has an eight-sided die containing the numbers 1–8. If he rolls the die once, what is the probability that he rolls a 5?",opts:["1/5","1/8","5/8","3/8"],ans:1,exp:"There is 1 favourable outcome (rolling a 5) out of 8 equally likely outcomes. Probability = 1/8. The number 5 appears exactly once on the die."}
+  ,{n:"MA-34",sec:"MA",text:"What is the area of a rectangle that has a width of 3 inches and a perimeter of 14 inches? (A = l × w)",opts:["4 inches²","12 inches²","24 inches²","42 inches²"],ans:1,exp:"Perimeter = 2l + 2w, so 14 = 2l + 6, meaning 2l = 8 and l = 4 inches. Area = l × w = 4 × 3 = 12 square inches."}
+,{n:"MA-35",sec:"MA",text:"In the figure shown, the sides are measured in inches.\n\nWhat is the perimeter of the figure, in inches?",opts:["16","18","22","26"],ans:1,exp:"Add all 5 sides: two roof sides (3+3) and three sides of the square base (4+4+4). Perimeter = 3+3+4+4+4 = 18 inches.",diag:"ma35_house"}
+,{n:"MA-36",sec:"MA",text:"The picture shows a quadrilateral with all four sides equal in length but no right angles.\n\nWhich term best describes the quadrilateral shown?",opts:["Rectangle","Square","Rhombus","Trapezoid"],ans:2,exp:"A rhombus has 4 equal sides but angles that are not 90°. A square also has 4 equal sides but must have right angles. Since the shape is tilted like a diamond with no right angles, it is a rhombus.",diag:"ma36_rhombus"}
+,{n:"MA-37",sec:"MA",text:"A piece of material forms a rectangle with a length of 7 inches and a width of 3 inches.\n\nWhen pulling the material in one direction, the length is increased by 3 inches.\n\nWhat is the perimeter of the stretched piece of material?",opts:["20 inches","24 inches","26 inches","30 inches"],ans:2,exp:"New length = 7 + 3 = 10 inches. Width stays at 3 inches. Perimeter = 2 × (10 + 3) = 2 × 13 = 26 inches.",diag:"ma37_rect"}
+,{n:"MA-38",sec:"MA",text:"What is the area of the triangle shown?",opts:["96 cm²","120 cm²","192 cm²","240 cm²"],ans:1,exp:"Area of a triangle = 1/2 × base × height = 1/2 × 24 × 10 = 120 cm².",diag:"ma38_triangle"}
+,{n:"QR-29",sec:"QR",text:"A classroom is divided into sections as shown in the diagram.\n\nApproximately what fraction of the classroom is used by the Reading Corner?",opts:["1/6","1/4","1/3","1/2"],ans:1,exp:"The grid has 4 equal sections. Reading Corner occupies 1 of the 4 sections. Fraction = 1/4.",diag:"qr29_grid"}
+,{n:"QR-30",sec:"QR",text:"Ms. Park lengthened her vegetable patch by adding a 3-foot-wide section to the end of it.\n\nThe original patch is 12 feet long and 4 feet wide. The new section is 3 feet wide and 4 feet tall.\n\nWhat will happen to the perimeter of Ms. Park's vegetable patch if she adds the 3-foot-wide section?",opts:["It will increase by 4 feet.","It will increase by 6 feet.","It will increase by 8 feet.","It will increase by 10 feet."],ans:1,exp:"Original perimeter = 2×(12+4) = 32 feet. New length = 12+3 = 15 feet. New perimeter = 2×(15+4) = 38 feet. Increase = 38−32 = 6 feet.",diag:"qr30_garden"}
+,{n:"QR-31",sec:"QR",text:"The figures shown are not drawn to scale.\n\nHow many of the triangles shown can fit in the rectangle?",opts:["4","6","8","12"],ans:2,exp:"Area of triangle = 1/2 × base × height = 1/2 × 3 × 4 = 6 square units. Area of rectangle = 12 × 4 = 48 square units. Number that fit = 48 ÷ 6 = 8.",diag:"qr31_trifit"}
+,{n:"QR-32",sec:"QR",text:"These figures are in Pattern B:\n  • A square with 4 dots\n  • A pentagon with 5 dots\n  • A hexagon with 6 dots\n\nThese figures are NOT in Pattern B:\n  • A triangle with 5 dots\n  • A square with 3 dots\n  • A pentagon with 3 dots\n\nWhich figure could be in Pattern B?",opts:["A triangle with 2 dots","A hexagon with 4 dots","A heptagon with 7 dots","A circle with 6 dots"],ans:2,exp:"In Pattern B, the number of dots equals the number of sides. A heptagon has 7 sides and 7 dots — this fits the rule. The other options have mismatched dots and sides.",diag:"qr32_pattern"}
+,{n:"QR-33",sec:"QR",text:"Two boxes are shown. Box A has sides with length 3 cm. Box B is 4 times as wide as Box A.\n\nHow many Box A's can fit inside Box B?",opts:["12","16","48","64"],ans:3,exp:"Box B side = 4 × 3 = 12 cm. Volume of Box A = 3×3×3 = 27 cm³. Volume of Box B = 12×12×12 = 1,728 cm³. Number that fit = 1,728 ÷ 27 = 64. Key insight: when a cube's side is multiplied by 4, its volume multiplies by 4³ = 64.",diag:"qr33_cubes"}
+,{n:"QR-34",sec:"QR",text:"Sofia surveys her classmates about their favourite sport. She displays the results in the circle graph shown.\n\nWhat fraction of students chose Swimming?",opts:["1/8","1/6","1/5","1/4"],ans:0,exp:"The circle is divided into 8 equal sections. Swimming takes up 1 section. Fraction = 1/8.",diag:"qr34_pie"}
+,{n:"QR-35",sec:"QR",text:"Lena builds picture frames. The first rectangular frame has a perimeter of 24 cm. The length of one side is shown.\n\nIf the unknown side length of the next frame she builds is tripled, by what amount will she increase the unknown side length?",opts:["4 cm","6 cm","8 cm","12 cm"],ans:2,exp:"Perimeter = 2×(l+w) → 24 = 2×(8+w) → 12 = 8+w → w = 4 cm. Tripled: 4×3 = 12 cm. Increase = 12−4 = 8 cm.",diag:"qr35_frame"}
+,{n:"QR-36",sec:"QR",text:"The scales shown are balanced.\n\nScale 1: P + Q + Q = P + R\nScale 2: Q + Q + R = P + P\n\nWhich equation must be true?",opts:["R = P + Q","R = P","R = 2Q","P = Q"],ans:2,exp:"From Scale 1: P + 2Q = P + R → 2Q = R. From Scale 2: 2Q + R = 2P. Substituting R=2Q: 2Q + 2Q = 2P → 4Q = 2P → P = 2Q. So R = 2Q is confirmed true.",diag:"qr36_scales"}  
+  // ╔══════════════════════════════════════════════════════════════╗
+  // ║  PASTE NEW QUESTIONS ABOVE THIS LINE                        ║
+  // ║  Every question except the last needs a comma after }       ║
+  // ╚══════════════════════════════════════════════════════════════╝
 ];
 
 /* ════════════════════════════════════════
@@ -347,6 +439,187 @@ function diagrams(key) {
     barchart:(()=>{const v=[8,6,10,6,10],c=["#3b82f6","#60a5fa","#1d4ed8","#60a5fa","#1d4ed8"];const b=v.map((val,i)=>{const x=50+i*50,h=val*9,y=130-h;return`<rect x="${x}" y="${y}" width="32" height="${h}" fill="${c[i]}" rx="3"/><text x="${x+16}" y="${y-5}" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">${val}</text><text x="${x+16}" y="148" font-size="11" fill="#6b7280" text-anchor="middle" font-family="Arial">A${i+1}</text>`;}).join('');return`<svg width="300" height="158" viewBox="0 0 300 158" xmlns="http://www.w3.org/2000/svg"><line x1="35" y1="15" x2="35" y2="132" stroke="#94a3b8" stroke-width="1.5"/><line x1="35" y1="132" x2="295" y2="132" stroke="#94a3b8" stroke-width="1.5"/><text x="28" y="135" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">0</text><text x="28" y="87" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">5</text><text x="28" y="42" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">10</text>${b}</svg>`;})(),
     numline2:(()=>{const m=Array.from({length:13},(_,i)=>`<line x1="${20+i*22}" y1="47" x2="${20+i*22}" y2="58" stroke="#3b82f6" stroke-width="1.5"/>`).join('');return`<svg width="320" height="100" viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg"><line x1="10" y1="52" x2="305" y2="52" stroke="#3b82f6" stroke-width="2"/><polygon points="305,48 315,52 305,56" fill="#3b82f6"/>${m}<text x="20" y="72" font-size="11" fill="#1e40af" text-anchor="middle" font-family="Arial">0</text><circle cx="108" cy="52" r="5" fill="#3b82f6"/><text x="108" y="39" font-size="11" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">X=8</text><circle cx="218" cy="52" r="5" fill="#22c55e"/><text x="218" y="39" font-size="11" fill="#166534" text-anchor="middle" font-family="Arial" font-weight="bold">Y=18</text><text x="160" y="94" font-size="11" fill="#6b7280" text-anchor="middle" font-family="Arial">Each mark = 2 units</text></svg>`;})(),
     coords:(()=>{const gx=x=>20+x*30,gy=y=>190-y*25;const dots=[[1,2],[1,6],[5,2],[5,6]].map(([x,y])=>`<circle cx="${gx(x)}" cy="${gy(y)}" r="5" fill="#1d4ed8"/><text x="${gx(x)+(x>3?6:-28)}" y="${gy(y)+(y<4?14:-8)}" font-size="10" fill="#1e40af" font-family="Arial">(${x},${y})</text>`).join('');const tx=Array.from({length:7},(_,i)=>`<line x1="${gx(i)}" y1="188" x2="${gx(i)}" y2="192" stroke="#94a3b8" stroke-width="1"/><text x="${gx(i)}" y="204" font-size="10" fill="#94a3b8" text-anchor="middle" font-family="Arial">${i}</text>`).join('');const ty=Array.from({length:9},(_,i)=>`<line x1="18" y1="${gy(i)}" x2="22" y2="${gy(i)}" stroke="#94a3b8" stroke-width="1"/><text x="14" y="${gy(i)+4}" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">${i}</text>`).join('');return`<svg width="220" height="212" viewBox="0 0 220 212" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="190" x2="200" y2="190" stroke="#94a3b8" stroke-width="1.5"/><line x1="20" y1="190" x2="20" y2="10" stroke="#94a3b8" stroke-width="1.5"/>${tx}${ty}<rect x="${gx(1)}" y="${gy(6)}" width="${gx(5)-gx(1)}" height="${gy(2)-gy(6)}" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.5"/>${dots}</svg>`;})()
+,ma35_house: `<svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+  <!-- square base -->
+  <rect x="30" y="75" width="100" height="70" fill="none" stroke="#1a3a5c" stroke-width="2.5"/>
+  <!-- roof triangle -->
+  <polyline points="30,75 80,20 130,75" fill="none" stroke="#1a3a5c" stroke-width="2.5"/>
+  <!-- labels -->
+  <text x="52" y="16" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">3</text>
+  <text x="100" y="16" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">3</text>
+  <text x="14" y="116" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">4</text>
+  <text x="136" y="116" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">4</text>
+  <text x="74" y="158" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">4</text>
+</svg>`
+
+,ma36_rhombus: `<svg width="180" height="130" viewBox="0 0 180 130" xmlns="http://www.w3.org/2000/svg">
+  <!-- rhombus: top, right, bottom, left -->
+  <polygon points="90,10 160,65 90,120 20,65" fill="none" stroke="#1a3a5c" stroke-width="2.5"/>
+  <!-- side labels -->
+  <text x="118" y="30" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">10 ft</text>
+  <text x="118" y="110" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">10 ft</text>
+  <text x="22" y="30" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">10 ft</text>
+  <text x="22" y="110" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">10 ft</text>
+</svg>`
+
+,ma37_rect: `<svg width="180" height="120" viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- original rectangle -->
+  <rect x="20" y="15" width="100" height="70" fill="#dbeafe" stroke="#1a3a5c" stroke-width="2" stroke-dasharray="5,3"/>
+  <!-- stretched rectangle -->
+  <rect x="20" y="15" width="140" height="70" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+  <!-- labels -->
+  <text x="72" y="108" font-size="12" fill="#1e40af" font-family="Arial" font-weight="bold">7 in</text>
+  <text x="4" y="55" font-size="12" fill="#1e40af" font-family="Arial" font-weight="bold">3 in</text>
+  <text x="148" y="55" font-size="11" fill="#dc2626" font-family="Arial" font-weight="bold">+3 in</text>
+</svg>`
+
+,ma38_triangle: `<svg width="220" height="140" viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg">
+  <!-- triangle -->
+  <polygon points="10,125 110,10 210,125" fill="#dbeafe" stroke="#1a3a5c" stroke-width="2.5"/>
+  <!-- height dashed line -->
+  <line x1="110" y1="10" x2="110" y2="125" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <!-- right angle box -->
+  <rect x="110" y="113" width="10" height="10" fill="none" stroke="#64748b" stroke-width="1.5"/>
+  <!-- base label -->
+  <text x="85" y="140" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">24 cm</text>
+  <!-- height label -->
+  <text x="115" y="75" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">10 cm</text>
+</svg>`
+    ,qr29_grid: `<svg width="200" height="130" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="180" height="110" fill="none" stroke="#1a3a5c" stroke-width="2"/>
+  <line x1="100" y1="10" x2="100" y2="120" stroke="#1a3a5c" stroke-width="1.5"/>
+  <line x1="10" y1="65" x2="190" y2="65" stroke="#1a3a5c" stroke-width="1.5"/>
+  <rect x="10" y="10" width="90" height="55" fill="#dbeafe"/>
+  <text x="55" y="44" font-size="12" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">Reading</text>
+  <text x="55" y="58" font-size="12" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">Corner</text>
+  <text x="145" y="44" font-size="12" fill="#334155" font-family="Arial" font-weight="bold" text-anchor="middle">Art</text>
+  <text x="55" y="98" font-size="12" fill="#334155" font-family="Arial" font-weight="bold" text-anchor="middle">Science</text>
+  <text x="145" y="98" font-size="12" fill="#334155" font-family="Arial" font-weight="bold" text-anchor="middle">Maths</text>
+</svg>`
+
+,qr30_garden: `<svg width="260" height="120" viewBox="0 0 260 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Original patch -->
+  <rect x="20" y="15" width="150" height="70" fill="#d1fae5" stroke="#1a3a5c" stroke-width="2"/>
+  <text x="95" y="55" font-size="12" fill="#065f46" font-family="Arial" font-weight="bold" text-anchor="middle">Original patch</text>
+  <!-- New section (dashed) -->
+  <rect x="170" y="15" width="50" height="70" fill="#fef9c3" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="195" y="52" font-size="11" fill="#92400e" font-family="Arial" font-weight="bold" text-anchor="middle">+3 ft</text>
+  <!-- Bottom label: 12 ft -->
+  <text x="95" y="105" font-size="12" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">12 ft</text>
+  <!-- Left label: 4 ft -->
+  <text x="10" y="55" font-size="12" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">4 ft</text>
+  <!-- Dimension lines -->
+  <line x1="20" y1="110" x2="170" y2="110" stroke="#1e40af" stroke-width="1"/>
+  <line x1="20" y1="106" x2="20" y2="114" stroke="#1e40af" stroke-width="1"/>
+  <line x1="170" y1="106" x2="170" y2="114" stroke="#1e40af" stroke-width="1"/>
+</svg>`
+
+,qr31_trifit: `<svg width="280" height="110" viewBox="0 0 280 110" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="10,90 10,30 46,90" fill="#dbeafe" stroke="#1a3a5c" stroke-width="2"/>
+  <text x="8" y="64" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold">4</text>
+  <text x="26" y="104" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold">3</text>
+  <rect x="70" y="30" width="200" height="60" fill="#f0fdf4" stroke="#1a3a5c" stroke-width="2"/>
+  <text x="170" y="64" font-size="11" fill="#065f46" font-family="Arial" font-weight="bold" text-anchor="middle">12</text>
+  <text x="276" y="64" font-size="11" fill="#065f46" font-family="Arial" font-weight="bold">4</text>
+</svg>`
+
+,qr32_pattern: `<svg width="300" height="130" viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg">
+  <text x="4" y="14" font-size="10" fill="#065f46" font-family="Arial" font-weight="700">Pattern B (dots = sides):</text>
+  <rect x="10" y="22" width="36" height="36" fill="none" stroke="#1a3a5c" stroke-width="2"/>
+  <circle cx="21" cy="33" r="3" fill="#1a3a5c"/><circle cx="29" cy="33" r="3" fill="#1a3a5c"/>
+  <circle cx="21" cy="47" r="3" fill="#1a3a5c"/><circle cx="29" cy="47" r="3" fill="#1a3a5c"/>
+  <text x="22" y="70" font-size="9" fill="#334155" font-family="Arial" text-anchor="middle">4 sides, 4 dots</text>
+  <polygon points="110,22 130,58 90,58" fill="none" stroke="#1a3a5c" stroke-width="2"/>
+  <circle cx="104" cy="46" r="3" fill="#1a3a5c"/><circle cx="116" cy="46" r="3" fill="#1a3a5c"/><circle cx="110" cy="37" r="3" fill="#1a3a5c"/>
+  <text x="110" y="70" font-size="9" fill="#334155" font-family="Arial" text-anchor="middle">3 sides, 3 dots</text>
+  <polygon points="200,22 218,30 224,50 210,62 190,62 176,50 182,30" fill="none" stroke="#1a3a5c" stroke-width="2"/>
+  <circle cx="193" cy="46" r="2.5" fill="#1a3a5c"/><circle cx="200" cy="40" r="2.5" fill="#1a3a5c"/><circle cx="207" cy="46" r="2.5" fill="#1a3a5c"/>
+  <circle cx="197" cy="54" r="2.5" fill="#1a3a5c"/><circle cx="205" cy="54" r="2.5" fill="#1a3a5c"/>
+  <text x="200" y="78" font-size="9" fill="#334155" font-family="Arial" text-anchor="middle">5 sides, 5 dots</text>
+  <text x="4" y="98" font-size="10" fill="#991b1b" font-family="Arial" font-weight="700">Which could be in Pattern B?  → heptagon with 7 dots (7 sides)</text>
+</svg>`
+
+,qr33_cubes: `<svg width="220" height="120" viewBox="0 0 220 120" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="50" width="35" height="35" fill="#e0e7ff" stroke="#1a3a5c" stroke-width="1.5"/>
+  <polygon points="10,50 20,40 55,40 45,50" fill="#c7d2fe" stroke="#1a3a5c" stroke-width="1.5"/>
+  <polygon points="45,50 55,40 55,75 45,85" fill="#a5b4fc" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="22" y="72" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold">A</text>
+  <text x="18" y="100" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold">3 cm</text>
+  <rect x="100" y="20" width="80" height="80" fill="#d1fae5" stroke="#1a3a5c" stroke-width="2"/>
+  <polygon points="100,20 122,5 202,5 180,20" fill="#a7f3d0" stroke="#1a3a5c" stroke-width="2"/>
+  <polygon points="180,20 202,5 202,85 180,100" fill="#6ee7b7" stroke="#1a3a5c" stroke-width="2"/>
+  <text x="130" y="65" font-size="13" fill="#065f46" font-family="Arial" font-weight="bold">B</text>
+  <text x="108" y="115" font-size="11" fill="#065f46" font-family="Arial" font-weight="bold">12 cm</text>
+</svg>`
+
+,qr34_pie: `<svg width="180" height="180" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+  <!-- Swim -->
+  <path d="M90,90 L90.0,15.0 A75,75 0 0,1 143.0,37.0 Z" fill="#bfdbfe" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="108.7" y="45.0" font-size="9" fill="#1a1a2e" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle">Swim</text>
+  <!-- Tennis -->
+  <path d="M90,90 L143.0,37.0 A75,75 0 0,1 165.0,90.0 Z" fill="#fef08a" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="135.0" y="71.3" font-size="9" fill="#1a1a2e" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle">Tennis</text>
+  <!-- Rugby -->
+  <path d="M90,90 L165.0,90.0 A75,75 0 0,1 143.0,143.0 Z" fill="#bbf7d0" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="135.0" y="108.7" font-size="9" fill="#1a1a2e" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle">Rugby</text>
+  <!-- Dance -->
+  <path d="M90,90 L143.0,143.0 A75,75 0 0,1 90.0,165.0 Z" fill="#fecaca" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="108.7" y="135.0" font-size="9" fill="#1a1a2e" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle">Dance</text>
+  <!-- Gym -->
+  <path d="M90,90 L90.0,165.0 A75,75 0 0,1 37.0,143.0 Z" fill="#e9d5ff" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="71.3" y="135.0" font-size="9" fill="#1a1a2e" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle">Gym</text>
+  <!-- Art -->
+  <path d="M90,90 L37.0,143.0 A75,75 0 0,1 15.0,90.0 Z" fill="#fbcfe8" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="45.0" y="108.7" font-size="9" fill="#1a1a2e" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle">Art</text>
+  <!-- Chess -->
+  <path d="M90,90 L15.0,90.0 A75,75 0 0,1 37.0,37.0 Z" fill="#d1fae5" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="45.0" y="71.3" font-size="9" fill="#1a1a2e" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle">Chess</text>
+  <!-- Run -->
+  <path d="M90,90 L37.0,37.0 A75,75 0 0,1 90.0,15.0 Z" fill="#cffafe" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="71.3" y="45.0" font-size="9" fill="#1a1a2e" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle">Run</text>
+  <!-- Outer ring -->
+  <circle cx="90" cy="90" r="75" fill="none" stroke="#1a3a5c" stroke-width="2"/>
+</svg>`
+
+,qr35_frame: `<svg width="180" height="140" viewBox="0 0 180 140" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="15" width="130" height="90" fill="none" stroke="#1a3a5c" stroke-width="2.5"/>
+  <text x="85" y="125" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">8 cm</text>
+  <text x="162" y="65" font-size="13" fill="#dc2626" font-family="Arial" font-weight="bold">?</text>
+  <line x1="155" y1="15" x2="165" y2="15" stroke="#94a3b8" stroke-width="1"/>
+  <line x1="155" y1="105" x2="165" y2="105" stroke="#94a3b8" stroke-width="1"/>
+  <line x1="160" y1="15" x2="160" y2="105" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2"/>
+</svg>`
+
+,qr36_scales: `<svg width="300" height="110" viewBox="0 0 300 110" xmlns="http://www.w3.org/2000/svg">
+  <line x1="20" y1="85" x2="140" y2="85" stroke="#1a3a5c" stroke-width="2.5"/>
+  <polygon points="80,85 74,95 86,95" fill="#1a3a5c"/>
+  <line x1="80" y1="10" x2="80" y2="85" stroke="#94a3b8" stroke-width="1.5"/>
+  <rect x="22" y="58" width="22" height="22" fill="#dbeafe" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="33" y="74" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">P</text>
+  <rect x="46" y="58" width="22" height="22" fill="#fef9c3" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="57" y="74" font-size="11" fill="#92400e" font-family="Arial" font-weight="bold" text-anchor="middle">Q</text>
+  <rect x="70" y="58" width="22" height="22" fill="#fef9c3" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="81" y="74" font-size="11" fill="#92400e" font-family="Arial" font-weight="bold" text-anchor="middle">Q</text>
+  <text x="100" y="72" font-size="14" fill="#334155" font-family="Arial" font-weight="bold">=</text>
+  <rect x="112" y="58" width="22" height="22" fill="#dbeafe" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="123" y="74" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">P</text>
+  <polygon points="132,58 142,44 152,58" fill="#d1fae5" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="142" y="55" font-size="10" fill="#065f46" font-family="Arial" font-weight="bold" text-anchor="middle">R</text>
+  <line x1="170" y1="85" x2="290" y2="85" stroke="#1a3a5c" stroke-width="2.5"/>
+  <polygon points="230,85 224,95 236,95" fill="#1a3a5c"/>
+  <line x1="230" y1="10" x2="230" y2="85" stroke="#94a3b8" stroke-width="1.5"/>
+  <rect x="172" y="58" width="22" height="22" fill="#fef9c3" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="183" y="74" font-size="11" fill="#92400e" font-family="Arial" font-weight="bold" text-anchor="middle">Q</text>
+  <rect x="196" y="58" width="22" height="22" fill="#fef9c3" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="207" y="74" font-size="11" fill="#92400e" font-family="Arial" font-weight="bold" text-anchor="middle">Q</text>
+  <polygon points="218,58 228,44 238,58" fill="#d1fae5" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="228" y="55" font-size="10" fill="#065f46" font-family="Arial" font-weight="bold" text-anchor="middle">R</text>
+  <text x="248" y="72" font-size="14" fill="#334155" font-family="Arial" font-weight="bold">=</text>
+  <rect x="260" y="58" width="22" height="22" fill="#dbeafe" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="271" y="74" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">P</text>
+  <rect x="264" y="32" width="22" height="22" fill="#dbeafe" stroke="#1a3a5c" stroke-width="1.5"/>
+  <text x="275" y="48" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">P</text>
+</svg>`
     // PASTE NEW DIAGRAMS HERE — key must match "diag" field in question above
     // Example:  ,q32_shape: `<svg width="200" height="150">...</svg>`
     // PASTE NEW DIAGRAMS HERE
@@ -385,9 +658,11 @@ let mode = 'all', curQs = [], cur = 0;
 ════════════════════════════════════════ */
 function startQuiz(m) {
   mode = m;
-  curQs = m === 'ma' ? ALL_QUESTIONS.filter(q => q.sec === 'MA')
-        : m === 'qr' ? ALL_QUESTIONS.filter(q => q.sec === 'QR')
-        : [...ALL_QUESTIONS];
+  // Merge approved generated questions into the pool
+  const pool = [...ALL_QUESTIONS, ...APPROVED_GENERATED];
+  curQs = m === 'ma' ? pool.filter(q => q.sec === 'MA')
+        : m === 'qr' ? pool.filter(q => q.sec === 'QR')
+        : [...pool];
   cur = 0;
   document.getElementById('quiz-title').textContent =
     m === 'ma' ? 'Mathematics Achievement' :
@@ -488,40 +763,59 @@ function resetSection(sec) {
 /* ════════════════════════════════════════
    DASHBOARD
 ════════════════════════════════════════ */
-function updateDash() {
-  const maQs = ALL_QUESTIONS.filter(q => q.sec === 'MA');
-  const qrQs = ALL_QUESTIONS.filter(q => q.sec === 'QR');
+async function updateDash() {
+  // Total = always the full question bank size (not from Supabase)
   const total = ALL_QUESTIONS.length;
-  const ans   = ALL_QUESTIONS.filter(q => chosen[String(q.n)] != null).length;
-  const corr  = ALL_QUESTIONS.filter(q => statuses[String(q.n)] === 'correct').length;
-  const wrg   = ans - corr;
-  const maAns = maQs.filter(q => chosen[String(q.n)] != null).length;
-  const maCor = maQs.filter(q => statuses[String(q.n)] === 'correct').length;
-  const qrAns = qrQs.filter(q => chosen[String(q.n)] != null).length;
-  const qrCor = qrQs.filter(q => statuses[String(q.n)] === 'correct').length;
+  document.getElementById('d-total').textContent = total;
+  document.getElementById('ma-pill').textContent = ALL_QUESTIONS.filter(q=>q.sec==='MA').length + ' Questions';
+  document.getElementById('qr-pill').textContent = ALL_QUESTIONS.filter(q=>q.sec==='QR').length + ' Questions';
+  document.getElementById('d-ma-total').textContent = ALL_QUESTIONS.filter(q=>q.sec==='MA').length;
+  document.getElementById('d-qr-total').textContent = ALL_QUESTIONS.filter(q=>q.sec==='QR').length;
 
-  document.getElementById('d-total').textContent    = total;
-  document.getElementById('d-answered').textContent = ans;
-  document.getElementById('d-correct').textContent  = corr;
-  document.getElementById('d-wrong').textContent    = wrg;
-  document.getElementById('d-ans-pct').textContent  = Math.round(ans / total * 100) + '%';
-  document.getElementById('d-cor-pct').textContent  = ans ? Math.round(corr / ans * 100) + '%' : '0%';
-  document.getElementById('d-wrg-pct').textContent  = ans ? Math.round(wrg / ans * 100) + '%' : '0%';
-  document.getElementById('bar-answered').style.width = (ans / total * 100) + '%';
-  document.getElementById('bar-correct').style.width  = (ans ? corr / ans * 100 : 0) + '%';
-  document.getElementById('bar-wrong').style.width    = (ans ? wrg / ans * 100 : 0) + '%';
-  document.getElementById('d-ma-ans').textContent  = maAns;
-  document.getElementById('d-ma-cor').textContent  = maCor;
-  document.getElementById('d-ma-wrg').textContent  = maAns - maCor;
-  document.getElementById('d-ma-total').textContent = maQs.length;
-  document.getElementById('d-qr-ans').textContent  = qrAns;
-  document.getElementById('d-qr-cor').textContent  = qrCor;
-  document.getElementById('d-qr-wrg').textContent  = qrAns - qrCor;
-  document.getElementById('d-qr-total').textContent = qrQs.length;
-  document.getElementById('ma-pill').textContent = maQs.length + ' Questions';
-  document.getElementById('qr-pill').textContent = qrQs.length + ' Questions';
-  document.getElementById('d-ma-range').textContent = 'MA-1 to MA-' + maQs.length;
-  document.getElementById('d-qr-range').textContent = 'QR-1 to QR-' + qrQs.length;
+  // Fetch latest results from Supabase
+  try {
+    const res = await fetch(SUPA_URL + '/rest/v1/quiz_results?select=question_id,section,correct&order=answered_at.desc&limit=500', {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    });
+    if (!res.ok) return;
+    const rows = await res.json();
+
+    // Latest result per question
+    const latest = {};
+    rows.forEach(r => { if (!latest[r.question_id]) latest[r.question_id] = r; });
+    const latestVals = Object.values(latest);
+
+    const ans  = latestVals.length;
+    const corr = latestVals.filter(r => r.correct).length;
+    const wrg  = ans - corr;
+
+    const maRows = latestVals.filter(r => r.section === 'MA');
+    const qrRows = latestVals.filter(r => r.section === 'QR');
+    const maAns  = maRows.length;
+    const maCor  = maRows.filter(r => r.correct).length;
+    const qrAns  = qrRows.length;
+    const qrCor  = qrRows.filter(r => r.correct).length;
+
+    document.getElementById('d-answered').textContent = ans;
+    document.getElementById('d-correct').textContent  = corr;
+    document.getElementById('d-wrong').textContent    = wrg;
+    document.getElementById('d-ans-pct').textContent  = total ? Math.round(ans/total*100)+'%' : '0%';
+    document.getElementById('d-cor-pct').textContent  = ans ? Math.round(corr/ans*100)+'%' : '0%';
+    document.getElementById('d-wrg-pct').textContent  = ans ? Math.round(wrg/ans*100)+'%' : '0%';
+    document.getElementById('bar-answered').style.width = (total ? ans/total*100 : 0)+'%';
+    document.getElementById('bar-correct').style.width  = (ans ? corr/ans*100 : 0)+'%';
+    document.getElementById('bar-wrong').style.width    = (ans ? wrg/ans*100 : 0)+'%';
+    document.getElementById('d-ma-ans').textContent  = maAns;
+    document.getElementById('d-ma-cor').textContent  = maCor;
+    document.getElementById('d-ma-wrg').textContent  = maAns - maCor;
+    document.getElementById('d-ma-range').textContent = 'MA-1 to MA-' + ALL_QUESTIONS.filter(q=>q.sec==='MA').length;
+    document.getElementById('d-qr-ans').textContent  = qrAns;
+    document.getElementById('d-qr-cor').textContent  = qrCor;
+    document.getElementById('d-qr-wrg').textContent  = qrAns - qrCor;
+    document.getElementById('d-qr-range').textContent = 'QR-1 to QR-' + ALL_QUESTIONS.filter(q=>q.sec==='QR').length;
+  } catch(e) {
+    // Silently fail — stats will just show 0
+  }
 }
 
 /* ════════════════════════════════════════
@@ -657,11 +951,215 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
-function goHome() { showScreen('screen-home'); updateDash(); }
+function goHome() { showScreen('screen-home'); updateDash(); renderHeatGrid(); }
+
+
+/* ════════════════════════════════════════
+   APPROVED GENERATED QUESTIONS
+   Fetched from Supabase at page load and merged into the quiz pool
+════════════════════════════════════════ */
+let APPROVED_GENERATED = [];
+
+// Map target_topic string → {strand, sub, dok} for generated questions
+function topicToTaxonomy(target_topic, section) {
+  if (!target_topic) return null;
+  const dokMatch = target_topic.match(/DoK\s*(\d)/i);
+  const dok = dokMatch ? parseInt(dokMatch[1]) : 2;
+  const topic = target_topic.replace(/\s*\(DoK\s*\d\)/i, '').trim();
+  const strandMap = {
+    'Fractions & Decimals':    'Numbers & Operations',
+    'Whole Number Arithmetic': 'Numbers & Operations',
+    'Ratios & Percentages':    'Numbers & Operations',
+    'Expressions & Equations': 'Algebraic Thinking',
+    'Patterns & Sequences':    'Algebraic Thinking',
+    '2D & 3D Shapes':          'Geometry',
+    'Coordinate Planes':       'Geometry',
+    'Perimeter & Area':        'Measurement',
+    'Units & Conversions':     'Measurement',
+    'Visual/Spatial Scaling':  'Measurement',
+    'Tables & Graphs':         'Data Analysis & Prob.',
+    'Mean, Median, Mode':      'Data Analysis & Prob.',
+    'Simple Probability':      'Data Analysis & Prob.',
+  };
+  const strand = strandMap[topic] || (section === 'MA' ? 'Numbers & Operations' : 'Algebraic Thinking');
+  return { strand, sub: topic || 'General', dok };
+}
+
+function genRowToQuestion(row) {
+  const tax = topicToTaxonomy(row.target_topic, row.section);
+  if (tax) TAXONOMY[row.question_id] = tax;
+  return {
+    n:   row.question_id,
+    sec: row.section,
+    text: row.text,
+    opts: [row.opt_a, row.opt_b, row.opt_c, row.opt_d],
+    ans:  row.correct_index,
+    exp:  row.explanation || '',
+    _generated: true
+  };
+}
+
+async function fetchApprovedGenerated() {
+  try {
+    const res = await fetch(SUPA_URL + '/rest/v1/generated_questions?status=eq.approved&select=*', {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    });
+    if (!res.ok) return;
+    const rows = await res.json();
+    APPROVED_GENERATED = rows.map(genRowToQuestion);
+  } catch(e) { /* silently fail */ }
+}
+
+
+/* ════════════════════════════════════════════
+   TAXONOMY — strand, subtopic, DoK per question
+   Update when new questions are added
+════════════════════════════════════════════ */
+const TAXONOMY = {
+  "MA-1": {strand:"Geometry",             sub:"2D & 3D Shapes",          dok:1},
+  "MA-2": {strand:"Data Analysis & Prob.",sub:"Tables & Graphs",         dok:2},
+  "MA-3": {strand:"Numbers & Operations", sub:"Fractions & Decimals",    dok:2},
+  "MA-4": {strand:"Numbers & Operations", sub:"Whole Number Arithmetic", dok:2},
+  "MA-5": {strand:"Numbers & Operations", sub:"Fractions & Decimals",    dok:3},
+  "MA-6": {strand:"Algebraic Thinking",   sub:"Expressions & Equations", dok:2},
+  "MA-7": {strand:"Numbers & Operations", sub:"Fractions & Decimals",    dok:2},
+  "MA-8": {strand:"Numbers & Operations", sub:"Fractions & Decimals",    dok:2},
+  "MA-9": {strand:"Measurement",          sub:"Perimeter & Area",        dok:3},
+  "MA-10":{strand:"Numbers & Operations", sub:"Ratios & Percentages",    dok:3},
+  "MA-11":{strand:"Data Analysis & Prob.",sub:"Tables & Graphs",         dok:2},
+  "MA-12":{strand:"Numbers & Operations", sub:"Fractions & Decimals",    dok:2},
+  "MA-13":{strand:"Numbers & Operations", sub:"Whole Number Arithmetic", dok:2},
+  "MA-14":{strand:"Numbers & Operations", sub:"Whole Number Arithmetic", dok:1},
+  "MA-15":{strand:"Numbers & Operations", sub:"Whole Number Arithmetic", dok:2},
+  "MA-16":{strand:"Numbers & Operations", sub:"Whole Number Arithmetic", dok:3},
+  "MA-17":{strand:"Numbers & Operations", sub:"Whole Number Arithmetic", dok:1},
+  "MA-18":{strand:"Numbers & Operations", sub:"Fractions & Decimals",    dok:2},
+  "MA-19":{strand:"Numbers & Operations", sub:"Whole Number Arithmetic", dok:1},
+  "MA-20":{strand:"Algebraic Thinking",   sub:"Expressions & Equations", dok:2},
+  "MA-21":{strand:"Numbers & Operations", sub:"Fractions & Decimals",    dok:2},
+  "MA-22":{strand:"Algebraic Thinking",   sub:"Expressions & Equations", dok:2},
+  "MA-23":{strand:"Numbers & Operations", sub:"Whole Number Arithmetic", dok:1},
+  "MA-24":{strand:"Measurement",          sub:"Units & Conversions",     dok:2},
+  "MA-25":{strand:"Numbers & Operations", sub:"Fractions & Decimals",    dok:1},
+  "MA-26":{strand:"Numbers & Operations", sub:"Fractions & Decimals",    dok:1},
+  "MA-27":{strand:"Algebraic Thinking",   sub:"Expressions & Equations", dok:2},
+  "MA-28":{strand:"Measurement",          sub:"Units & Conversions",     dok:2},
+  "QR-1": {strand:"Measurement",          sub:"Perimeter & Area",        dok:2},
+  "QR-2": {strand:"Numbers & Operations", sub:"Ratios & Percentages",    dok:3},
+  "QR-3": {strand:"Numbers & Operations", sub:"Fractions & Decimals",    dok:2},
+  "QR-4": {strand:"Numbers & Operations", sub:"Whole Number Arithmetic", dok:3},
+  "QR-5": {strand:"Numbers & Operations", sub:"Whole Number Arithmetic", dok:2},
+  "QR-6": {strand:"Algebraic Thinking",   sub:"Patterns & Sequences",    dok:2},
+  "QR-7": {strand:"Algebraic Thinking",   sub:"Patterns & Sequences",    dok:3},
+  "QR-8": {strand:"Data Analysis & Prob.",sub:"Mean, Median, Mode",      dok:2},
+  "QR-9": {strand:"Data Analysis & Prob.",sub:"Tables & Graphs",         dok:1},
+  "QR-10":{strand:"Numbers & Operations", sub:"Fractions & Decimals",    dok:2},
+  "QR-11":{strand:"Measurement",          sub:"Visual/Spatial Scaling",  dok:2},
+  "QR-12":{strand:"Algebraic Thinking",   sub:"Expressions & Equations", dok:3},
+  "QR-13":{strand:"Measurement",          sub:"Units & Conversions",     dok:2},
+  "QR-14":{strand:"Data Analysis & Prob.",sub:"Simple Probability",      dok:3},
+  "QR-15":{strand:"Data Analysis & Prob.",sub:"Simple Probability",      dok:3},
+  "QR-16":{strand:"Algebraic Thinking",   sub:"Expressions & Equations", dok:2},
+  "QR-17":{strand:"Data Analysis & Prob.",sub:"Mean, Median, Mode",      dok:2},
+  "QR-18":{strand:"Algebraic Thinking",   sub:"Expressions & Equations", dok:3},
+  "QR-19":{strand:"Numbers & Operations", sub:"Fractions & Decimals",    dok:3},
+  "QR-20":{strand:"Geometry",             sub:"Coordinate Planes",       dok:2},
+  "QR-21":{strand:"Numbers & Operations", sub:"Whole Number Arithmetic", dok:1},
+  "QR-22":{strand:"Numbers & Operations", sub:"Whole Number Arithmetic", dok:1},
+  "QR-23":{strand:"Algebraic Thinking",   sub:"Patterns & Sequences",    dok:2},
+  "QR-24":{strand:"Measurement",          sub:"Perimeter & Area",        dok:2},
+  "QR-25":{strand:"Numbers & Operations", sub:"Fractions & Decimals",    dok:3},
+  "QR-26":{strand:"Measurement",          sub:"Perimeter & Area",        dok:3},
+  "QR-27":{strand:"Algebraic Thinking",   sub:"Expressions & Equations", dok:3},
+  "QR-28":{strand:"Measurement",          sub:"Visual/Spatial Scaling",  dok:3}
+  ,"MA-29":{strand:"Numbers & Operations", sub:"Fractions & Decimals",    dok:2}
+  ,"MA-30":{strand:"Algebraic Thinking",   sub:"Patterns & Sequences",    dok:3}
+  ,"MA-31":{strand:"Numbers & Operations", sub:"Whole Number Arithmetic", dok:2}
+  ,"MA-32":{strand:"Data Analysis & Prob.",sub:"Mean, Median, Mode",      dok:2}
+  ,"MA-33":{strand:"Data Analysis & Prob.",sub:"Simple Probability",      dok:2}
+  ,"MA-34":{strand:"Measurement",          sub:"Perimeter & Area",        dok:3}
+  ,"MA-35":{strand:"Measurement",          sub:"Perimeter & Area",        dok:2}
+  ,"MA-36":{strand:"Geometry",             sub:"2D & 3D Shapes",          dok:1}
+  ,"MA-37":{strand:"Measurement",          sub:"Perimeter & Area",        dok:2}
+  ,"MA-38":{strand:"Measurement",          sub:"Perimeter & Area",        dok:2}
+,"QR-29":{strand:"Numbers & Operations", sub:"Fractions & Decimals",    dok:2}
+,"QR-30":{strand:"Measurement",          sub:"Perimeter & Area",        dok:3}
+,"QR-31":{strand:"Measurement",          sub:"Perimeter & Area",        dok:3}
+,"QR-32":{strand:"Algebraic Thinking",   sub:"Patterns & Sequences",    dok:3}
+,"QR-33":{strand:"Measurement",          sub:"Visual/Spatial Scaling",  dok:3}
+,"QR-34":{strand:"Data Analysis & Prob.",sub:"Tables & Graphs",         dok:1}
+,"QR-35":{strand:"Measurement",          sub:"Perimeter & Area",        dok:2}
+,"QR-36":{strand:"Algebraic Thinking",   sub:"Expressions & Equations", dok:3}
+  // ADD NEW TAXONOMY ENTRIES ABOVE THIS LINE
+  // Format: ,"QR-29":{strand:"...",sub:"...",dok:2}
+}
+
+const STRANDS = [
+  "Numbers & Operations",
+  "Algebraic Thinking",
+  "Geometry",
+  "Measurement",
+  "Data Analysis & Prob."
+];
+
+function computeHeatDataFromRows(rows) {
+  // Build heat data from Supabase rows — latest attempt per question
+  const data = {};
+  STRANDS.forEach(s => { data[s] = {1:{c:0,t:0}, 2:{c:0,t:0}, 3:{c:0,t:0}}; });
+  // Get latest result per question_id
+  const latest = {};
+  rows.forEach(r => { if (!latest[r.question_id]) latest[r.question_id] = r; });
+  Object.values(latest).forEach(r => {
+    const tx = TAXONOMY[r.question_id];
+    if (!tx) return;
+    data[tx.strand][tx.dok].t++;
+    if (r.correct) data[tx.strand][tx.dok].c++;
+  });
+  return data;
+}
+
+function applyHeatData(data) {
+  const el = document.getElementById('heat-grid-body');
+  if (!el) return;
+  el.innerHTML = STRANDS.map(s => {
+    const cells = [1,2,3].map(d => {
+      const {c,t} = data[s][d];
+      if (t === 0) return `<div class="hc"><div class="hcell hc-none">—</div></div>`;
+      const pct = Math.round(c/t*100);
+      const cls = pct >= 70 ? 'hc-strong' : pct >= 50 ? 'hc-ok' : 'hc-weak';
+      return `<div class="hc"><div class="hcell ${cls}">${pct}%<br><span style="font-size:10px;opacity:0.7;">${c}/${t}</span></div></div>`;
+    }).join('');
+    const shortName = s.replace('Numbers & Operations','Numbers & Ops').replace('Data Analysis & Prob.','Data & Prob.');
+    return `<div class="heat-row"><div class="hc">${shortName}</div>${cells}</div>`;
+  }).join('');
+}
+
+async function renderHeatGrid() {
+  const el = document.getElementById('heat-grid-body');
+  if (!el) return;
+  // Show loading state
+  el.innerHTML = `<div class="heat-row"><div class="hc" style="grid-column:span 4;color:var(--color-text-tertiary);font-size:12px;padding:14px;">Loading performance data…</div></div>`;
+  try {
+    const res = await fetch(SUPA_URL + '/rest/v1/quiz_results?select=question_id,correct&order=answered_at.desc&limit=500', {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const rows = await res.json();
+    if (rows.length === 0) {
+      el.innerHTML = `<div class="heat-row"><div class="hc" style="grid-column:span 4;color:var(--color-text-tertiary);font-size:12px;padding:14px;">Answer some questions to see your performance map</div></div>`;
+      return;
+    }
+    applyHeatData(computeHeatDataFromRows(rows));
+  } catch(e) {
+    el.innerHTML = `<div class="heat-row"><div class="hc" style="grid-column:span 4;color:var(--color-text-tertiary);font-size:12px;padding:14px;">Could not load data — check connection</div></div>`;
+  }
+}
 
 // Initialise on load
 loadProgress();
 updateDash();
+renderHeatGrid();
+fetchApprovedGenerated();
 </script>
 </body>
 </html>
