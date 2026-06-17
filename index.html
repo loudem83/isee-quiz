@@ -759,12 +759,12 @@ function formatText(text) {
       // Build HTML table
       let tbl = '<table class="dtable" style="margin:10px 0;">';
       rows.forEach((row, ri) => {
-        const cells = row.split('|').map(c => c.trim()).filter((c, ci, arr) => {
-          // Remove empty first/last cells from leading/trailing pipes
-          if (ci === 0 && c === '') return false;
-          if (ci === arr.length - 1 && c === '') return false;
-          return true;
-        });
+        const rawCells = row.split('|');
+        // Only strip empty cells at the very start/end caused by leading/trailing pipes
+        // Preserve empty interior cells (e.g. blank header corner)
+        const start = rawCells[0].trim() === '' ? 1 : 0;
+        const end = rawCells[rawCells.length - 1].trim() === '' ? rawCells.length - 1 : rawCells.length;
+        const cells = rawCells.slice(start, end).map(c => c.trim());
         const tag = ri === 0 ? 'th' : 'td';
         tbl += '<tr>' + cells.map(c => `<${tag}>${c}</${tag}>`).join('') + '</tr>';
       });
