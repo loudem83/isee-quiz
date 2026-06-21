@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ISEE Maths Practice Quiz</title>
+<title>[STAGING] ISEE Maths Practice Quiz</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:#f0f4f9;color:#1a1a2e;min-height:100vh;}
@@ -14,6 +14,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 .top-bar h1{font-size:1.1rem;font-weight:600;}
 .back-btn{background:rgba(255,255,255,0.15);border:none;color:white;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:600;margin-left:auto;}
 .back-btn:hover{background:rgba(255,255,255,0.25);}
+.back-btn-prev{background:rgba(255,255,255,0.08);border:none;color:rgba(255,255,255,0.8);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:0.82rem;font-weight:500;margin-left:auto;}
+.back-btn-prev:hover{background:rgba(255,255,255,0.18);}
+.top-bar-btns{display:flex;flex-direction:column;gap:4px;margin-left:auto;}
+
+/* ── Bravo overlay ── */
+#bravo-overlay{position:fixed;inset:0;background:rgba(26,58,92,0.93);z-index:300;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+#bravo-overlay .br-emoji{font-size:6rem;animation:brPop 0.5s cubic-bezier(.17,.67,.48,1.4);}
+#bravo-overlay .br-title{font-size:2.5rem;font-weight:700;color:white;margin-top:1rem;animation:brFade 0.5s ease 0.2s both;}
+#bravo-overlay .br-sub{font-size:1.1rem;color:rgba(255,255,255,0.75);margin-top:0.5rem;animation:brFade 0.5s ease 0.4s both;}
+#bravo-overlay .br-stars{font-size:2rem;margin-top:1rem;animation:brFade 0.5s ease 0.6s both;}
+@keyframes brPop{0%{transform:scale(0);opacity:0}70%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+@keyframes brFade{0%{opacity:0;transform:translateY(12px)}100%{opacity:1;transform:translateY(0)}}
 
 /* HOME */
 .home-hero{background:linear-gradient(135deg,#1a3a5c 0%,#0f6e56 100%);color:white;padding:3rem 1.5rem 2.5rem;text-align:center;}
@@ -44,6 +56,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 .pathway-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.12);}
 .pathway-card.ma:hover{border-color:#1d4ed8;}
 .pathway-card.qr:hover{border-color:#0f6e56;}
+.drill-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem;}
+@media(max-width:480px){.drill-grid{grid-template-columns:1fr;}}
+.drill-card{background:white;border-radius:12px;padding:1rem 1.1rem;cursor:pointer;border:1.5px solid #e2e8f0;transition:all 0.15s;display:flex;justify-content:space-between;align-items:center;}
+.drill-card:hover{border-color:#0f6e56;background:#f0fdf4;transform:translateY(-1px);}
+.drill-card .dc-left h4{font-size:0.9rem;font-weight:700;color:#1a3a5c;margin:0 0 3px;}
+.drill-card .dc-left p{font-size:0.78rem;color:#64748b;margin:0;}
+.drill-card .dc-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;}
+.drill-card .dc-count{font-size:1.1rem;font-weight:700;color:#0f6e56;}
+.drill-card .dc-label{font-size:0.7rem;color:#94a3b8;}
+.drill-strand{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;margin:1rem 0 6px;}
 .pathway-card .icon{font-size:2.8rem;margin-bottom:12px;}
 .pathway-card h3{font-size:1.1rem;font-weight:700;margin-bottom:6px;}
 .pathway-card p{font-size:0.85rem;color:#64748b;line-height:1.5;}
@@ -55,7 +77,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 .reset-btn{width:100%;margin-top:8px;padding:9px 14px;border-radius:10px;border:1.5px solid #fca5a5;background:#fff;color:#dc2626;font-size:0.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all 0.15s;}
 .reset-btn:hover{background:#fef2f2;border-color:#ef4444;}
 
-/* QUIZ */
+
 .quiz-wrap{max-width:760px;margin:0 auto;padding:1.1rem 1rem 3rem;}
 .progress-wrap{background:white;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
 .sync-bar{font-size:0.8rem;font-weight:600;text-align:center;padding:6px;margin-bottom:6px;border-radius:8px;background:#f0fdf4;display:none;}
@@ -66,6 +88,45 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 .bar-fill.ma{background:linear-gradient(90deg,#3b82f6,#1a3a5c);}
 .bar-fill.qr{background:linear-gradient(90deg,#22c55e,#0f6e56);}
 .bar-fill.all{background:linear-gradient(90deg,#8b5cf6,#1a3a5c);}
+.bar-fill.workout{background:linear-gradient(90deg,#f59e0b,#ef4444);}
+
+/* ── Countdown overlay ── */
+#workout-countdown{position:fixed;inset:0;background:rgba(26,58,92,0.92);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;pointer-events:none;}
+#workout-countdown .cd-topic{font-size:1.1rem;font-weight:600;color:rgba(255,255,255,0.7);margin-bottom:1rem;letter-spacing:.04em;}
+#workout-countdown .cd-number{font-size:6rem;font-weight:700;color:white;line-height:1;animation:cdPop 0.4s ease;}
+#workout-countdown .cd-go{font-size:3.5rem;font-weight:700;color:#fbbf24;animation:cdPop 0.4s ease;}
+@keyframes cdPop{0%{transform:scale(1.8);opacity:0}100%{transform:scale(1);opacity:1}}
+
+/* ── Reaction overlay ── */
+#workout-reaction{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;z-index:99;}
+#workout-reaction .wr-emoji{font-size:5rem;animation:wrPop 0.5s cubic-bezier(.17,.67,.48,1.4);}
+#workout-reaction .wr-msg{font-size:1.3rem;font-weight:700;margin-top:8px;animation:wrFade 0.5s ease;}
+@keyframes wrPop{0%{transform:scale(0);opacity:0}70%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+@keyframes wrFade{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:translateY(0)}}
+
+/* ── Shake animation for wrong answer ── */
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+.shake{animation:shake 0.4s ease;}
+
+/* ── Streak badge ── */
+#streak-badge{position:fixed;top:80px;right:16px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;border-radius:12px;padding:8px 14px;font-size:0.9rem;font-weight:700;z-index:98;transition:all 0.3s;transform:scale(0);opacity:0;}
+#streak-badge.show{transform:scale(1);opacity:1;}
+
+/* ── Milestone banner ── */
+#milestone-banner{position:fixed;top:0;left:0;right:0;background:linear-gradient(135deg,#8b5cf6,#1d4ed8);color:white;text-align:center;padding:14px;font-size:1rem;font-weight:700;z-index:100;transform:translateY(-100%);transition:transform 0.4s ease;}
+#milestone-banner.show{transform:translateY(0);}
+
+/* ── End screen ── */
+#workout-end{position:fixed;inset:0;background:white;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;display:none;}
+#workout-end .we-emoji{font-size:5rem;margin-bottom:1rem;}
+#workout-end .we-title{font-size:1.8rem;font-weight:700;color:#1a3a5c;margin-bottom:.5rem;}
+#workout-end .we-sub{font-size:1rem;color:#64748b;margin-bottom:1.5rem;}
+#workout-end .we-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:360px;margin-bottom:1.5rem;}
+#workout-end .we-stat{background:#f1f5f9;border-radius:12px;padding:14px 8px;}
+#workout-end .we-stat .val{font-size:1.8rem;font-weight:700;color:#1a3a5c;}
+#workout-end .we-stat .lbl{font-size:0.72rem;color:#94a3b8;margin-top:2px;}
+#workout-end .we-btn{width:100%;max-width:360px;padding:14px;border-radius:14px;border:none;background:#1d4ed8;color:white;font-size:1rem;font-weight:700;cursor:pointer;margin-bottom:10px;}
+#workout-end .we-btn.sec{background:#f1f5f9;color:#1a3a5c;}
 .tabs-wrap{background:white;border-radius:12px;padding:0.9rem 1rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
 .tabs-label{font-size:0.72rem;color:#94a3b8;margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;}
 .tabs{display:flex;flex-wrap:wrap;gap:5px;}
@@ -131,9 +192,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 /* PARENT DASHBOARD */
 .ql-wrap{max-width:760px;margin:0 auto;padding:1.1rem 1rem 3rem;}
 </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 </head>
 <body>
 
+<div style="background:#f59e0b;color:#1a1a2e;text-align:center;padding:8px;font-size:0.82rem;font-weight:700;letter-spacing:0.05em;">STAGING — test data only</div>
 
 <!-- LOADING SCREEN -->
 <div id="screen-loading" class="screen active" style="position:fixed;top:0;left:0;right:0;z-index:999;background:#6366f1;color:white;text-align:center;padding:8px;font-size:0.82rem;font-weight:700;letter-spacing:0.05em;display:flex;align-items:center;justify-content:center;gap:12px;">
@@ -153,21 +216,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
   <div class="home-body">
     <div class="dash-section">
       <div class="dash-title">🚀 Choose a Pathway</div>
-      <div class="pathway-grid">
-        <div class="pathway-card ma" onclick="startQuiz('ma')">
-          <div class="icon">📐</div>
-          <h3>Mathematics Achievement</h3>
-          <p>Shapes, fractions, estimation, area, word problems</p>
-          <span class="pill" id="ma-pill">11 Questions</span>
-        </div>
-        <div class="pathway-card qr" onclick="startQuiz('qr')">
-          <div class="icon">🔢</div>
-          <h3>Quantitative Reasoning</h3>
-          <p>Algebra, proportions, functions, probability, data</p>
-          <span class="pill" id="qr-pill">20 Questions</span>
-        </div>
-      </div>
-      <button class="all-btn" onclick="startQuiz('all')">⭐ Take all questions together</button>
+      <button class="all-btn" onclick="showScreen('screen-workout');loadWorkout();" style="border-color:#1d4ed8;color:#1e40af;background:#eff6ff;font-size:1.05rem;padding:1.3rem;">
+        🏋️ Start Workout <span style="font-size:0.8rem;font-weight:400;margin-left:6px;opacity:0.7;">20 questions · DoK 1 → 2 → 3</span>
+      </button>
+      <button class="all-btn" onclick="showScreen('screen-drill');loadDrill();" style="border-color:#0f6e56;color:#0f6e56;background:#f0fdf4;">
+        🎯 Drill by Topic
+      </button>
       <button class="all-btn" onclick="showScreen('screen-pd');loadParentDash();" style="border-color:#f59e0b;color:#92400e;background:#fffbeb;">
         👨&#x200D;👦 Parent Dashboard — View All Results
       </button>
@@ -175,69 +229,52 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 
 
     <div class="dash-section">
-      <div class="dash-title">📊 Dashboard</div>
-      <div class="stats-grid">
-        <div class="stat-card total"><div class="val" id="d-total">31</div><div class="lbl">Total Qs</div></div>
-        <div class="stat-card answered"><div class="val" id="d-answered">0</div><div class="lbl">Answered</div></div>
-        <div class="stat-card correct"><div class="val" id="d-correct">0</div><div class="lbl">Correct</div></div>
-        <div class="stat-card wrong"><div class="val" id="d-wrong">0</div><div class="lbl">Incorrect</div></div>
+      <div class="dash-title">📊 Progress snapshot</div>
+
+      <!-- 4 metric cards -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;">
+        <div style="background:#f1f5f9;border-radius:10px;padding:10px 6px;text-align:center;">
+          <div style="font-size:1.35rem;font-weight:500;color:#1a3a5c;line-height:1" id="snap-done">—</div>
+          <div style="font-size:10px;color:#94a3b8;margin-top:3px;">Done</div>
+        </div>
+        <div style="background:#f1f5f9;border-radius:10px;padding:10px 6px;text-align:center;">
+          <div style="font-size:1.35rem;font-weight:500;color:#1d4ed8;line-height:1" id="snap-score">—</div>
+          <div style="font-size:10px;color:#94a3b8;margin-top:3px;">Score</div>
+        </div>
+        <div style="background:#f1f5f9;border-radius:10px;padding:10px 6px;text-align:center;">
+          <div style="font-size:1.35rem;font-weight:500;color:#059669;line-height:1" id="snap-thisweek">—</div>
+          <div style="font-size:10px;color:#94a3b8;margin-top:3px;">This week</div>
+        </div>
+        <div style="background:#f1f5f9;border-radius:10px;padding:10px 6px;text-align:center;">
+          <div style="font-size:1.35rem;font-weight:500;color:#1a3a5c;line-height:1" id="snap-remaining">—</div>
+          <div style="font-size:10px;color:#94a3b8;margin-top:3px;">Remaining</div>
+        </div>
       </div>
-      <div class="mini-bar-wrap">
-        <div class="mini-bar-label"><span>Answered</span><span id="d-ans-pct">0%</span></div>
-        <div class="mini-bar-track"><div class="mini-bar-fill answered" id="bar-answered" style="width:0%"></div></div>
-        <div class="mini-bar-label"><span>Correct</span><span id="d-cor-pct">0%</span></div>
-        <div class="mini-bar-track"><div class="mini-bar-fill correct" id="bar-correct" style="width:0%"></div></div>
-        <div class="mini-bar-label"><span>Incorrect</span><span id="d-wrg-pct">0%</span></div>
-        <div class="mini-bar-track"><div class="mini-bar-fill wrong" id="bar-wrong" style="width:0%"></div></div>
+
+      <!-- Week comparison bars -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:7px;">
+        <div style="font-size:11px;font-weight:600;color:#64748b;width:68px;flex-shrink:0;">This week</div>
+        <div style="flex:1;background:#e2e8f0;border-radius:4px;height:10px;overflow:hidden;">
+          <div id="snap-bar-tw" style="height:100%;border-radius:4px;background:#1d4ed8;width:0%;transition:width .5s"></div>
+        </div>
+        <div style="font-size:12px;font-weight:600;color:#1a3a5c;min-width:22px;text-align:right;" id="snap-tw-count">0</div>
+        <div style="font-size:11px;color:#1d4ed8;min-width:38px;text-align:right;" id="snap-tw-pct">—</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:600;color:#94a3b8;width:68px;flex-shrink:0;">Last week</div>
+        <div style="flex:1;background:#e2e8f0;border-radius:4px;height:10px;overflow:hidden;">
+          <div id="snap-bar-lw" style="height:100%;border-radius:4px;background:#93c5fd;width:0%;transition:width .5s"></div>
+        </div>
+        <div style="font-size:12px;font-weight:600;color:#1a3a5c;min-width:22px;text-align:right;" id="snap-lw-count">0</div>
+        <div style="font-size:11px;color:#64748b;min-width:38px;text-align:right;" id="snap-lw-pct">—</div>
+      </div>
+
+      <!-- Boost section -->
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#64748b;margin-bottom:8px;">💡 How to boost your score</div>
+      <div id="snap-boost">
+        <div style="font-size:0.82rem;color:#94a3b8;">Answer some questions to see your focus areas.</div>
       </div>
     </div>
-
-    <div class="dash-section">
-      <div class="dash-title">📘 By Section</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <div style="background:#dbeafe;border-radius:10px;padding:12px;">
-          <div style="font-size:0.8rem;font-weight:700;color:#1e40af;margin-bottom:6px;">Mathematics Achievement</div>
-          <div style="font-size:0.82rem;color:#1e40af;">Questions: <b id="d-ma-range">MA-1 to MA-11</b></div>
-          <div style="font-size:0.82rem;color:#1e40af;">Answered: <b id="d-ma-ans">0</b> / <b id="d-ma-total">11</b></div>
-          <div style="font-size:0.82rem;color:#1e40af;">Correct: <b id="d-ma-cor">0</b></div>
-          <div style="font-size:0.82rem;color:#1e40af;">Wrong: <b id="d-ma-wrg">0</b></div>
-          <button class="reset-btn" onclick="resetSection('MA')">🔄 Reset MA answers</button>
-        </div>
-        <div style="background:#d1fae5;border-radius:10px;padding:12px;">
-          <div style="font-size:0.8rem;font-weight:700;color:#065f46;margin-bottom:6px;">Quantitative Reasoning</div>
-          <div style="font-size:0.82rem;color:#065f46;">Questions: <b id="d-qr-range">QR-1 to QR-20</b></div>
-          <div style="font-size:0.82rem;color:#065f46;">Answered: <b id="d-qr-ans">0</b> / <b id="d-qr-total">20</b></div>
-          <div style="font-size:0.82rem;color:#065f46;">Correct: <b id="d-qr-cor">0</b></div>
-          <div style="font-size:0.82rem;color:#065f46;">Wrong: <b id="d-qr-wrg">0</b></div>
-          <button class="reset-btn" onclick="resetSection('QR')">🔄 Reset QR answers</button>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="dash-section">
-      <div class="dash-title">📊 Performance by strand &amp; difficulty</div>
-      <div class="heat-wrap">
-        <div class="heat-head">
-          <div class="hh">Strand</div>
-          <div class="hh">DoK 1<br><span style="font-weight:400;font-size:10px;">recall</span></div>
-          <div class="hh">DoK 2<br><span style="font-weight:400;font-size:10px;">conceptual</span></div>
-          <div class="hh">DoK 3<br><span style="font-weight:400;font-size:10px;">analytical</span></div>
-        </div>
-        <div id="heat-grid-body">
-          <div class="heat-row" style="grid-column:span 4;padding:14px;text-align:center;">
-            <div class="hc" style="grid-column:span 4;color:var(--color-text-tertiary);font-size:13px;">Answer some questions to see your performance map</div>
-          </div>
-        </div>
-      </div>
-      <div class="heat-legend">
-        <div class="hl"><div class="hl-dot" style="background:#639922"></div>Strong (70%+)</div>
-        <div class="hl"><div class="hl-dot" style="background:#BA7517"></div>Developing (50–69%)</div>
-        <div class="hl"><div class="hl-dot" style="background:#E24B4A"></div>Needs work (&lt;50%)</div>
-        <div class="hl"><div class="hl-dot" style="background:var(--color-border-tertiary)"></div>Not yet answered</div>
-      </div>
-    </div>
-
 
   </div>
 </div>
@@ -246,7 +283,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 <div id="screen-quiz" class="screen">
   <div class="top-bar">
     <h1 id="quiz-title">Quiz</h1>
-    <button class="back-btn" onclick="goHome()">← Home</button>
+    <div class="top-bar-btns">
+      <button class="back-btn" onclick="goHome()">← Home</button>
+      <button class="back-btn-prev" id="quiz-back-btn" onclick="goBack()" style="display:none">↩ Back</button>
+    </div>
   </div>
   <div class="quiz-wrap">
     <div class="progress-wrap">
@@ -264,8 +304,34 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
     <div id="q-area"></div>
     <div class="q-nav">
       <button class="nav-btn" id="btn-prev" onclick="go(cur-1)">← Previous</button>
+      <button class="nav-btn" id="btn-finish" onclick="triggerBravo()" style="display:none;background:#0f6e56;color:white;border-color:#0f6e56;">Finish 😊</button>
       <button class="nav-btn primary" id="btn-next" onclick="go(cur+1)">Next →</button>
     </div>
+  </div>
+</div>
+
+<!-- SCREEN 6: WORKOUT -->
+<div id="screen-workout" class="screen">
+  <div class="top-bar">
+    <h1>🏋️ Start Workout</h1>
+    <button class="back-btn" onclick="goHome()">← Home</button>
+  </div>
+  <div class="ql-wrap">
+    <p style="font-size:0.9rem;color:#64748b;margin-bottom:1rem;">Pick a topic — we'll load up to 20 questions starting with the easiest and building up.</p>
+    <div id="workout-status" style="font-size:0.9rem;color:#64748b;margin-bottom:1rem;"></div>
+    <div id="workout-content"></div>
+  </div>
+</div>
+
+<!-- SCREEN 5: DRILL BY TOPIC -->
+<div id="screen-drill" class="screen">
+  <div class="top-bar">
+    <h1>🎯 Drill by Topic</h1>
+    <button class="back-btn" onclick="goHome()">← Home</button>
+  </div>
+  <div class="ql-wrap">
+    <div id="drill-status" style="font-size:0.9rem;color:#64748b;margin-bottom:1rem;"></div>
+    <div id="drill-content"></div>
   </div>
 </div>
 
@@ -354,303 +420,10 @@ let TAXONOMY = {};
    DIAGRAMS
 ════════════════════════════════════════ */
 function diagrams(key) {
-  const d={
-    table_zoe:`<table class="dtable"><thead><tr><th></th><th>Liam</th><th>Zoe</th><th>Marcus</th><th>Priya</th></tr></thead><tbody><tr><td><b>Day 1</b></td><td>12</td><td>18</td><td>20</td><td>15</td></tr><tr><td><b>Day 2</b></td><td>14</td><td>20</td><td>22</td><td>17</td></tr><tr><td><b>Day 3</b></td><td>16</td><td>24</td><td>24</td><td>20</td></tr><tr><td><b>Day 4</b></td><td>20</td><td>28</td><td>26</td><td>23</td></tr><tr><td><b>Day 5</b></td><td>24</td><td>30</td><td>28</td><td>26</td></tr></tbody></table>`,
-    sports_table:`<table class="dtable"><thead><tr><th>Sport</th><th>Votes</th></tr></thead><tbody><tr><td>Football</td><td>95</td></tr><tr><td>Basketball</td><td>72</td></tr><tr><td>Tennis</td><td>61</td></tr><tr><td>Swimming</td><td>48</td></tr><tr><td>Cricket</td><td>44</td></tr></tbody></table>`,
-    func_table:`<table class="dtable"><thead><tr><th>Input (□)</th><th>Output (△)</th></tr></thead><tbody><tr><td>3</td><td>13</td></tr><tr><td>5</td><td>21</td></tr><tr><td>7</td><td>29</td></tr><tr><td>9</td><td>37</td></tr></tbody></table>`,
-    lshape:`<svg width="260" height="175" viewBox="0 0 260 175" xmlns="http://www.w3.org/2000/svg"><polygon points="15,15 195,15 195,85 150,85 150,160 15,160" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.5"/><text x="105" y="11" font-size="13" fill="#1e40af" text-anchor="middle" font-family="Arial">14 m</text><text x="200" y="53" font-size="13" fill="#1e40af" font-family="Arial">6 m</text><text x="155" y="125" font-size="13" fill="#1e40af" font-family="Arial">4 m</text><text x="2" y="92" font-size="13" fill="#1e40af" font-family="Arial">10 m</text><line x1="150" y1="90" x2="192" y2="90" stroke="#94a3b8" stroke-dasharray="4,3" stroke-width="1.5"/><line x1="150" y1="90" x2="150" y2="157" stroke="#94a3b8" stroke-dasharray="4,3" stroke-width="1.5"/><text x="85" y="128" font-size="12" fill="#94a3b8" font-style="italic" font-family="Arial">removed corner</text></svg>`,
-    hexagon:`<svg width="270" height="160" viewBox="0 0 270 160" xmlns="http://www.w3.org/2000/svg"><polygon points="15,15 165,15 165,70 220,70 220,150 15,150" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.5"/><text x="90" y="11" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">9 cm</text><text x="170" y="47" font-size="12" fill="#1e40af" font-family="Arial">4 cm</text><text x="193" y="65" font-size="14" fill="#dc2626" font-weight="bold" font-family="Arial">x</text><text x="225" y="114" font-size="12" fill="#1e40af" font-family="Arial">7 cm</text><text x="105" y="158" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">7 cm</text><text x="2" y="88" font-size="12" fill="#1e40af" font-family="Arial">4 cm</text></svg>`,
-    venn:`<svg width="300" height="148" viewBox="0 0 300 148" xmlns="http://www.w3.org/2000/svg"><ellipse cx="108" cy="74" rx="88" ry="58" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" fill-opacity="0.8"/><ellipse cx="192" cy="74" rx="88" ry="58" fill="#d1fae5" stroke="#22c55e" stroke-width="2" fill-opacity="0.8"/><ellipse cx="150" cy="74" rx="38" ry="43" fill="#86efac" fill-opacity="0.85"/><text x="68" y="70" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">Multiples</text><text x="68" y="85" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">of 4</text><text x="232" y="70" font-size="12" fill="#065f46" text-anchor="middle" font-family="Arial">Multiples</text><text x="232" y="85" font-size="12" fill="#065f46" text-anchor="middle" font-family="Arial">of 6</text><text x="150" y="78" font-size="12" fill="#14532d" text-anchor="middle" font-weight="bold" font-family="Arial">Both</text></svg>`,
-    pie:`<svg width="220" height="195" viewBox="0 0 220 195" xmlns="http://www.w3.org/2000/svg"><path d="M110,100 L110,22 A78,78 0 0,1 188,100 Z" fill="#3b82f6"/><path d="M110,100 L188,100 A78,78 0 0,1 110,178 Z" fill="#22c55e"/><path d="M110,100 L110,178 A78,78 0 0,1 32,100 Z" fill="#f59e0b"/><path d="M110,100 L32,100 A78,78 0 0,1 110,22 Z" fill="#ef4444"/><circle cx="110" cy="100" r="78" fill="none" stroke="white" stroke-width="3"/><line x1="110" y1="22" x2="110" y2="178" stroke="white" stroke-width="2"/><line x1="32" y1="100" x2="188" y2="100" stroke="white" stroke-width="2"/><text x="148" y="68" font-size="12" fill="white" text-anchor="middle" font-family="Arial" font-weight="bold">Maths</text><text x="148" y="140" font-size="12" fill="white" text-anchor="middle" font-family="Arial" font-weight="bold">Science</text><text x="72" y="140" font-size="12" fill="white" text-anchor="middle" font-family="Arial" font-weight="bold">History</text><text x="72" y="68" font-size="12" fill="white" text-anchor="middle" font-family="Arial" font-weight="bold">English</text><text x="110" y="192" font-size="11" fill="#6b7280" text-anchor="middle" font-family="Arial">Each section = 25%</text></svg>`,
-    numline1:(()=>{const t=Array.from({length:11},(_,i)=>`<line x1="${30+i*26}" y1="46" x2="${30+i*26}" y2="58" stroke="#3b82f6" stroke-width="1.5"/>`).join('');return`<svg width="320" height="88" viewBox="0 0 320 88" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="52" x2="300" y2="52" stroke="#3b82f6" stroke-width="2"/><polygon points="300,48 310,52 300,56" fill="#3b82f6"/><polygon points="20,48 10,52 20,56" fill="#3b82f6"/>${t}<text x="30" y="72" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">3.0</text><text x="290" y="72" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">5.0</text><line x1="82" y1="28" x2="82" y2="46" stroke="#dc2626" stroke-width="2"/><polygon points="78,28 82,18 86,28" fill="#dc2626"/><text x="82" y="15" font-size="11" fill="#dc2626" text-anchor="middle" font-family="Arial" font-weight="bold">3.4</text><line x1="186" y1="28" x2="186" y2="46" stroke="#dc2626" stroke-width="2"/><polygon points="182,28 186,18 190,28" fill="#dc2626"/><text x="186" y="15" font-size="11" fill="#dc2626" text-anchor="middle" font-family="Arial" font-weight="bold">4.2</text><text x="155" y="85" font-size="11" fill="#6b7280" text-anchor="middle" font-family="Arial">Each interval = 0.2</text></svg>`;})(),
-    cube: `<svg width="280" height="190" viewBox="0 0 280 190" xmlns="http://www.w3.org/2000/svg">
-  <!-- Small cube (blue), size=40 -->
-  <polygon points="20,90 60,70 100,90 60,110" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="1.5"/>
-  <polygon points="20,90 60,110 60,150 20,130" fill="#93c5fd" stroke="#1d4ed8" stroke-width="1.5"/>
-  <polygon points="60,110 100,90 100,130 60,150" fill="#60a5fa" stroke="#1d4ed8" stroke-width="1.5"/>
-  <text x="60" y="60" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">1 unit³</text>
-  <text x="60" y="168" font-size="10" fill="#1e40af" font-family="Arial" text-anchor="middle">small cube</text>
-
-  <!-- Large cube (green), size=120 — positioned right, 3× the small -->
-  <polygon points="130,90 190,60 250,90 190,120" fill="#a7f3d0" stroke="#059669" stroke-width="2"/>
-  <polygon points="130,90 190,120 190,180 130,150" fill="#6ee7b7" stroke="#059669" stroke-width="2"/>
-  <polygon points="190,120 250,90 250,150 190,180" fill="#34d399" stroke="#059669" stroke-width="2"/>
-  <text x="190" y="50" font-size="11" fill="#065f46" font-family="Arial" font-weight="bold" text-anchor="middle">3 × 3 × 3</text>
-  <text x="190" y="168" font-size="11" fill="#065f46" font-family="Arial" font-weight="bold" text-anchor="middle">= 27 unit³</text>
-</svg>`,
-    segment:`<svg width="340" height="78" viewBox="0 0 340 78" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="38" x2="320" y2="38" stroke="#3b82f6" stroke-width="2.5"/><circle cx="20" cy="38" r="6" fill="#1d4ed8"/><circle cx="110" cy="38" r="6" fill="#15803d"/><circle cx="230" cy="38" r="6" fill="#15803d"/><circle cx="320" cy="38" r="6" fill="#1d4ed8"/><text x="20" y="62" font-size="14" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">P</text><text x="110" y="62" font-size="14" fill="#166534" text-anchor="middle" font-family="Arial" font-weight="bold">Q</text><text x="230" y="62" font-size="14" fill="#166534" text-anchor="middle" font-family="Arial" font-weight="bold">R</text><text x="320" y="62" font-size="14" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">S</text><line x1="20" y1="18" x2="320" y2="18" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,3"/><text x="170" y="14" font-size="11" fill="#64748b" text-anchor="middle" font-family="Arial">a = PS</text><line x1="20" y1="74" x2="110" y2="74" stroke="#dc2626" stroke-width="1.5"/><text x="65" y="73" font-size="10" fill="#991b1b" text-anchor="middle" font-family="Arial">b=PQ</text><line x1="230" y1="74" x2="320" y2="74" stroke="#dc2626" stroke-width="1.5"/><text x="275" y="73" font-size="10" fill="#991b1b" text-anchor="middle" font-family="Arial">c=RS</text></svg>`,
-    tanks:`<svg width="260" height="152" viewBox="0 0 260 152" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="20" width="80" height="108" rx="5" fill="none" stroke="#3b82f6" stroke-width="2.5"/><rect x="20" y="101" width="80" height="27" rx="3" fill="#93c5fd"/><text x="60" y="14" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">Tank A (¼ full)</text><text x="60" y="148" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial">= 2.5 L</text><rect x="160" y="20" width="80" height="108" rx="5" fill="none" stroke="#22c55e" stroke-width="2.5"/><rect x="160" y="47" width="80" height="81" rx="3" fill="#86efac"/><text x="200" y="14" font-size="12" fill="#166534" text-anchor="middle" font-family="Arial" font-weight="bold">Tank B (¾ full)</text><text x="200" y="148" font-size="12" fill="#166534" text-anchor="middle" font-family="Arial">= 7.5 L</text><text x="130" y="87" font-size="20" fill="#94a3b8" text-anchor="middle" font-family="Arial">+</text></svg>`,
-    barchart:(()=>{const v=[8,6,10,6,10],c=["#3b82f6","#60a5fa","#1d4ed8","#60a5fa","#1d4ed8"];const b=v.map((val,i)=>{const x=50+i*50,h=val*9,y=130-h;return`<rect x="${x}" y="${y}" width="32" height="${h}" fill="${c[i]}" rx="3"/><text x="${x+16}" y="${y-5}" font-size="12" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">${val}</text><text x="${x+16}" y="148" font-size="11" fill="#6b7280" text-anchor="middle" font-family="Arial">A${i+1}</text>`;}).join('');return`<svg width="300" height="158" viewBox="0 0 300 158" xmlns="http://www.w3.org/2000/svg"><line x1="35" y1="15" x2="35" y2="132" stroke="#94a3b8" stroke-width="1.5"/><line x1="35" y1="132" x2="295" y2="132" stroke="#94a3b8" stroke-width="1.5"/><text x="28" y="135" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">0</text><text x="28" y="87" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">5</text><text x="28" y="42" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">10</text>${b}</svg>`;})(),
-    numline2:(()=>{const m=Array.from({length:13},(_,i)=>`<line x1="${20+i*22}" y1="47" x2="${20+i*22}" y2="58" stroke="#3b82f6" stroke-width="1.5"/>`).join('');return`<svg width="320" height="100" viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg"><line x1="10" y1="52" x2="305" y2="52" stroke="#3b82f6" stroke-width="2"/><polygon points="305,48 315,52 305,56" fill="#3b82f6"/>${m}<text x="20" y="72" font-size="11" fill="#1e40af" text-anchor="middle" font-family="Arial">0</text><circle cx="108" cy="52" r="5" fill="#3b82f6"/><text x="108" y="39" font-size="11" fill="#1e40af" text-anchor="middle" font-family="Arial" font-weight="bold">X=8</text><circle cx="218" cy="52" r="5" fill="#22c55e"/><text x="218" y="39" font-size="11" fill="#166534" text-anchor="middle" font-family="Arial" font-weight="bold">Y=18</text><text x="160" y="94" font-size="11" fill="#6b7280" text-anchor="middle" font-family="Arial">Each mark = 2 units</text></svg>`;})(),
-    coords:(()=>{const gx=x=>20+x*30,gy=y=>190-y*25;const dots=[[1,2],[1,6],[5,2],[5,6]].map(([x,y])=>`<circle cx="${gx(x)}" cy="${gy(y)}" r="5" fill="#1d4ed8"/><text x="${gx(x)+(x>3?6:-28)}" y="${gy(y)+(y<4?14:-8)}" font-size="10" fill="#1e40af" font-family="Arial">(${x},${y})</text>`).join('');const tx=Array.from({length:7},(_,i)=>`<line x1="${gx(i)}" y1="188" x2="${gx(i)}" y2="192" stroke="#94a3b8" stroke-width="1"/><text x="${gx(i)}" y="204" font-size="10" fill="#94a3b8" text-anchor="middle" font-family="Arial">${i}</text>`).join('');const ty=Array.from({length:9},(_,i)=>`<line x1="18" y1="${gy(i)}" x2="22" y2="${gy(i)}" stroke="#94a3b8" stroke-width="1"/><text x="14" y="${gy(i)+4}" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Arial">${i}</text>`).join('');return`<svg width="220" height="212" viewBox="0 0 220 212" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="190" x2="200" y2="190" stroke="#94a3b8" stroke-width="1.5"/><line x1="20" y1="190" x2="20" y2="10" stroke="#94a3b8" stroke-width="1.5"/>${tx}${ty}<rect x="${gx(1)}" y="${gy(6)}" width="${gx(5)-gx(1)}" height="${gy(2)-gy(6)}" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.5"/>${dots}</svg>`;})()
-,ma35_house: `<svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
-  <!-- square base -->
-  <rect x="30" y="75" width="100" height="70" fill="none" stroke="#1a3a5c" stroke-width="2.5"/>
-  <!-- roof triangle -->
-  <polyline points="30,75 80,20 130,75" fill="none" stroke="#1a3a5c" stroke-width="2.5"/>
-  <!-- labels -->
-  <text x="52" y="16" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">3</text>
-  <text x="100" y="16" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">3</text>
-  <text x="14" y="116" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">4</text>
-  <text x="136" y="116" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">4</text>
-  <text x="74" y="158" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">4</text>
-</svg>`
-
-,ma36_rhombus: `<svg width="180" height="130" viewBox="0 0 180 130" xmlns="http://www.w3.org/2000/svg">
-  <!-- rhombus: top, right, bottom, left -->
-  <polygon points="90,10 160,65 90,120 20,65" fill="none" stroke="#1a3a5c" stroke-width="2.5"/>
-  <!-- side labels -->
-  <text x="118" y="30" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">10 ft</text>
-  <text x="118" y="110" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">10 ft</text>
-  <text x="22" y="30" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">10 ft</text>
-  <text x="22" y="110" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">10 ft</text>
-</svg>`
-
-,ma37_rect: `<svg width="180" height="120" viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg">
-  <!-- original rectangle -->
-  <rect x="20" y="15" width="100" height="70" fill="#dbeafe" stroke="#1a3a5c" stroke-width="2" stroke-dasharray="5,3"/>
-  <!-- stretched rectangle -->
-  <rect x="20" y="15" width="140" height="70" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
-  <!-- labels -->
-  <text x="72" y="108" font-size="12" fill="#1e40af" font-family="Arial" font-weight="bold">7 in</text>
-  <text x="4" y="55" font-size="12" fill="#1e40af" font-family="Arial" font-weight="bold">3 in</text>
-  <text x="148" y="55" font-size="11" fill="#dc2626" font-family="Arial" font-weight="bold">+3 in</text>
-</svg>`
-
-,ma38_triangle: `<svg width="220" height="140" viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg">
-  <!-- triangle -->
-  <polygon points="10,125 110,10 210,125" fill="#dbeafe" stroke="#1a3a5c" stroke-width="2.5"/>
-  <!-- height dashed line -->
-  <line x1="110" y1="10" x2="110" y2="125" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <!-- right angle box -->
-  <rect x="110" y="113" width="10" height="10" fill="none" stroke="#64748b" stroke-width="1.5"/>
-  <!-- base label -->
-  <text x="85" y="140" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">24 cm</text>
-  <!-- height label -->
-  <text x="115" y="75" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold">10 cm</text>
-</svg>`
-    ,qr29_grid: `<svg width="200" height="130" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
-  <rect x="10" y="10" width="180" height="110" fill="none" stroke="#1a3a5c" stroke-width="2"/>
-  <line x1="100" y1="10" x2="100" y2="120" stroke="#1a3a5c" stroke-width="1.5"/>
-  <line x1="10" y1="65" x2="190" y2="65" stroke="#1a3a5c" stroke-width="1.5"/>
-  <rect x="10" y="10" width="90" height="55" fill="#dbeafe"/>
-  <text x="55" y="44" font-size="12" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">Reading</text>
-  <text x="55" y="58" font-size="12" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">Corner</text>
-  <text x="145" y="44" font-size="12" fill="#334155" font-family="Arial" font-weight="bold" text-anchor="middle">Art</text>
-  <text x="55" y="98" font-size="12" fill="#334155" font-family="Arial" font-weight="bold" text-anchor="middle">Science</text>
-  <text x="145" y="98" font-size="12" fill="#334155" font-family="Arial" font-weight="bold" text-anchor="middle">Maths</text>
-</svg>`
-
-,qr30_garden: `<svg width="260" height="120" viewBox="0 0 260 120" xmlns="http://www.w3.org/2000/svg">
-  <!-- Original patch -->
-  <rect x="20" y="15" width="150" height="70" fill="#d1fae5" stroke="#1a3a5c" stroke-width="2"/>
-  <text x="95" y="55" font-size="12" fill="#065f46" font-family="Arial" font-weight="bold" text-anchor="middle">Original patch</text>
-  <!-- New section (dashed) -->
-  <rect x="170" y="15" width="50" height="70" fill="#fef9c3" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,3"/>
-  <text x="195" y="52" font-size="11" fill="#92400e" font-family="Arial" font-weight="bold" text-anchor="middle">+3 ft</text>
-  <!-- Bottom label: 12 ft -->
-  <text x="95" y="105" font-size="12" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">12 ft</text>
-  <!-- Left label: 4 ft -->
-  <text x="10" y="55" font-size="12" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">4 ft</text>
-  <!-- Dimension lines -->
-  <line x1="20" y1="110" x2="170" y2="110" stroke="#1e40af" stroke-width="1"/>
-  <line x1="20" y1="106" x2="20" y2="114" stroke="#1e40af" stroke-width="1"/>
-  <line x1="170" y1="106" x2="170" y2="114" stroke="#1e40af" stroke-width="1"/>
-</svg>`
-
-,qr31_trifit: `<svg width="280" height="110" viewBox="0 0 280 110" xmlns="http://www.w3.org/2000/svg">
-  <polygon points="10,90 10,30 46,90" fill="#dbeafe" stroke="#1a3a5c" stroke-width="2"/>
-  <text x="8" y="64" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold">4</text>
-  <text x="26" y="104" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold">3</text>
-  <rect x="70" y="30" width="200" height="60" fill="#f0fdf4" stroke="#1a3a5c" stroke-width="2"/>
-  <text x="170" y="64" font-size="11" fill="#065f46" font-family="Arial" font-weight="bold" text-anchor="middle">12</text>
-  <text x="276" y="64" font-size="11" fill="#065f46" font-family="Arial" font-weight="bold">4</text>
-</svg>`
-
-,qr32_pattern: `<svg width="300" height="130" viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg">
-  <text x="4" y="14" font-size="10" fill="#065f46" font-family="Arial" font-weight="700">Pattern B (dots = sides):</text>
-  <rect x="10" y="22" width="36" height="36" fill="none" stroke="#1a3a5c" stroke-width="2"/>
-  <circle cx="21" cy="33" r="3" fill="#1a3a5c"/><circle cx="29" cy="33" r="3" fill="#1a3a5c"/>
-  <circle cx="21" cy="47" r="3" fill="#1a3a5c"/><circle cx="29" cy="47" r="3" fill="#1a3a5c"/>
-  <text x="22" y="70" font-size="9" fill="#334155" font-family="Arial" text-anchor="middle">4 sides, 4 dots</text>
-  <polygon points="110,22 130,58 90,58" fill="none" stroke="#1a3a5c" stroke-width="2"/>
-  <circle cx="104" cy="46" r="3" fill="#1a3a5c"/><circle cx="116" cy="46" r="3" fill="#1a3a5c"/><circle cx="110" cy="37" r="3" fill="#1a3a5c"/>
-  <text x="110" y="70" font-size="9" fill="#334155" font-family="Arial" text-anchor="middle">3 sides, 3 dots</text>
-  <polygon points="200,22 218,30 224,50 210,62 190,62 176,50 182,30" fill="none" stroke="#1a3a5c" stroke-width="2"/>
-  <circle cx="193" cy="46" r="2.5" fill="#1a3a5c"/><circle cx="200" cy="40" r="2.5" fill="#1a3a5c"/><circle cx="207" cy="46" r="2.5" fill="#1a3a5c"/>
-  <circle cx="197" cy="54" r="2.5" fill="#1a3a5c"/><circle cx="205" cy="54" r="2.5" fill="#1a3a5c"/>
-  <text x="200" y="78" font-size="9" fill="#334155" font-family="Arial" text-anchor="middle">5 sides, 5 dots</text>
-  <text x="4" y="98" font-size="10" fill="#991b1b" font-family="Arial" font-weight="700">Which could be in Pattern B?  → heptagon with 7 dots (7 sides)</text>
-</svg>`
-
-,qr33_cubes: `<svg width="220" height="120" viewBox="0 0 220 120" xmlns="http://www.w3.org/2000/svg">
-  <rect x="10" y="50" width="35" height="35" fill="#e0e7ff" stroke="#1a3a5c" stroke-width="1.5"/>
-  <polygon points="10,50 20,40 55,40 45,50" fill="#c7d2fe" stroke="#1a3a5c" stroke-width="1.5"/>
-  <polygon points="45,50 55,40 55,75 45,85" fill="#a5b4fc" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="22" y="72" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold">A</text>
-  <text x="18" y="100" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold">3 cm</text>
-  <rect x="100" y="20" width="80" height="80" fill="#d1fae5" stroke="#1a3a5c" stroke-width="2"/>
-  <polygon points="100,20 122,5 202,5 180,20" fill="#a7f3d0" stroke="#1a3a5c" stroke-width="2"/>
-  <polygon points="180,20 202,5 202,85 180,100" fill="#6ee7b7" stroke="#1a3a5c" stroke-width="2"/>
-  <text x="130" y="65" font-size="13" fill="#065f46" font-family="Arial" font-weight="bold">B</text>
-  <text x="108" y="115" font-size="11" fill="#065f46" font-family="Arial" font-weight="bold">12 cm</text>
-</svg>`
-
-,qr34_pie: `<svg width="180" height="180" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
-  <!-- Swim -->
-  <path d="M90,90 L90.0,15.0 A75,75 0 0,1 143.0,37.0 Z" fill="#bfdbfe" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="108.7" y="45.0" font-size="9" fill="#1a1a2e" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle">Swim</text>
-  <!-- Tennis -->
-  <path d="M90,90 L143.0,37.0 A75,75 0 0,1 165.0,90.0 Z" fill="#fef08a" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="135.0" y="71.3" font-size="9" fill="#1a1a2e" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle">Tennis</text>
-  <!-- Rugby -->
-  <path d="M90,90 L165.0,90.0 A75,75 0 0,1 143.0,143.0 Z" fill="#bbf7d0" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="135.0" y="108.7" font-size="9" fill="#1a1a2e" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle">Rugby</text>
-  <!-- Dance -->
-  <path d="M90,90 L143.0,143.0 A75,75 0 0,1 90.0,165.0 Z" fill="#fecaca" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="108.7" y="135.0" font-size="9" fill="#1a1a2e" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle">Dance</text>
-  <!-- Gym -->
-  <path d="M90,90 L90.0,165.0 A75,75 0 0,1 37.0,143.0 Z" fill="#e9d5ff" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="71.3" y="135.0" font-size="9" fill="#1a1a2e" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle">Gym</text>
-  <!-- Art -->
-  <path d="M90,90 L37.0,143.0 A75,75 0 0,1 15.0,90.0 Z" fill="#fbcfe8" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="45.0" y="108.7" font-size="9" fill="#1a1a2e" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle">Art</text>
-  <!-- Chess -->
-  <path d="M90,90 L15.0,90.0 A75,75 0 0,1 37.0,37.0 Z" fill="#d1fae5" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="45.0" y="71.3" font-size="9" fill="#1a1a2e" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle">Chess</text>
-  <!-- Run -->
-  <path d="M90,90 L37.0,37.0 A75,75 0 0,1 90.0,15.0 Z" fill="#cffafe" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="71.3" y="45.0" font-size="9" fill="#1a1a2e" font-family="Arial" font-weight="bold" text-anchor="middle" dominant-baseline="middle">Run</text>
-  <!-- Outer ring -->
-  <circle cx="90" cy="90" r="75" fill="none" stroke="#1a3a5c" stroke-width="2"/>
-</svg>`
-
-,qr35_frame: `<svg width="180" height="140" viewBox="0 0 180 140" xmlns="http://www.w3.org/2000/svg">
-  <rect x="20" y="15" width="130" height="90" fill="none" stroke="#1a3a5c" stroke-width="2.5"/>
-  <text x="85" y="125" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">8 cm</text>
-  <text x="162" y="65" font-size="13" fill="#dc2626" font-family="Arial" font-weight="bold">?</text>
-  <line x1="155" y1="15" x2="165" y2="15" stroke="#94a3b8" stroke-width="1"/>
-  <line x1="155" y1="105" x2="165" y2="105" stroke="#94a3b8" stroke-width="1"/>
-  <line x1="160" y1="15" x2="160" y2="105" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2"/>
-</svg>`
-
-,qr36_scales: `<svg width="300" height="110" viewBox="0 0 300 110" xmlns="http://www.w3.org/2000/svg">
-  <line x1="20" y1="85" x2="140" y2="85" stroke="#1a3a5c" stroke-width="2.5"/>
-  <polygon points="80,85 74,95 86,95" fill="#1a3a5c"/>
-  <line x1="80" y1="10" x2="80" y2="85" stroke="#94a3b8" stroke-width="1.5"/>
-  <rect x="22" y="58" width="22" height="22" fill="#dbeafe" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="33" y="74" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">P</text>
-  <rect x="46" y="58" width="22" height="22" fill="#fef9c3" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="57" y="74" font-size="11" fill="#92400e" font-family="Arial" font-weight="bold" text-anchor="middle">Q</text>
-  <rect x="70" y="58" width="22" height="22" fill="#fef9c3" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="81" y="74" font-size="11" fill="#92400e" font-family="Arial" font-weight="bold" text-anchor="middle">Q</text>
-  <text x="100" y="72" font-size="14" fill="#334155" font-family="Arial" font-weight="bold">=</text>
-  <rect x="112" y="58" width="22" height="22" fill="#dbeafe" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="123" y="74" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">P</text>
-  <polygon points="132,58 142,44 152,58" fill="#d1fae5" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="142" y="55" font-size="10" fill="#065f46" font-family="Arial" font-weight="bold" text-anchor="middle">R</text>
-  <line x1="170" y1="85" x2="290" y2="85" stroke="#1a3a5c" stroke-width="2.5"/>
-  <polygon points="230,85 224,95 236,95" fill="#1a3a5c"/>
-  <line x1="230" y1="10" x2="230" y2="85" stroke="#94a3b8" stroke-width="1.5"/>
-  <rect x="172" y="58" width="22" height="22" fill="#fef9c3" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="183" y="74" font-size="11" fill="#92400e" font-family="Arial" font-weight="bold" text-anchor="middle">Q</text>
-  <rect x="196" y="58" width="22" height="22" fill="#fef9c3" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="207" y="74" font-size="11" fill="#92400e" font-family="Arial" font-weight="bold" text-anchor="middle">Q</text>
-  <polygon points="218,58 228,44 238,58" fill="#d1fae5" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="228" y="55" font-size="10" fill="#065f46" font-family="Arial" font-weight="bold" text-anchor="middle">R</text>
-  <text x="248" y="72" font-size="14" fill="#334155" font-family="Arial" font-weight="bold">=</text>
-  <rect x="260" y="58" width="22" height="22" fill="#dbeafe" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="271" y="74" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">P</text>
-  <rect x="264" y="32" width="22" height="22" fill="#dbeafe" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="275" y="48" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">P</text>
-</svg>`
-,qr40_bar: `<svg width="260" height="140" viewBox="0 0 260 140" xmlns="http://www.w3.org/2000/svg">
-  <line x1="60" y1="10" x2="60" y2="110" stroke="#94a3b8" stroke-width="1.5"/>
-  <line x1="60" y1="110" x2="255" y2="110" stroke="#94a3b8" stroke-width="1.5"/>
-  ${[['Sun',16,'#60a5fa'],['Mon',4,'#3b82f6'],['Tue',25,'#1d4ed8'],['Wed',35,'#1e40af'],['Thu',20,'#2563eb']].map(([d,v,c],i)=>{
-    const w=Math.round(v*3.5); return `<rect x="62" y="${108-Math.round(v*2.5)}" width="${w}" height="${Math.round(v*2.5)}" fill="${c}"/>
-    <text x="56" y="${111-Math.round(v*2.5/2)}" font-size="9" fill="#334155" font-family="Arial" text-anchor="end">${d}</text>
-    <text x="${64+w}" y="${108-Math.round(v*2.5)+8}" font-size="9" fill="#1e40af" font-family="Arial">${v}</text>`;}).join('')}
-  <text x="155" y="130" font-size="10" fill="#64748b" font-family="Arial" text-anchor="middle">Pages Read</text>
-</svg>`
-
-,qr46_numline: `<svg width="280" height="70" viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg">
-  <line x1="20" y1="35" x2="260" y2="35" stroke="#3b82f6" stroke-width="2"/>
-  <polygon points="260,31 270,35 260,39" fill="#3b82f6"/>
-  ${Array.from({length:9},(_,i)=>`<line x1="${20+i*27}" y1="30" x2="${20+i*27}" y2="40" stroke="#3b82f6" stroke-width="1.5"/>`).join('')}
-  <text x="20" y="55" font-size="10" fill="#1e40af" font-family="Arial" text-anchor="middle">584</text>
-  <text x="74" y="55" font-size="10" fill="#1e40af" font-family="Arial" text-anchor="middle">592</text>
-  <text x="263" y="55" font-size="10" fill="#1e40af" font-family="Arial" text-anchor="middle">616</text>
-  <circle cx="155" cy="35" r="5" fill="#dc2626"/>
-  <text x="155" y="20" font-size="11" fill="#dc2626" font-family="Arial" font-weight="bold" text-anchor="middle">Q</text>
-</svg>`
-
-,qr52_addition: `<svg width="160" height="120" viewBox="0 0 160 120" xmlns="http://www.w3.org/2000/svg">
-  <text x="80" y="25" font-size="20" fill="#1e40af" font-family="Arial" text-anchor="middle">○□</text>
-  <text x="80" y="52" font-size="20" fill="#1e40af" font-family="Arial" text-anchor="middle">△□</text>
-  <text x="80" y="79" font-size="20" fill="#1e40af" font-family="Arial" text-anchor="middle">+ △□</text>
-  <line x1="30" y1="88" x2="130" y2="88" stroke="#1a3a5c" stroke-width="2"/>
-  <text x="80" y="110" font-size="20" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">2 0 1</text>
-</svg>`
-
-,qr56_triangle: `<svg width="180" height="160" viewBox="0 0 180 160" xmlns="http://www.w3.org/2000/svg">
-  ${Array.from({length:7},(_,i)=>Array.from({length:7},(_,j)=>`<rect x="${10+j*24}" y="${10+i*20}" width="24" height="20" fill="${(i+j)%2===0?'#f8fafc':'#f1f5f9'}" stroke="#cbd5e1" stroke-width="0.5"/>`).join('')).join('')}
-  <polygon points="10,130 154,130 154,10" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
-  <rect x="10" y="110" width="24" height="20" fill="#93c5fd" stroke="#1d4ed8" stroke-width="1"/>
-  <text x="22" y="123" font-size="8" fill="#1e40af" font-family="Arial" text-anchor="middle">1u²</text>
-  <text x="82" y="148" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">base = 6 units</text>
-  <text x="162" y="72" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold">6</text>
-  <text x="158" y="80" font-size="9" fill="#1e40af" font-family="Arial">units</text>
-</svg>`
-
-,qr58_dots: `<svg width="280" height="100" viewBox="0 0 280 100" xmlns="http://www.w3.org/2000/svg">
-  ${[[1,2],[2,3],[3,4],[4,5]].map(([fig,rows],fi)=>{
-    const ox=10+fi*68; let dots='';
-    for(let r=0;r<rows;r++) for(let c=0;c<rows;c++)
-      dots+=`<circle cx="${ox+c*10}" cy="${20+r*10}" r="3.5" fill="#1d4ed8"/>`;
-    return dots+`<text x="${ox+(rows-1)*5}" y="${28+rows*10}" font-size="9" fill="#64748b" font-family="Arial" text-anchor="middle">Fig ${fig}</text>`;
-  }).join('')}
-  <text x="140" y="92" font-size="10" fill="#64748b" font-family="Arial" text-anchor="middle">Pattern: each figure = (n+1)²</text>
-</svg>`
-
-,qr60_segment: `<svg width="300" height="65" viewBox="0 0 300 65" xmlns="http://www.w3.org/2000/svg">
-  <line x1="20" y1="32" x2="280" y2="32" stroke="#3b82f6" stroke-width="2"/>
-  <circle cx="20" cy="32" r="5" fill="#1d4ed8"/>
-  <circle cx="100" cy="32" r="5" fill="#15803d"/>
-  <circle cx="280" cy="32" r="5" fill="#1d4ed8"/>
-  <text x="20" y="56" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">A</text>
-  <text x="100" y="56" font-size="13" fill="#166534" font-family="Arial" font-weight="bold" text-anchor="middle">B</text>
-  <text x="280" y="56" font-size="13" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">C</text>
-  <line x1="20" y1="16" x2="100" y2="16" stroke="#dc2626" stroke-width="1.5"/>
-  <text x="60" y="12" font-size="10" fill="#991b1b" font-family="Arial" text-anchor="middle">AB = 2</text>
-  <line x1="20" y1="8" x2="280" y2="8" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="150" y="6" font-size="10" fill="#64748b" font-family="Arial" text-anchor="middle">AC = x</text>
-</svg>`
-
-,qr62_grid: `<svg width="160" height="130" viewBox="0 0 160 130" xmlns="http://www.w3.org/2000/svg">
-  ${Array.from({length:10},(_,r)=>Array.from({length:10},(_,c)=>`<rect x="${5+c*14}" y="${5+r*11}" width="14" height="11" fill="${r<6?'#93c5fd':'white'}" stroke="#cbd5e1" stroke-width="0.5"/>`).join('')).join('')}
-  <rect x="5" y="5" width="140" height="110" fill="none" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="80" y="125" font-size="10" fill="#1e40af" font-family="Arial" font-weight="bold" text-anchor="middle">6 of 10 rows shaded = 60%</text>
-</svg>`
-
-,qr64_table: `<svg width="200" height="185" viewBox="0 0 200 185" xmlns="http://www.w3.org/2000/svg">
-  <rect x="10" y="10" width="180" height="165" fill="white" stroke="#1a3a5c" stroke-width="1.5"/>
-  <rect x="10" y="10" width="180" height="22" fill="#dbeafe" stroke="#1a3a5c" stroke-width="1.5"/>
-  <text x="60" y="26" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold">Color</text>
-  <text x="150" y="26" font-size="11" fill="#1e40af" font-family="Arial" font-weight="bold">Number</text>
-  <line x1="110" y1="10" x2="110" y2="175" stroke="#1a3a5c" stroke-width="1"/>
-  ${[['red',4],['orange',4],['yellow',4],['green',4],['blue',4],['purple','?'],['black',4]].map(([c,n],i)=>
-    `<rect x="10" y="${32+i*20}" width="180" height="20" fill="${c==='purple'?'#ede9fe':'white'}" stroke="#e2e8f0" stroke-width="0.5"/>
-     <text x="60" y="${46+i*20}" font-size="11" fill="${c==='purple'?'#4c1d95':'#334155'}" font-family="Arial" text-anchor="middle">${c}</text>
-     <text x="150" y="${46+i*20}" font-size="11" fill="${c==='purple'?'#4c1d95':'#334155'}" font-family="Arial" font-weight="${c==='purple'?'bold':'normal'}" text-anchor="middle">${n}</text>`
-  ).join('')}
-</svg>`
-    // PASTE NEW DIAGRAMS HERE — key must match "diag" field in question above
-    // Example:  ,q32_shape: `<svg width="200" height="150">...</svg>`
-    // PASTE NEW DIAGRAMS HERE
-    // ,your_diag_key: `<svg ...>...</svg>`
-  };
-  return d[key] || '';
+  if (!key) return '';
+  if (key.trimStart().startsWith('<svg')) return key;
+  if (key.trimStart().startsWith('<table')) return key;
+  return '';
 }
 
 /* ════════════════════════════════════════
@@ -681,9 +454,485 @@ let mode = 'all', curQs = [], cur = 0;
 /* ════════════════════════════════════════
    QUIZ LOGIC
 ════════════════════════════════════════ */
+/* ════════════════════════════════════════
+   DRILL BY TOPIC
+════════════════════════════════════════ */
+/* ════════════════════════════════════════
+   WORKOUT
+════════════════════════════════════════ */
+function loadWorkout() {
+  const statusEl  = document.getElementById('workout-status');
+  const contentEl = document.getElementById('workout-content');
+
+  // Build strand counts from ALL_QUESTIONS
+  const strandMap = {};
+  ALL_QUESTIONS.forEach(q => {
+    const tax = TAXONOMY[q.n];
+    if (!tax) return;
+    if (!strandMap[tax.strand]) strandMap[tax.strand] = 0;
+    strandMap[tax.strand]++;
+  });
+
+  if (Object.keys(strandMap).length === 0) {
+    statusEl.textContent = 'No questions found.';
+    contentEl.innerHTML = '';
+    return;
+  }
+
+  const strandOrder = ['Whole Numbers','Decimals, Fractions & Percentages','Algebraic Thinking','Measurement','Geometry','Data Analysis & Prob.'];
+  const strandLabels = {'Whole Numbers':'Whole Numbers','Decimals, Fractions & Percentages':'Decimals, Fractions & Percentages','Algebraic Thinking':'Algebraic Concepts','Measurement':'Measurement','Geometry':'Geometry','Data Analysis & Prob.':'Data Analysis & Probability'};
+
+  const total = Object.values(strandMap).reduce((s,c) => s+c, 0);
+  statusEl.textContent = `${total} questions available`;
+
+  let html = '<div class="drill-grid">';
+  strandOrder.filter(s => strandMap[s]).forEach(strand => {
+    const count = Math.min(strandMap[strand], 20);
+    html += `
+      <div class="drill-card" onclick="startWorkout('${encodeURIComponent(strand)}')">
+        <div class="dc-left">
+          <h4>${strandLabels[strand]}</h4>
+          <p style="font-size:0.75rem;color:#94a3b8;margin-top:2px;">DoK 1 → 2 → 3</p>
+        </div>
+        <div class="dc-right">
+          <span class="dc-count">${count}</span>
+          <span class="dc-label">questions</span>
+        </div>
+      </div>`;
+  });
+  html += '</div>';
+  contentEl.innerHTML = html;
+}
+
+async function startWorkout(safeStrand) {
+  const strand = decodeURIComponent(safeStrand);
+  const statusEl = document.getElementById('workout-status');
+  statusEl.textContent = 'Building your workout…';
+
+  // ── 1. Fetch answer history for this student ──────────────────────────
+  let history = [];
+  try {
+    const res = await fetch(SUPA_URL + '/rest/v1/quiz_results?select=question_id,correct,answered_at&order=answered_at.desc&limit=1000', {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    });
+    if (res.ok) history = await res.json();
+  } catch(e) { /* proceed without history */ }
+
+  // ── 2. Build lookup: question_id → { lastSeen, correctCount, totalCount } ──
+  const histMap = {};
+  history.forEach(r => {
+    if (!histMap[r.question_id]) histMap[r.question_id] = { lastSeen: r.answered_at, correct: 0, total: 0 };
+    else if (r.answered_at > histMap[r.question_id].lastSeen) histMap[r.question_id].lastSeen = r.answered_at;
+    histMap[r.question_id].total++;
+    if (r.correct) histMap[r.question_id].correct++;
+  });
+
+  // ── 3. Build skill accuracy map for this strand ───────────────────────
+  const skillAcc = {};
+  ALL_QUESTIONS.forEach(q => {
+    const tax = TAXONOMY[q.n];
+    if (!tax || tax.strand !== strand || !tax.skill) return;
+    const h = histMap[q.n];
+    if (!h) return;
+    if (!skillAcc[tax.skill]) skillAcc[tax.skill] = { correct: 0, total: 0 };
+    skillAcc[tax.skill].correct += h.correct;
+    skillAcc[tax.skill].total  += h.total;
+  });
+
+  // ── 4. Score each question ────────────────────────────────────────────
+  const now = new Date();
+
+  function scoreQuestion(q) {
+    const tax  = TAXONOMY[q.n];
+    const h    = histMap[q.n];
+    const skill = tax?.skill;
+
+    // Skill weakness score (0=strong, 1=weak, 0.5=untested)
+    let skillScore = 0.5;
+    if (skill && skillAcc[skill] && skillAcc[skill].total > 0) {
+      const pct = skillAcc[skill].correct / skillAcc[skill].total;
+      skillScore = pct < 0.5  ? 1.0   // needs work
+                 : pct < 0.70 ? 0.75  // developing
+                 : 0.25;              // strong
+    }
+
+    // Recency score (0=seen recently, 1=never seen)
+    let recencyScore = 1.0;
+    if (h && h.lastSeen) {
+      const daysSince = (now - new Date(h.lastSeen)) / (1000 * 60 * 60 * 24);
+      recencyScore = Math.min(daysSince / 7, 1.0); // caps at 1 after 7 days
+    }
+
+    // Individual question accuracy penalty
+    let accuracyScore = 0.5;
+    if (h && h.total > 0) {
+      accuracyScore = 1 - (h.correct / h.total); // 1=always wrong, 0=always right
+    }
+
+    // Combined priority (higher = serve sooner)
+    return (skillScore * 0.4) + (recencyScore * 0.35) + (accuracyScore * 0.25);
+  }
+
+  // ── 5. Filter to strand, score, sort ─────────────────────────────────
+  const pool = ALL_QUESTIONS.filter(q => {
+    const tax = TAXONOMY[q.n];
+    return tax && tax.strand === strand;
+  });
+
+  if (pool.length === 0) { statusEl.textContent = ''; alert('No questions found for this topic.'); return; }
+
+  // Sort by priority descending, shuffle within ties
+  pool.forEach(q => { q._priority = scoreQuestion(q); });
+  pool.sort((a, b) => {
+    const diff = b._priority - a._priority;
+    if (Math.abs(diff) > 0.05) return diff;
+    return Math.random() - 0.5; // shuffle within similar priority
+  });
+
+  // Take top 20, then re-sort by DoK 1 → 2 → 3
+  const top20 = pool.slice(0, 20);
+  top20.sort((a, b) => {
+    const da = TAXONOMY[a.n]?.dok || 2;
+    const db = TAXONOMY[b.n]?.dok || 2;
+    return da - db;
+  });
+
+  const strandLabels = {'Whole Numbers':'Whole Numbers','Decimals, Fractions & Percentages':'Decimals, Fractions & Percentages','Algebraic Thinking':'Algebraic Concepts','Measurement':'Measurement','Geometry':'Geometry','Data Analysis & Prob.':'Data Analysis & Probability'};
+  const label = strandLabels[strand] || strand;
+
+  // Clear answer state for these questions so they appear fresh
+  top20.forEach(q => {
+    const key = String(q.n);
+    delete chosen[key];
+    delete statuses[key];
+  });
+
+  // Reset workout state
+  workoutStreak = 0;
+  workoutCorrect = 0;
+  workoutTopicLabel = label;
+
+  mode = 'workout';
+  curQs = top20;
+  cur = 0;
+  statusEl.textContent = '';
+  document.getElementById('quiz-title').textContent = '🏋️ ' + label;
+  document.getElementById('bar-fill').className = 'bar-fill workout';
+  setLastScreen('screen-workout');
+  showScreen('screen-quiz');
+
+  // Show countdown then render first question
+  workoutCountdown(label, () => renderQ());
+}
+
+/* ════════════════════════════════════════
+   WORKOUT ANIMATIONS
+════════════════════════════════════════ */
+let workoutStreak = 0;
+let workoutCorrect = 0;
+let workoutTopicLabel = '';
+let workoutReactionTimer = null;
+
+function workoutCountdown(topicLabel, onDone) {
+  const el = document.getElementById('workout-countdown');
+  el.style.display = 'flex';
+  const steps = [
+    { html: `<div class="cd-topic">${topicLabel}</div><div class="cd-number">3</div>` },
+    { html: `<div class="cd-topic">${topicLabel}</div><div class="cd-number">2</div>` },
+    { html: `<div class="cd-topic">${topicLabel}</div><div class="cd-number">1</div>` },
+    { html: `<div class="cd-go">Go! 🚀</div>` },
+  ];
+  let i = 0;
+  function next() {
+    if (i >= steps.length) {
+      el.style.display = 'none';
+      onDone();
+      return;
+    }
+    el.innerHTML = steps[i].html;
+    i++;
+    setTimeout(next, i === steps.length ? 600 : 800);
+  }
+  next();
+}
+
+function workoutReaction(isCorrect) {
+  if (mode !== 'workout') return;
+  if (workoutReactionTimer) clearTimeout(workoutReactionTimer);
+
+  const correctEmojis = ['🌟','⭐','🎯','✨','💡','🔥','👏'];
+  const correctMsgs   = ['Nice one!','Nailed it!','Keep going!','Brilliant!','Spot on!','Excellent!','You got it!'];
+  const wrongMsgs     = ['Not quite…','Keep trying!','Almost there!'];
+
+  const el = document.getElementById('workout-reaction');
+  if (isCorrect) {
+    workoutStreak++;
+    workoutCorrect++;
+    const emoji = correctEmojis[Math.floor(Math.random() * correctEmojis.length)];
+    const msg   = correctMsgs[Math.floor(Math.random() * correctMsgs.length)];
+    el.style.display = 'flex';
+    el.innerHTML = `<div class="wr-emoji">${emoji}</div><div class="wr-msg" style="color:#065f46">${msg}</div>`;
+    workoutReactionTimer = setTimeout(() => { el.style.display = 'none'; }, 900);
+    updateStreakBadge();
+  } else {
+    workoutStreak = 0;
+    const msg = wrongMsgs[Math.floor(Math.random() * wrongMsgs.length)];
+    el.style.display = 'flex';
+    el.innerHTML = `<div class="wr-emoji">💪</div><div class="wr-msg" style="color:#92400e">${msg}</div>`;
+    workoutReactionTimer = setTimeout(() => { el.style.display = 'none'; }, 900);
+    updateStreakBadge();
+    // Shake the selected option
+    setTimeout(() => {
+      const btns = document.querySelectorAll('.option-btn.wrong-sel');
+      btns.forEach(b => { b.classList.add('shake'); setTimeout(() => b.classList.remove('shake'), 400); });
+    }, 50);
+  }
+  // Check milestones
+  const done = curQs.filter(q2 => chosen[String(q2.n)] != null).length;
+  if (done === Math.floor(curQs.length / 2)) showMilestone('Halfway there! Keep it up 🏃');
+  if (done === curQs.length - 3) showMilestone('Almost done! Final push 💪');
+  if (done === curQs.length) setTimeout(() => showWorkoutEnd(), 1000);
+}
+
+function updateStreakBadge() {
+  const badge = document.getElementById('streak-badge');
+  if (workoutStreak >= 3) {
+    badge.textContent = `🔥 ${workoutStreak} in a row!`;
+    badge.classList.add('show');
+  } else {
+    badge.classList.remove('show');
+  }
+}
+
+function showMilestone(msg) {
+  const banner = document.getElementById('milestone-banner');
+  banner.textContent = msg;
+  banner.classList.add('show');
+  setTimeout(() => banner.classList.remove('show'), 2500);
+}
+
+function showWorkoutEnd() {
+  const total   = curQs.length;
+  const correct = workoutCorrect;
+  const pct     = total ? Math.round(correct / total * 100) : 0;
+  let emoji, title, sub;
+  if (pct >= 90)      { emoji = '🏆'; title = 'Outstanding!';   sub = 'You absolutely crushed it!'; }
+  else if (pct >= 70) { emoji = '🌟'; title = 'Well done!';     sub = 'Great effort today.'; }
+  else if (pct >= 50) { emoji = '💪'; title = 'Good work!';     sub = 'Keep practising — you\'re getting there.'; }
+  else                { emoji = '🎯'; title = 'Nice try!';       sub = 'These topics need more practice. Come back tomorrow!'; }
+
+  document.getElementById('we-emoji').textContent   = emoji;
+  document.getElementById('we-title').textContent   = title;
+  document.getElementById('we-sub').textContent     = sub;
+  document.getElementById('we-correct').textContent = correct;
+  document.getElementById('we-total').textContent   = total;
+  document.getElementById('we-pct').textContent     = pct + '%';
+  document.getElementById('workout-end').style.display = 'flex';
+  // Hide streak badge
+  document.getElementById('streak-badge').classList.remove('show');
+}
+
+function restartWorkout() {
+  document.getElementById('workout-end').style.display = 'none';
+  showScreen('screen-workout');
+  loadWorkout();
+}
+
+function closeWorkoutEnd() {
+  document.getElementById('workout-end').style.display = 'none';
+  goHome();
+}
+
+
+/* ════════════════════════════════════════
+   KEYBOARD NAVIGATION
+════════════════════════════════════════ */
+document.addEventListener('keydown', e => {
+  const quiz = document.getElementById('screen-quiz');
+  if (!quiz || !quiz.classList.contains('active')) return;
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if (e.key === 'ArrowLeft')  go(cur - 1);
+  if (e.key === 'ArrowRight') go(cur + 1);
+});
+
+/* ════════════════════════════════════════
+   BACK NAVIGATION
+════════════════════════════════════════ */
+let lastScreen = null; // screen id to go back to
+
+function setLastScreen(screenId) {
+  lastScreen = screenId;
+  const btn = document.getElementById('quiz-back-btn');
+  if (btn) {
+    btn.style.display = screenId ? '' : 'none';
+    btn.textContent = '↩ ' + (screenId === 'screen-drill'   ? 'Drill by Topic'
+                            : screenId === 'screen-workout' ? 'Workout'
+                            : screenId === 'screen-pd'      ? 'Dashboard'
+                            : screenId === 'screen-home'    ? 'Home'
+                            : 'Back');
+  }
+}
+
+function goBack() {
+  if (lastScreen) showScreen(lastScreen);
+  else goHome();
+}
+
+/* ════════════════════════════════════════
+   BRAVO ANIMATION
+════════════════════════════════════════ */
+function triggerBravo() {
+  const done  = curQs.filter(q => chosen[String(q.n)] != null).length;
+  const corr  = curQs.filter(q => statuses[String(q.n)] === 'correct').length;
+  const pct   = done ? Math.round(corr / done * 100) : 0;
+  const sub   = pct >= 90 ? 'Outstanding performance! 🏆'
+              : pct >= 70 ? `${corr} out of ${done} correct — well done!`
+              : pct >= 50 ? `${corr} out of ${done} correct — keep practising!`
+              : `${corr} out of ${done} correct — you\'re improving!`;
+  document.getElementById('bravo-sub').textContent = sub;
+  const stars = pct >= 90 ? '⭐ ⭐ ⭐' : pct >= 70 ? '⭐ ⭐' : '⭐';
+  document.getElementById('bravo-overlay').querySelector('.br-stars').textContent = stars;
+  document.getElementById('bravo-overlay').style.display = 'flex';
+  setTimeout(() => {
+    document.getElementById('bravo-overlay').style.display = 'none';
+    goHome();
+  }, 3200);
+}
+
+function loadDrill() {
+  const statusEl  = document.getElementById('drill-status');
+  const contentEl = document.getElementById('drill-content');
+
+  // Build strand and skill counts from ALL_QUESTIONS
+  const strandMap  = {};
+  const skillMap   = {};
+
+  ALL_QUESTIONS.forEach(q => {
+    const tax = TAXONOMY[q.n];
+    if (!tax) return;
+    const strand = tax.strand;
+    const skill  = tax.skill || null;
+
+    if (!strandMap[strand]) strandMap[strand] = 0;
+    strandMap[strand]++;
+
+    if (skill) {
+      const key = strand + '|||' + skill;
+      if (!skillMap[key]) skillMap[key] = { strand, skill, count: 0 };
+      skillMap[key].count++;
+    }
+  });
+
+  if (Object.keys(strandMap).length === 0) {
+    statusEl.textContent = 'No taxonomy data found.';
+    contentEl.innerHTML = '';
+    return;
+  }
+
+  const strandOrder = ['Whole Numbers','Decimals, Fractions & Percentages','Algebraic Thinking','Measurement','Geometry','Data Analysis & Prob.'];
+  const strandLabels = {
+    'Whole Numbers': 'Whole Numbers',
+    'Decimals, Fractions & Percentages': 'Decimals, Fractions & Percentages',
+    'Algebraic Thinking': 'Algebraic Concepts',
+    'Measurement': 'Measurement',
+    'Geometry': 'Geometry',
+    'Data Analysis & Prob.': 'Data Analysis & Probability',
+  };
+
+  const total = Object.values(strandMap).reduce((s,c) => s+c, 0);
+  statusEl.textContent = `${total} questions across ${Object.keys(strandMap).length} topics`;
+
+  let html = '<div class="drill-grid">';
+  strandOrder.filter(s => strandMap[s]).forEach(strand => {
+    const safeKey = encodeURIComponent(strand + '|||__all__');
+    const skills = Object.values(skillMap)
+      .filter(s => s.strand === strand)
+      .sort((a,b) => a.skill.localeCompare(b.skill));
+
+    const skillsHtml = skills.map(s => {
+      const sk = encodeURIComponent(strand + '|||' + s.skill);
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:0.5px solid #f1f5f9;cursor:pointer;" onclick="startDrillSkill('${sk}')">
+        <span style="font-size:0.75rem;color:#475569;">${s.skill}</span>
+        <span style="font-size:0.75rem;font-weight:600;color:#0f6e56;min-width:24px;text-align:right;">${s.count}</span>
+      </div>`;
+    }).join('');
+
+    html += `
+      <div class="drill-card" style="flex-direction:column;align-items:stretch;cursor:default;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;cursor:pointer;" onclick="startDrillStrand('${encodeURIComponent(strand)}')">
+          <h4 style="margin:0;font-size:0.9rem;font-weight:700;color:#1a3a5c;">${strandLabels[strand]}</h4>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;">
+            <span class="dc-count">${strandMap[strand]}</span>
+            <span class="dc-label">questions</span>
+          </div>
+        </div>
+        <div style="border-top:0.5px solid #e2e8f0;padding-top:6px;">
+          ${skillsHtml}
+        </div>
+      </div>`;
+  });
+  html += '</div>';
+  contentEl.innerHTML = html;
+}
+
+function startDrillStrand(safeStrand) {
+  const strand = decodeURIComponent(safeStrand);
+  const pool = ALL_QUESTIONS.filter(q => {
+    const tax = TAXONOMY[q.n];
+    return tax && tax.strand === strand;
+  });
+  if (pool.length === 0) { alert('No questions found for this topic.'); return; }
+  mode = 'drill';
+  curQs = pool;
+  cur = 0;
+  const labels = {'Whole Numbers':'Whole Numbers','Decimals, Fractions & Percentages':'Decimals, Fractions & Percentages','Algebraic Thinking':'Algebraic Concepts','Measurement':'Measurement','Geometry':'Geometry','Data Analysis & Prob.':'Data Analysis & Probability'};
+  document.getElementById('quiz-title').textContent = labels[strand] || strand;
+  document.getElementById('bar-fill').className = 'bar-fill all';
+  setLastScreen('screen-drill');
+  showScreen('screen-quiz');
+  renderQ();
+}
+
+function startDrillSkill(safeKey, fromHome) {
+  const key = decodeURIComponent(safeKey);
+  const [strand, skill] = key.split('|||');
+  const pool = ALL_QUESTIONS.filter(q => {
+    const tax = TAXONOMY[q.n];
+    return tax && tax.strand === strand && tax.skill === skill;
+  });
+  if (pool.length === 0) { alert('No questions found for this skill.'); return; }
+  // Clear answers so questions appear fresh
+  pool.forEach(q => { const k = String(q.n); delete chosen[k]; delete statuses[k]; });
+  mode = 'drill';
+  curQs = pool;
+  cur = 0;
+  document.getElementById('quiz-title').textContent = skill;
+  document.getElementById('bar-fill').className = 'bar-fill all';
+  setLastScreen(fromHome ? 'screen-home' : 'screen-drill');
+  showScreen('screen-quiz');
+  renderQ();
+}
+
+
+function startDrill(safeKey) {
+  const key    = decodeURIComponent(safeKey);
+  const [strand, sub] = key.split('|||');
+  const pool   = ALL_QUESTIONS.filter(q => {
+    const tax = TAXONOMY[q.n];
+    return tax && tax.strand === strand && tax.sub === sub;
+  });
+  if (pool.length === 0) { alert('No questions found for this subtopic.'); return; }
+  mode = 'drill';
+  curQs = pool;
+  cur   = 0;
+  document.getElementById('quiz-title').textContent = sub;
+  document.getElementById('bar-fill').className = 'bar-fill all';
+  showScreen('screen-quiz');
+  renderQ();
+}
+
 function startQuiz(m) {
   mode = m;
-  // Merge approved generated questions into the pool
   const pool = ALL_QUESTIONS;
   curQs = m === 'ma' ? pool.filter(q => q.sec === 'MA')
         : m === 'qr' ? pool.filter(q => q.sec === 'QR')
@@ -714,6 +963,9 @@ function pick(idx) {
   statuses[key] = isCorrect ? 'correct' : 'wrong';
   saveProgress();
   renderQ(); updateDash();
+  if (mode === 'workout') {
+    workoutReaction(isCorrect);
+  }
   supaInsert({
     session_id:  SESSION_ID,
     question_id: key,
@@ -760,8 +1012,6 @@ function formatText(text) {
       let tbl = '<table class="dtable" style="margin:10px 0;">';
       rows.forEach((row, ri) => {
         const rawCells = row.split('|');
-        // Only strip empty cells at the very start/end caused by leading/trailing pipes
-        // Preserve empty interior cells (e.g. blank header corner)
         const start = rawCells[0].trim() === '' ? 1 : 0;
         const end = rawCells[rawCells.length - 1].trim() === '' ? rawCells.length - 1 : rawCells.length;
         const cells = rawCells.slice(start, end).map(c => c.trim());
@@ -807,6 +1057,7 @@ function renderQ() {
   document.getElementById('q-area').innerHTML = `
     <div class="q-card">
       <div class="q-meta ${q.sec.toLowerCase()}">${q.n} — ${q.sec === 'MA' ? 'Mathematics Achievement' : 'Quantitative Reasoning'}</div>
+      ${(()=>{ const tax = TAXONOMY[q.n]; return tax ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;"><span style="font-size:0.72rem;padding:2px 8px;border-radius:10px;background:#f1f5f9;color:#475569;font-weight:600;">${tax.strand}</span><span style="font-size:0.72rem;padding:2px 8px;border-radius:10px;background:#fef9c3;color:#92400e;font-weight:600;">DoK ${tax.dok}</span>${tax.skill ? `<span style="font-size:0.72rem;padding:2px 8px;border-radius:10px;background:#f0fdf4;color:#065f46;font-weight:600;">${tax.skill}</span>` : ''}</div>` : ''; })()}
       <div class="q-text">${formatText(q.text)}</div>${diag}
       <div class="options">${opts}</div>${fb}
     </div>`;
@@ -814,7 +1065,10 @@ function renderQ() {
   document.getElementById('score-badge').textContent = `Score: ${corr}/${done}`;
   document.getElementById('bar-fill').style.width = (done / curQs.length * 100) + '%';
   document.getElementById('btn-prev').disabled = cur === 0;
-  document.getElementById('btn-next').disabled = cur === curQs.length - 1;
+  const isLast = cur === curQs.length - 1;
+  document.getElementById('btn-next').disabled = isLast;
+  document.getElementById('btn-next').style.display = isLast ? 'none' : '';
+  document.getElementById('btn-finish').style.display = isLast ? '' : 'none';
   renderTabs();
 }
 
@@ -837,58 +1091,115 @@ function resetSection(sec) {
    DASHBOARD
 ════════════════════════════════════════ */
 async function updateDash() {
-  // Total = hardcoded questions + approved generated questions
-  const allPool = ALL_QUESTIONS;
-  const total = allPool.length;
-  document.getElementById('d-total').textContent = total;
-  document.getElementById('ma-pill').textContent = allPool.filter(q=>q.sec==='MA').length + ' Questions';
-  document.getElementById('qr-pill').textContent = allPool.filter(q=>q.sec==='QR').length + ' Questions';
-  document.getElementById('d-ma-total').textContent = allPool.filter(q=>q.sec==='MA').length;
-  document.getElementById('d-qr-total').textContent = allPool.filter(q=>q.sec==='QR').length;
+  const total = ALL_QUESTIONS.length;
 
-  // Fetch latest results from Supabase
+  // Fetch full answer history
+  let rows = [];
   try {
-    const res = await fetch(SUPA_URL + '/rest/v1/quiz_results?select=question_id,section,correct&order=answered_at.desc&limit=500', {
+    const res = await fetch(SUPA_URL + '/rest/v1/quiz_results?select=question_id,correct,answered_at&order=answered_at.desc&limit=2000', {
       headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
     });
-    if (!res.ok) return;
-    const rows = await res.json();
+    if (res.ok) rows = await res.json();
+  } catch(e) { return; }
 
-    // Latest result per question
-    const latest = {};
-    rows.forEach(r => { if (!latest[r.question_id]) latest[r.question_id] = r; });
-    const latestVals = Object.values(latest);
+  // Latest result per question
+  const latest = {};
+  rows.forEach(r => { if (!latest[r.question_id]) latest[r.question_id] = r; });
+  const latestVals = Object.values(latest);
+  const done  = latestVals.length;
+  const corr  = latestVals.filter(r => r.correct).length;
+  const score = done ? Math.round(corr / done * 100) : null;
+  const remaining = Math.max(0, total - done);
 
-    const ans  = latestVals.length;
-    const corr = latestVals.filter(r => r.correct).length;
-    const wrg  = ans - corr;
+  // Week boundaries (Mon 00:00 local)
+  function weekStart(weeksAgo) {
+    const now = new Date();
+    const day = now.getDay(); // 0=Sun
+    const diffToMon = (day + 6) % 7; // days since last Mon
+    const mon = new Date(now);
+    mon.setDate(now.getDate() - diffToMon - (weeksAgo * 7));
+    mon.setHours(0,0,0,0);
+    return mon;
+  }
+  const thisWeekStart = weekStart(0);
+  const lastWeekStart = weekStart(1);
 
-    const maRows = latestVals.filter(r => r.section === 'MA');
-    const qrRows = latestVals.filter(r => r.section === 'QR');
-    const maAns  = maRows.length;
-    const maCor  = maRows.filter(r => r.correct).length;
-    const qrAns  = qrRows.length;
-    const qrCor  = qrRows.filter(r => r.correct).length;
+  // Count questions answered this week / last week (all attempts, not just latest)
+  const twRows = rows.filter(r => new Date(r.answered_at) >= thisWeekStart);
+  const lwRows = rows.filter(r => {
+    const d = new Date(r.answered_at);
+    return d >= lastWeekStart && d < thisWeekStart;
+  });
 
-    document.getElementById('d-answered').textContent = ans;
-    document.getElementById('d-correct').textContent  = corr;
-    document.getElementById('d-wrong').textContent    = wrg;
-    document.getElementById('d-ans-pct').textContent  = total ? Math.round(ans/total*100)+'%' : '0%';
-    document.getElementById('d-cor-pct').textContent  = ans ? Math.round(corr/ans*100)+'%' : '0%';
-    document.getElementById('d-wrg-pct').textContent  = ans ? Math.round(wrg/ans*100)+'%' : '0%';
-    document.getElementById('bar-answered').style.width = (total ? ans/total*100 : 0)+'%';
-    document.getElementById('bar-correct').style.width  = (ans ? corr/ans*100 : 0)+'%';
-    document.getElementById('bar-wrong').style.width    = (ans ? wrg/ans*100 : 0)+'%';
-    document.getElementById('d-ma-ans').textContent  = maAns;
-    document.getElementById('d-ma-cor').textContent  = maCor;
-    document.getElementById('d-ma-wrg').textContent  = maAns - maCor;
-    document.getElementById('d-ma-range').textContent = 'MA-1 to MA-' + allPool.filter(q=>q.sec==='MA' && /^MA-\d+$/.test(String(q.n))).length;
-    document.getElementById('d-qr-ans').textContent  = qrAns;
-    document.getElementById('d-qr-cor').textContent  = qrCor;
-    document.getElementById('d-qr-wrg').textContent  = qrAns - qrCor;
-    document.getElementById('d-qr-range').textContent = 'QR-1 to QR-' + allPool.filter(q=>q.sec==='QR' && /^QR-\d+$/.test(String(q.n))).length;
-  } catch(e) {
-    // Silently fail — stats will just show 0
+  // Unique questions per week
+  const twUniq = new Set(twRows.map(r => r.question_id));
+  const lwUniq = new Set(lwRows.map(r => r.question_id));
+  const twCount = twUniq.size;
+  const lwCount = lwUniq.size;
+
+  // Correct % per week
+  const twLatest = {};
+  twRows.forEach(r => { if (!twLatest[r.question_id]) twLatest[r.question_id] = r; });
+  const twCorr = Object.values(twLatest).filter(r => r.correct).length;
+  const twPct  = twCount ? Math.round(twCorr / twCount * 100) : null;
+
+  const lwLatest = {};
+  lwRows.forEach(r => { if (!lwLatest[r.question_id]) lwLatest[r.question_id] = r; });
+  const lwCorr = Object.values(lwLatest).filter(r => r.correct).length;
+  const lwPct  = lwCount ? Math.round(lwCorr / lwCount * 100) : null;
+
+  // Bar widths — scale relative to the larger of the two
+  const maxW = Math.max(twCount, lwCount, 1);
+  const twBarW = Math.round(twCount / maxW * 100);
+  const lwBarW = Math.round(lwCount / maxW * 100);
+
+  // Skill weakness — bottom 3 skills with at least 3 attempts
+  const skillMap = {};
+  latestVals.forEach(r => {
+    const tax = TAXONOMY[r.question_id];
+    if (!tax || !tax.skill) return;
+    if (!skillMap[tax.skill]) skillMap[tax.skill] = { c:0, t:0 };
+    skillMap[tax.skill].t++;
+    if (r.correct) skillMap[tax.skill].c++;
+  });
+  const weakSkills = Object.entries(skillMap)
+    .filter(([,v]) => v.t >= 3)
+    .map(([skill, v]) => ({ skill, pct: Math.round(v.c / v.t * 100) }))
+    .sort((a,b) => a.pct - b.pct)
+    .slice(0, 3);
+
+  // ── Update DOM ──────────────────────────────────────────────────────
+  document.getElementById('snap-done').textContent      = done;
+  document.getElementById('snap-score').textContent     = score !== null ? score + '%' : '—';
+  document.getElementById('snap-thisweek').textContent  = twCount;
+  document.getElementById('snap-remaining').textContent = remaining;
+
+  document.getElementById('snap-tw-count').textContent = twCount;
+  document.getElementById('snap-lw-count').textContent = lwCount;
+  document.getElementById('snap-tw-pct').textContent   = twPct !== null ? twPct + '% ✓' : '—';
+  document.getElementById('snap-lw-pct').textContent   = lwPct !== null ? lwPct + '% ✓' : '—';
+  document.getElementById('snap-bar-tw').style.width   = twBarW + '%';
+  document.getElementById('snap-bar-lw').style.width   = lwBarW + '%';
+
+  // Boost section
+  const boostEl = document.getElementById('snap-boost');
+  if (weakSkills.length === 0) {
+    boostEl.innerHTML = '<div style="font-size:0.82rem;color:#94a3b8;">Answer more questions to see your focus areas.</div>';
+  } else {
+    boostEl.innerHTML = weakSkills.map(s => {
+      const col = s.pct < 50 ? '#E24B4A' : '#BA7517';
+      const safeKey = encodeURIComponent('|||' + s.skill); // strand unknown, drill by skill only
+      // Find strand for this skill
+      const strandEntry = Object.values(TAXONOMY).find(t => t.skill === s.skill);
+      const strand = strandEntry ? strandEntry.strand : '';
+      const safeSkillKey = encodeURIComponent(strand + '|||' + s.skill);
+      return `<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-top:0.5px solid #f1f5f9;cursor:pointer;" onclick="startDrillSkill('${safeSkillKey}', true)">
+        <div style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0;"></div>
+        <div style="font-size:0.82rem;color:#334155;flex:1;">${s.skill}</div>
+        <div style="font-size:0.75rem;font-weight:600;color:${col};">${s.pct}%</div>
+        <div style="font-size:0.8rem;color:#94a3b8;">→</div>
+      </div>`;
+    }).join('');
   }
 }
 
@@ -917,77 +1228,245 @@ function renderParentDash(rows) {
   document.getElementById('pd-status').textContent = '';
   const sessions = {};
   rows.forEach(r => { if (!sessions[r.session_id]) sessions[r.session_id] = []; sessions[r.session_id].push(r); });
-  // latest = most recent attempt per question (rows are ordered desc so first occurrence = latest)
   const latest = {};
   rows.forEach(r => { if (!latest[r.question_id]) latest[r.question_id] = r; });
-  // Summary counts based on LATEST attempt per question — not raw row count
   const latestVals = Object.values(latest);
   const totalAns = latestVals.length;
   const totalCor = latestVals.filter(r => r.correct).length;
-  const maRows = Object.values(latest).filter(r => r.section === 'MA').sort((a,b) => a.question_id.localeCompare(b.question_id, undefined, {numeric:true}));
-  const qrRows = Object.values(latest).filter(r => r.section === 'QR').sort((a,b) => a.question_id.localeCompare(b.question_id, undefined, {numeric:true}));
-  const sessionRows = Object.keys(sessions).sort().reverse().slice(0,10).map(sid => {
+  const pct = totalAns ? Math.round(totalCor/totalAns*100) : 0;
+  const sessionCount = Object.keys(sessions).length;
+
+  // ── Skill performance ──────────────────────────────────────────────────
+  const skillStats = {};
+  // Also store individual question results per skill for drill-down
+  const skillQuestions = {};
+  latestVals.forEach(r => {
+    const tax = TAXONOMY[r.question_id];
+    if (!tax || !tax.skill) return;
+    const key = (tax.strand||'') + '|||' + tax.skill;
+    if (!skillStats[key]) skillStats[key] = { strand: tax.strand, skill: tax.skill, correct: 0, total: 0 };
+    skillStats[key].total++;
+    if (r.correct) skillStats[key].correct++;
+    if (!skillQuestions[key]) skillQuestions[key] = [];
+    skillQuestions[key].push(r);
+  });
+
+  // ── DoK performance ────────────────────────────────────────────────────
+  const dokStats = { 1:{c:0,t:0}, 2:{c:0,t:0}, 3:{c:0,t:0} };
+  latestVals.forEach(r => {
+    const tax = TAXONOMY[r.question_id];
+    if (!tax || !tax.dok) return;
+    dokStats[tax.dok].t++;
+    if (r.correct) dokStats[tax.dok].c++;
+  });
+
+  // ── Session scores for chart ───────────────────────────────────────────
+  const sessionScores = Object.keys(sessions).sort().slice(-12).map(sid => {
     const sr = sessions[sid];
-    const date = sid.slice(0,10);
     const c = sr.filter(r => r.correct).length;
-    const t = sr.length;
-    const mac = sr.filter(r => r.section==='MA' && r.correct).length;
-    const mat = sr.filter(r => r.section==='MA').length;
-    const qrc = sr.filter(r => r.section==='QR' && r.correct).length;
-    const qrt = sr.filter(r => r.section==='QR').length;
-    return `<tr>
-      <td style="padding:10px 14px;border-bottom:1px solid #f1f5f9;font-size:0.85rem;">${date}</td>
-      <td style="padding:10px 14px;border-bottom:1px solid #f1f5f9;text-align:center;font-weight:700;color:#1a3a5c;">${c}/${t}</td>
-      <td style="padding:10px 14px;border-bottom:1px solid #f1f5f9;text-align:center;color:#1d4ed8;">${mat>0?mac+'/'+mat:'—'}</td>
-      <td style="padding:10px 14px;border-bottom:1px solid #f1f5f9;text-align:center;color:#0f6e56;">${qrt>0?qrc+'/'+qrt:'—'}</td>
-    </tr>`;
+    return { date: sid.slice(5,10), pct: Math.round(c/sr.length*100) };
+  });
+
+  // ── Strand grouping ────────────────────────────────────────────────────
+  const strandOrder = ['Whole Numbers','Decimals, Fractions & Percentages','Algebraic Thinking','Measurement','Geometry','Data Analysis & Prob.'];
+  const strandLabels = {'Whole Numbers':'Whole Numbers','Decimals, Fractions & Percentages':'Decimals, Fractions & Percentages','Algebraic Thinking':'Algebraic Concepts','Measurement':'Measurement','Geometry':'Geometry','Data Analysis & Prob.':'Data Analysis & Probability'};
+
+  function scoreColor(p) {
+    if (p >= 85) return { bar:'#27500A', text:'#173404' };  // dark green
+    if (p >= 70) return { bar:'#639922', text:'#3B6D11' };  // mid green
+    if (p >= 55) return { bar:'#97C459', text:'#3B6D11' };  // light green
+    if (p >= 40) return { bar:'#EF9F27', text:'#633806' };  // yellow/amber
+    return       { bar:'#E24B4A', text:'#A32D2D' };          // red
+  }
+
+  // Build skill rows per strand — now clickable
+  function skillRows(strand) {
+    return Object.values(skillStats)
+      .filter(s => s.strand === strand)
+      .sort((a,b) => a.skill.localeCompare(b.skill))
+      .map(s => {
+        const p = Math.round(s.correct/s.total*100);
+        const col = scoreColor(p);
+        const safeKey = encodeURIComponent((s.strand||'') + '|||' + s.skill);
+        return `<div onclick="pdShowSkillDrill('${safeKey}')" style="display:flex;align-items:center;gap:8px;padding:5px 0;border-top:0.5px solid #f1f5f9;cursor:pointer;">
+          <span style="font-size:0.75rem;color:#64748b;flex:0 0 180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${s.skill}</span>
+          <div style="flex:1;background:#f1f5f9;border-radius:3px;height:10px;overflow:hidden;">
+            <div style="width:${p}%;height:100%;background:${col.bar};border-radius:3px;"></div>
+          </div>
+          <span style="font-size:0.75rem;font-weight:600;color:${col.text};flex:0 0 32px;text-align:right;">${p}%</span>
+          <span style="font-size:0.72rem;color:#94a3b8;flex:0 0 24px;text-align:right;">${s.total}q</span>
+          <span style="font-size:0.72rem;color:#94a3b8;">›</span>
+        </div>`;
+      }).join('');
+  }
+
+  const strandBlocks = strandOrder.map(strand => {
+    const strandSkills = Object.values(skillStats).filter(s => s.strand === strand);
+    if (strandSkills.length === 0) return '';
+    const sc = strandSkills.reduce((s,x) => s+x.correct, 0);
+    const st = strandSkills.reduce((s,x) => s+x.total, 0);
+    const sp = st ? Math.round(sc/st*100) : 0;
+    const col = scoreColor(sp);
+    return `<div style="background:white;border:0.5px solid #e2e8f0;border-radius:12px;padding:12px 14px;margin-bottom:8px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <span style="font-size:0.85rem;font-weight:600;color:#1a3a5c;">${strandLabels[strand]||strand}</span>
+        <span style="font-size:0.85rem;font-weight:600;color:${col.text};">${sp}%</span>
+      </div>
+      ${skillRows(strand)}
+    </div>`;
   }).join('');
-  function qRow(r) {
-    const ok = r.correct;
+
+  // DoK cards
+  const dokLabels = {1:'DoK 1 — recall', 2:'DoK 2 — apply', 3:'DoK 3 — analyse'};
+  const dokCards = [1,2,3].map(d => {
+    const p = dokStats[d].t ? Math.round(dokStats[d].c/dokStats[d].t*100) : null;
+    const col = p !== null ? scoreColor(p) : { text:'#94a3b8' };
+    return `<div style="background:white;border:0.5px solid #e2e8f0;border-radius:10px;padding:12px;text-align:center;">
+      <div style="font-size:0.72rem;color:#94a3b8;margin-bottom:4px;">${dokLabels[d]}</div>
+      <div style="font-size:1.4rem;font-weight:500;color:${col.text};">${p !== null ? p+'%' : '—'}</div>
+      <div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">${dokStats[d].t} answered</div>
+    </div>`;
+  }).join('');
+
+  // Store skill questions for drill-down access
+  window._pdSkillQuestions = skillQuestions;
+
+  document.getElementById('pd-content').innerHTML = `
+    <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#94a3b8;margin-bottom:8px;">Overview</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem;">
+      <div style="background:#f1f5f9;border-radius:10px;padding:14px;text-align:center;"><div style="font-size:1.5rem;font-weight:500;color:#334155;">${totalAns}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:3px;">Questions answered</div></div>
+      <div style="background:#d1fae5;border-radius:10px;padding:14px;text-align:center;"><div style="font-size:1.5rem;font-weight:500;color:#065f46;">${pct}%</div><div style="font-size:0.72rem;color:#065f46;margin-top:3px;opacity:0.8;">Overall score</div></div>
+      <div style="background:#f1f5f9;border-radius:10px;padding:14px;text-align:center;"><div style="font-size:1.5rem;font-weight:500;color:#334155;">${sessionCount}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:3px;">Sessions</div></div>
+      <div style="background:#f1f5f9;border-radius:10px;padding:14px;text-align:center;"><div style="font-size:1.5rem;font-weight:500;color:#334155;">${Math.max(0, ALL_QUESTIONS.length - totalAns)}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:3px;">Remaining</div></div>
+    </div>
+
+    <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#94a3b8;margin-bottom:8px;">DoK breakdown</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.25rem;">${dokCards}</div>
+
+    ${sessionScores.length >= 2 ? `
+    <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#94a3b8;margin-bottom:8px;">Progress over time</div>
+    <div style="background:white;border:0.5px solid #e2e8f0;border-radius:12px;padding:12px 14px;margin-bottom:1.25rem;">
+      <div style="position:relative;width:100%;height:120px;">
+        <canvas id="pd-progress-chart" role="img" aria-label="Line chart showing score per session">${sessionScores.map(s=>s.date+': '+s.pct+'%').join(', ')}</canvas>
+      </div>
+    </div>` : ''}
+
+    <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#94a3b8;margin-bottom:8px;">Performance by skill <span style="font-weight:400;text-transform:none;letter-spacing:0;">— click a skill to see questions</span></div>
+    <div style="margin-bottom:1.25rem;">${strandBlocks || '<div style="color:#94a3b8;font-size:0.85rem;">No skill data yet — answer some questions first.</div>'}</div>
+
+    <div id="pd-skill-drill" style="display:none;margin-bottom:1.25rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#94a3b8;" id="pd-drill-label"></div>
+        <button onclick="document.getElementById('pd-skill-drill').style.display='none'" style="font-size:0.75rem;color:#64748b;border:0.5px solid #e2e8f0;background:white;border-radius:6px;padding:3px 10px;cursor:pointer;">✕ Close</button>
+      </div>
+      <div style="font-size:0.8rem;color:#64748b;margin-bottom:8px;" id="pd-drill-summary"></div>
+      <div style="background:white;border-radius:12px;border:0.5px solid #e2e8f0;overflow:hidden;">
+        <table style="width:100%;border-collapse:collapse;">
+          <thead><tr style="background:#f8fafc;">
+            <th style="padding:9px 14px;text-align:left;font-size:0.72rem;font-weight:700;color:#94a3b8;">Q</th>
+            <th style="padding:9px 14px;text-align:left;font-size:0.72rem;font-weight:700;color:#94a3b8;">Question</th>
+            <th style="padding:9px 14px;text-align:center;font-size:0.72rem;font-weight:700;color:#94a3b8;">Result</th>
+            <th style="padding:9px 14px;text-align:center;font-size:0.72rem;font-weight:700;color:#94a3b8;">Attempts</th>
+          </tr></thead>
+          <tbody id="pd-drill-rows"></tbody>
+        </table>
+      </div>
+    </div>`;
+
+  // Render progress chart
+  if (sessionScores.length >= 2) {
+    function drawProgressChart(attempts) {
+      const canvas = document.getElementById('pd-progress-chart');
+      if (!canvas) return;
+      if (!window.Chart) {
+        if (attempts > 20) return;
+        setTimeout(() => drawProgressChart(attempts + 1), 200);
+        return;
+      }
+      new window.Chart(canvas, {
+        type: 'line',
+        data: {
+          labels: sessionScores.map(s => s.date),
+          datasets: [{
+            data: sessionScores.map(s => s.pct),
+            borderColor: '#378ADD',
+            backgroundColor: '#E6F1FB',
+            fill: true,
+            tension: 0.3,
+            pointRadius: 3,
+            pointBackgroundColor: '#378ADD',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { min: 0, max: 100, ticks: { callback: v => v+'%', font:{size:10}, color:'#94a3b8' }, grid: { color:'rgba(0,0,0,0.05)' }, border:{display:false} },
+            x: { ticks: { font:{size:10}, color:'#94a3b8' }, grid:{display:false}, border:{display:false} }
+          }
+        }
+      });
+    }
+    drawProgressChart(0);
+  }
+}
+
+function pdShowSkillDrill(safeKey) {
+  const key = decodeURIComponent(safeKey);
+  const [strand, skill] = key.split('|||');
+  const qs = (window._pdSkillQuestions || {})[key] || [];
+  if (qs.length === 0) return;
+
+  const correct = qs.filter(r => r.correct).length;
+  const pct = Math.round(correct / qs.length * 100);
+
+  document.getElementById('pd-drill-label').textContent = skill + ' — ' + pct + '% correct';
+  document.getElementById('pd-drill-summary').textContent =
+    correct + ' correct, ' + (qs.length - correct) + ' incorrect out of ' + qs.length + ' attempted';
+
+  const sorted = [...qs].sort((a,b) => a.question_id.localeCompare(b.question_id, undefined, {numeric:true}));
+  // Store the full skill pool question ids for navigation in quiz
+  window._pdDrillPool = sorted.map(r => r.question_id);
+
+  document.getElementById('pd-drill-rows').innerHTML = sorted.map(r => {
     const q = ALL_QUESTIONS.find(q => String(q.n) === r.question_id);
-    const preview = q ? q.text.split('\n')[0].slice(0,55)+(q.text.length>55?'…':'') : r.question_id;
-    return `<tr>
-      <td style="padding:9px 14px;border-bottom:1px solid #f1f5f9;font-size:0.8rem;font-weight:700;color:#64748b;white-space:nowrap;">${r.question_id}</td>
+    const preview = q ? q.text.split('\n')[0].slice(0,60) + (q.text.length > 60 ? '…' : '') : r.question_id;
+    const ok = r.correct;
+    return `<tr onclick="pdOpenQuestion('${r.question_id}')" style="cursor:pointer;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+      <td style="padding:9px 14px;border-bottom:1px solid #f1f5f9;font-size:0.8rem;font-weight:600;color:#64748b;white-space:nowrap;">${r.question_id}</td>
       <td style="padding:9px 14px;border-bottom:1px solid #f1f5f9;font-size:0.82rem;color:#334155;">${preview}</td>
       <td style="padding:9px 14px;border-bottom:1px solid #f1f5f9;text-align:center;">
-        <span style="background:${ok?'#d1fae5':'#fee2e2'};color:${ok?'#065f46':'#991b1b'};padding:3px 10px;border-radius:99px;font-size:0.75rem;font-weight:700;">${ok?'✓ Correct':'✗ Wrong'}</span>
+        <span style="background:${ok?'#d1fae5':'#fee2e2'};color:${ok?'#065f46':'#991b1b'};padding:3px 10px;border-radius:99px;font-size:0.75rem;font-weight:600;">${ok?'✓ Correct':'✗ Wrong'}</span>
       </td>
       <td style="padding:9px 14px;border-bottom:1px solid #f1f5f9;text-align:center;font-size:0.82rem;color:#64748b;">${r.attempts}</td>
+      <td style="padding:9px 14px;border-bottom:1px solid #f1f5f9;text-align:center;font-size:0.8rem;color:#94a3b8;">›</td>
     </tr>`;
-  }
-  document.getElementById('pd-content').innerHTML = `
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.25rem;">
-      <div style="background:#f1f5f9;border-radius:10px;padding:14px;text-align:center;"><div style="font-size:1.6rem;font-weight:700;color:#334155;">${totalAns}</div><div style="font-size:0.72rem;font-weight:600;color:#94a3b8;margin-top:3px;">Questions tried</div></div>
-      <div style="background:#d1fae5;border-radius:10px;padding:14px;text-align:center;"><div style="font-size:1.6rem;font-weight:700;color:#065f46;">${totalCor}</div><div style="font-size:0.72rem;font-weight:600;color:#065f46;margin-top:3px;opacity:0.8;">Correct</div></div>
-      <div style="background:#fee2e2;border-radius:10px;padding:14px;text-align:center;"><div style="font-size:1.6rem;font-weight:700;color:#991b1b;">${totalAns-totalCor}</div><div style="font-size:0.72rem;font-weight:600;color:#991b1b;margin-top:3px;opacity:0.8;">Incorrect</div></div>
-    </div>
-    <div style="background:white;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-bottom:1.25rem;overflow:hidden;">
-      <div style="padding:12px 16px;border-bottom:1px solid #f1f5f9;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;">Recent Sessions</div>
-      <table style="width:100%;border-collapse:collapse;"><thead><tr style="background:#f8fafc;">
-        <th style="padding:10px 14px;text-align:left;font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#94a3b8;">Date</th>
-        <th style="padding:10px 14px;text-align:center;font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#94a3b8;">Total</th>
-        <th style="padding:10px 14px;text-align:center;font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#1d4ed8;">MA</th>
-        <th style="padding:10px 14px;text-align:center;font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#0f6e56;">QR</th>
-      </tr></thead><tbody>${sessionRows}</tbody></table>
-    </div>
-    ${maRows.length > 0 ? `<div style="background:white;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-bottom:1.25rem;overflow:hidden;">
-      <div style="padding:12px 16px;border-bottom:1px solid #f1f5f9;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#1d4ed8;">📐 Mathematics Achievement</div>
-      <table style="width:100%;border-collapse:collapse;"><thead><tr style="background:#f8fafc;">
-        <th style="padding:9px 14px;text-align:left;font-size:0.72rem;font-weight:700;color:#94a3b8;">Q</th>
-        <th style="padding:9px 14px;text-align:left;font-size:0.72rem;font-weight:700;color:#94a3b8;">Question</th>
-        <th style="padding:9px 14px;text-align:center;font-size:0.72rem;font-weight:700;color:#94a3b8;">Result</th>
-        <th style="padding:9px 14px;text-align:center;font-size:0.72rem;font-weight:700;color:#94a3b8;">Attempts</th>
-      </tr></thead><tbody>${maRows.map(qRow).join('')}</tbody></table>
-    </div>` : ''}
-    ${qrRows.length > 0 ? `<div style="background:white;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-bottom:1.25rem;overflow:hidden;">
-      <div style="padding:12px 16px;border-bottom:1px solid #f1f5f9;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#0f6e56;">🔢 Quantitative Reasoning</div>
-      <table style="width:100%;border-collapse:collapse;"><thead><tr style="background:#f8fafc;">
-        <th style="padding:9px 14px;text-align:left;font-size:0.72rem;font-weight:700;color:#94a3b8;">Q</th>
-        <th style="padding:9px 14px;text-align:left;font-size:0.72rem;font-weight:700;color:#94a3b8;">Question</th>
-        <th style="padding:9px 14px;text-align:center;font-size:0.72rem;font-weight:700;color:#94a3b8;">Result</th>
-        <th style="padding:9px 14px;text-align:center;font-size:0.72rem;font-weight:700;color:#94a3b8;">Attempts</th>
-      </tr></thead><tbody>${qrRows.map(qRow).join('')}</tbody></table>
-    </div>` : ''}`;
+  }).join('');
+
+  const drillEl = document.getElementById('pd-skill-drill');
+  drillEl.style.display = 'block';
+  drillEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function pdOpenQuestion(questionId) {
+  // Build pool from the current drill list, preserving order
+  const pool = (window._pdDrillPool || [questionId])
+    .map(id => ALL_QUESTIONS.find(q => String(q.n) === id))
+    .filter(Boolean);
+  if (pool.length === 0) return;
+  const startIdx = pool.findIndex(q => String(q.n) === questionId);
+  // Clear answers so questions appear fresh
+  pool.forEach(q => { const k = String(q.n); delete chosen[k]; delete statuses[k]; });
+  mode = 'drill';
+  curQs = pool;
+  cur = Math.max(0, startIdx);
+  document.getElementById('quiz-title').textContent = 'Review question';
+  document.getElementById('bar-fill').className = 'bar-fill all';
+  setLastScreen('screen-pd');
+  showScreen('screen-quiz');
+  renderQ();
 }
 
 /* ════════════════════════════════════════
@@ -1025,7 +1504,16 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
-function goHome() { showScreen('screen-home'); updateDash(); renderHeatGrid(); }
+function goHome() {
+  document.getElementById('workout-reaction').style.display = 'none';
+  document.getElementById('workout-countdown').style.display = 'none';
+  document.getElementById('streak-badge').classList.remove('show');
+  document.getElementById('milestone-banner').classList.remove('show');
+  document.getElementById('workout-end').style.display = 'none';
+  document.getElementById('bravo-overlay').style.display = 'none';
+  setLastScreen(null);
+  showScreen('screen-home'); updateDash();
+}
 
 
 /* ════════════════════════════════════════
@@ -1056,6 +1544,7 @@ function topicToTaxonomy(target_topic, section) {
   const strand = strandMap[topic] || (section === 'MA' ? 'Numbers & Operations' : 'Algebraic Thinking');
   return { strand, sub: topic || 'General', dok };
 }
+
 
 /* ════════════════════════════════════════════
    TAXONOMY — strand, subtopic, DoK per question
@@ -1110,7 +1599,7 @@ async function fetchQuestionBank() {
     // Populate TAXONOMY from Supabase rows
     rows.forEach(r => {
       if (r.strand && r.sub && r.dok) {
-        TAXONOMY[r.question_id] = { strand: r.strand, sub: r.sub, dok: r.dok };
+        TAXONOMY[r.question_id] = { strand: r.strand, sub: r.sub, dok: r.dok, skill: r.skill || null };
       }
     });
 
@@ -1203,5 +1692,29 @@ async function renderHeatGrid() {
 // Initialise on load — fetchQuestionBank handles everything
 fetchQuestionBank();
 </script>
+<!-- Workout overlays -->
+<div id="workout-countdown" style="display:none"></div>
+<div id="workout-reaction" style="display:none"></div>
+<div id="streak-badge"></div>
+<div id="milestone-banner"></div>
+<div id="workout-end">
+  <div class="we-emoji" id="we-emoji">🏆</div>
+  <div class="we-title" id="we-title">Well done!</div>
+  <div class="we-sub" id="we-sub">Great effort today.</div>
+  <div class="we-stats">
+    <div class="we-stat"><div class="val" id="we-correct">0</div><div class="lbl">Correct</div></div>
+    <div class="we-stat"><div class="val" id="we-total">0</div><div class="lbl">Questions</div></div>
+    <div class="we-stat"><div class="val" id="we-pct">0%</div><div class="lbl">Score</div></div>
+  </div>
+  <button class="we-btn" onclick="restartWorkout()">🏋️ Another Workout</button>
+  <button class="we-btn sec" onclick="closeWorkoutEnd()">← Back to Home</button>
+</div>
+<!-- Bravo overlay -->
+<div id="bravo-overlay">
+  <div class="br-emoji">🎉</div>
+  <div class="br-title">Bravo!</div>
+  <div class="br-sub" id="bravo-sub">Great work!</div>
+  <div class="br-stars">⭐ ⭐ ⭐</div>
+</div>
 </body>
 </html>
