@@ -298,8 +298,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
     <div id="tutor-student-list">
       <div style="color:#94a3b8;font-size:0.9rem;padding:1rem 0;">Loading students…</div>
     </div>
-    <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #e2e8f0;">
-    </div>
+    <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #e2e8f0;"></div>
   </div>
 </div>
 
@@ -484,8 +483,8 @@ const supaClient = window.supabase.createClient(SUPA_URL, SUPA_KEY);
 const EXAM_CONFIG = {
   id:        'isee',
   q_table:   'questions',             // future: 'isee_questions'
-  r_table:   'quiz_results',          // production table
-  r_staging: 'quiz_results',           // production table
+  r_table:   'quiz_results',          // future: 'isee_quiz_results'
+  r_staging: 'quiz_results',  // production table
   label:     'ISEE Lower Level',
 };
 const Q_TABLE = EXAM_CONFIG.q_table;
@@ -602,9 +601,10 @@ window.launchTutorQA   = launchTutorQA;
 
 // Auth headers for all fetch calls
 function authHeaders() {
+  const token = authToken || SUPA_KEY;
   return {
     'apikey':        SUPA_KEY,
-    'Authorization': 'Bearer ' + (authToken || SUPA_KEY),
+    'Authorization': 'Bearer ' + token,
     'Content-Type':  'application/json'
   };
 }
@@ -1548,11 +1548,12 @@ async function updateDash() {
   // Fetch full answer history
   let rows = [];
   try {
-    const res = await fetch(SUPA_URL + '/rest/v1/' + R_STAGING + '?select=question_id,correct,answered_at&user_id=eq.' + userId() + '&order=answered_at.desc&limit=2000', {
+    const dashUrl = SUPA_URL + '/rest/v1/' + R_STAGING + '?select=question_id,correct,answered_at&user_id=eq.' + userId() + '&order=answered_at.desc&limit=2000';
+    const res = await fetch(dashUrl, {
       headers: authHeaders()
     });
     if (res.ok) rows = await res.json();
-  } catch(e) { return; }
+  } catch(e) { console.error('updateDash error:', e); return; }
 
   // Latest result per question
   const latest = {};
@@ -2062,7 +2063,7 @@ async function fetchQuestionBank() {
 
     // Now run the rest of the init that depends on ALL_QUESTIONS
     loadProgress();
-    updateDash();
+    await updateDash();
     loadPoints();
 
     setLoadState(100, 'Ready!');
