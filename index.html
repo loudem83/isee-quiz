@@ -298,7 +298,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
     <div id="tutor-student-list">
       <div style="color:#94a3b8;font-size:0.9rem;padding:1rem 0;">Loading students…</div>
     </div>
-    <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #e2e8f0;"></div>
+    <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #e2e8f0;">
+    </div>
   </div>
 </div>
 
@@ -326,6 +327,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
       </button>
       <button class="all-btn" onclick="showScreen('screen-pd');loadParentDash();" style="border-color:#f59e0b;color:#92400e;background:#fffbeb;">
         👨&#x200D;👦 Parent Dashboard — View All Results
+      </button>
+      <button id="home-studio-btn" class="all-btn" onclick="launchTutorQA()" style="display:none;border-color:#c4b5fd;color:#4c1d95;background:#f5f3ff;">
+        ✏️ Question Studio — Create questions for this student
       </button>
     </div>
 
@@ -484,7 +488,7 @@ const EXAM_CONFIG = {
   id:        'isee',
   q_table:   'questions',             // future: 'isee_questions'
   r_table:   'quiz_results',          // future: 'isee_quiz_results'
-  r_staging: 'quiz_results',  // production table
+  r_staging: 'quiz_results',  // same as prod — user_id scoping handles separation
   label:     'ISEE Lower Level',
 };
 const Q_TABLE = EXAM_CONFIG.q_table;
@@ -579,11 +583,17 @@ async function onSignedIn() {
   const role = profile.role || 'family';
 
   if (role === 'tutor') {
-    // Tutor — show student picker
+    // Tutor — show student picker, hide QA button on home screen
+    const qaBtn = document.getElementById('home-qa-btn');
+    if (qaBtn) qaBtn.style.display = 'none';
     showScreen('screen-tutor');
     loadTutorStudents();
     return;
   }
+
+  // Family — show QA button (admin use), boot app
+  const qaBtn = document.getElementById('home-qa-btn');
+  if (qaBtn) qaBtn.style.display = '';
 
   // Family — update greeting and boot app
   const email = currentUser.email || '';
@@ -1145,6 +1155,11 @@ function enterTutorSession(studentId, studentName) {
   // Show banner
   document.getElementById('tutor-session-banner').style.display = 'flex';
   document.getElementById('tutor-viewing-name').textContent = studentName;
+  // Show Question Studio, hide QA button
+  const studioBtn = document.getElementById('home-studio-btn');
+  const qaBtn     = document.getElementById('home-qa-btn');
+  if (studioBtn) studioBtn.style.display = '';
+  if (qaBtn)     qaBtn.style.display = 'none';
   // Boot app scoped to student
   appBooted = false;
   fetchQuestionBank();
@@ -1160,12 +1175,15 @@ function exitTutorSession() {
   Object.keys(chosen).forEach(k => delete chosen[k]);
   Object.keys(statuses).forEach(k => delete statuses[k]);
   document.getElementById('tutor-session-banner').style.display = 'none';
+  // Hide Question Studio button
+  const studioBtn = document.getElementById('home-studio-btn');
+  if (studioBtn) studioBtn.style.display = 'none';
   showScreen('screen-tutor');
 }
 
-// Tutor QA — not available in production
+// Tutor QA — not available in production yet
 function launchTutorQA() {
-  alert('QA Review is only available in the staging environment.');
+  alert('Question Studio coming soon.');
 }
 
 // Override userId() to return student ID when in tutor session
