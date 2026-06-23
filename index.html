@@ -3,11 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>[STAGING] ISEE Maths Practice Quiz</title>
+<title>ISEE Maths Practice Quiz</title>
+<!-- Supabase JS client -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:#f0f4f9;color:#1a1a2e;min-height:100vh;}
 .screen{display:none;min-height:100vh;}.screen.active{display:block;}
+
+/* TUTOR SCREEN */
+#screen-tutor{background:#f0f4f9;min-height:100vh;}
+.tutor-header{background:#4c1d95;color:white;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;}
+.tutor-header h1{font-size:1.1rem;font-weight:600;}
+.tutor-body{max-width:600px;margin:0 auto;padding:1.5rem 1rem;}
+.tutor-label{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#64748b;margin-bottom:10px;}
+.student-card{background:white;border-radius:12px;border:1px solid #e2e8f0;padding:1rem 1.25rem;margin-bottom:10px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:box-shadow .15s;}
+.student-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.08);}
+.student-avatar{width:42px;height:42px;border-radius:50%;background:#ddd6fe;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.student-info{flex:1;}
+.student-name{font-size:0.95rem;font-weight:600;color:#1a3a5c;}
+.student-email{font-size:0.78rem;color:#94a3b8;margin-top:2px;}
+.student-stats{font-size:0.78rem;color:#64748b;margin-top:3px;}
+.student-arrow{font-size:1.1rem;color:#94a3b8;}
+.tutor-banner{background:#4c1d95;color:white;padding:6px 16px;font-size:0.8rem;display:flex;align-items:center;justify-content:space-between;}
+.tutor-banner button{background:rgba(255,255,255,0.2);border:none;color:white;padding:3px 10px;border-radius:5px;font-size:0.75rem;cursor:pointer;}
+
+
+#screen-login{align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#1a3a5c 0%,#0f6e56 100%);}
+#screen-login.active{display:flex;}
+.login-card{background:white;border-radius:18px;padding:2.5rem 2rem;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,0.25);}
+.login-logo{text-align:center;margin-bottom:1.5rem;}
+.login-logo .emoji{font-size:3rem;}
+.login-logo h1{font-size:1.4rem;font-weight:700;color:#1a3a5c;margin-top:0.5rem;}
+.login-logo p{font-size:0.85rem;color:#64748b;margin-top:0.25rem;}
+.login-field{margin-bottom:1rem;}
+.login-field label{display:block;font-size:0.8rem;font-weight:600;color:#475569;margin-bottom:5px;}
+.login-field input{width:100%;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font-size:0.95rem;color:#1a3a5c;outline:none;transition:border-color .2s;}
+.login-field input:focus{border-color:#1a3a5c;}
+.login-btn{width:100%;padding:12px;background:#1a3a5c;color:white;border:none;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;margin-top:0.5rem;transition:background .2s;}
+.login-btn:hover{background:#0f2a48;}
+.login-btn:disabled{opacity:0.6;cursor:not-allowed;}
+.login-error{background:#fee2e2;color:#991b1b;border-radius:8px;padding:10px 14px;font-size:0.85rem;margin-top:0.75rem;display:none;}
+.login-user-info{display:flex;align-items:center;justify-content:space-between;background:#f0f4f9;border-radius:10px;padding:8px 14px;margin-bottom:1rem;}
+.login-user-info span{font-size:0.85rem;color:#475569;}
+.logout-btn{background:none;border:none;color:#64748b;font-size:0.8rem;cursor:pointer;text-decoration:underline;}
+
 
 /* TOP BAR */
 .top-bar{background:#1a3a5c;color:white;padding:1rem 1.5rem;display:flex;align-items:center;gap:12px;}
@@ -209,7 +249,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 <div style="background:#f59e0b;color:#1a1a2e;text-align:center;padding:8px;font-size:0.82rem;font-weight:700;letter-spacing:0.05em;">STAGING — test data only</div>
 
 <!-- LOADING SCREEN -->
-<div id="screen-loading" class="screen active" style="position:fixed;top:0;left:0;right:0;z-index:999;background:#6366f1;color:white;text-align:center;padding:8px;font-size:0.82rem;font-weight:700;letter-spacing:0.05em;display:flex;align-items:center;justify-content:center;gap:12px;">
+<div id="screen-loading" class="screen" style="display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:#6366f1;color:white;text-align:center;padding:8px;font-size:0.82rem;font-weight:700;letter-spacing:0.05em;align-items:center;justify-content:center;gap:12px;">
   <span>📚 Loading question bank…</span>
   <div style="width:120px;height:4px;background:rgba(255,255,255,0.3);border-radius:99px;overflow:hidden;">
     <div id="load-bar" style="height:100%;width:0%;background:white;border-radius:99px;transition:width 0.4s ease;"></div>
@@ -217,11 +257,64 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
   <span id="load-msg" style="font-weight:400;opacity:0.85;">Connecting…</span>
 </div>
 
+<!-- SCREEN 0: LOGIN -->
+<div id="screen-login" class="screen active">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="emoji">📐</div>
+      <h1>I see it</h1>
+      <p>ISEE Maths Practice — Sign in to continue</p>
+    </div>
+    <div id="login-user-bar" style="display:none;margin-bottom:1rem;">
+      <div style="background:#f0f4f9;border-radius:10px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-size:0.85rem;color:#475569;">Signed in as <strong id="login-user-email"></strong></span>
+        <button onclick="signOut()" style="background:none;border:1px solid #cbd5e1;color:#64748b;font-size:0.78rem;padding:3px 10px;border-radius:6px;cursor:pointer;">Switch account</button>
+      </div>
+    </div>
+    <div id="login-form">
+      <div class="login-field">
+        <label>Email</label>
+        <input type="email" id="login-email" placeholder="your@email.com" autocomplete="email"/>
+      </div>
+      <div class="login-field">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password"
+          onkeydown="if(event.key==='Enter') doLogin()"/>
+      </div>
+      <button class="login-btn" id="login-btn" onclick="doLogin()">Sign in →</button>
+      <div class="login-error" id="login-error"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN TUTOR: Student Picker -->
+<div id="screen-tutor" class="screen">
+  <div class="tutor-header">
+    <h1>🎓 Tutor Dashboard</h1>
+    <button onclick="signOut()" style="background:rgba(255,255,255,0.15);border:none;color:white;padding:5px 12px;border-radius:6px;font-size:0.8rem;cursor:pointer;">Sign out</button>
+  </div>
+  <div class="tutor-body">
+    <div class="tutor-label">Select a student to view</div>
+    <div id="tutor-student-list">
+      <div style="color:#94a3b8;font-size:0.9rem;padding:1rem 0;">Loading students…</div>
+    </div>
+    <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #e2e8f0;">
+    </div>
+  </div>
+</div>
+
 <!-- SCREEN 1: HOME -->
 <div id="screen-home" class="screen">
+  <div id="tutor-session-banner" style="display:none" class="tutor-banner">
+    <span>👁 Viewing <strong id="tutor-viewing-name"></strong>'s account</span>
+    <button onclick="exitTutorSession()">← Back to students</button>
+  </div>
   <div class="home-hero">
     <h2>🎓 ISEE Maths Practice Quiz</h2>
-    <p>Interactive practice for Mathematics Achievement &amp; Quantitative Reasoning</p>
+    <p id="home-user-greeting">Interactive practice for Mathematics Achievement &amp; Quantitative Reasoning</p>
+    <div style="margin-top:8px;">
+      <button onclick="signOut()" style="background:rgba(255,255,255,0.15);border:none;color:white;padding:4px 12px;border-radius:6px;font-size:0.78rem;cursor:pointer;">Sign out</button>
+    </div>
   </div>
   <div class="home-body">
     <div class="dash-section">
@@ -377,19 +470,153 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 /* ════════════════════════════════════════
    SUPABASE CONFIG
 ════════════════════════════════════════ */
+/* ════════════════════════════════════════
+   SUPABASE AUTH
+════════════════════════════════════════ */
 const SUPA_URL = 'https://yajqvfwzhudghivzgijt.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlhanF2Znd6aHVkZ2hpdnpnaWp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzNTA0MjUsImV4cCI6MjA5NjkyNjQyNX0.9jFDuKr-mL9gl_skZcP5THhnJNjs-8ogzG4zmV6fIyk';
+
+const supaClient = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+
+/* ════════════════════════════════════════
+   EXAM CONFIG — swap these to add new subjects
+════════════════════════════════════════ */
+const EXAM_CONFIG = {
+  id:        'isee',
+  q_table:   'questions',             // future: 'isee_questions'
+  r_table:   'quiz_results',          // production table
+  r_staging: 'quiz_results',           // production table
+  label:     'ISEE Lower Level',
+};
+const Q_TABLE = EXAM_CONFIG.q_table;
+const R_TABLE = EXAM_CONFIG.r_table;
+const R_STAGING = EXAM_CONFIG.r_staging;
+
+let currentUser = null;
+let authToken   = null;
+
+let appBooted = false;
+
+async function initAuth() {
+  const { data: { session } } = await supaClient.auth.getSession();
+  if (session) {
+    currentUser = session.user;
+    authToken   = session.access_token;
+    // Show who's logged in on the login screen with option to continue or switch
+    const bar = document.getElementById('login-user-bar');
+    const emailEl = document.getElementById('login-user-email');
+    if (bar) bar.style.display = 'block';
+    if (emailEl) emailEl.textContent = session.user.email;
+    // Auto-proceed after short delay (user can switch account if needed)
+    document.getElementById('login-btn').textContent = 'Continue as ' + session.user.email.split('@')[0] + ' →';
+    document.getElementById('login-btn').onclick = onSignedIn;
+    showScreen('screen-login');
+  } else {
+    showScreen('screen-login');
+  }
+  supaClient.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_IN' && session) {
+      currentUser = session.user;
+      authToken   = session.access_token;
+      if (!appBooted) onSignedIn();
+    } else if (event === 'SIGNED_OUT') {
+      currentUser = null;
+      authToken   = null;
+      appBooted   = false;
+      // Reset button
+      document.getElementById('login-btn').textContent = 'Sign in →';
+      document.getElementById('login-btn').onclick = doLogin;
+      document.getElementById('login-user-bar').style.display = 'none';
+      showScreen('screen-login');
+    }
+  });
+}
+
+async function doLogin() {
+  const email    = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const errEl    = document.getElementById('login-error');
+  const btn      = document.getElementById('login-btn');
+  errEl.style.display = 'none';
+  if (!email || !password) { showLoginError('Please enter your email and password.'); return; }
+  btn.disabled = true; btn.textContent = 'Signing in…';
+  const { data, error } = await supaClient.auth.signInWithPassword({ email, password });
+  btn.disabled = false; btn.textContent = 'Sign in →';
+  if (error) { showLoginError(error.message); return; }
+  currentUser = data.user;
+  authToken   = data.session.access_token;
+  onSignedIn();
+}
+
+function showLoginError(msg) {
+  const el = document.getElementById('login-error');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+async function signOut() {
+  await supaClient.auth.signOut();
+  currentUser = null; authToken = null; appBooted = false;
+  // Reset app state — clear objects in place (they're const)
+  Object.keys(chosen).forEach(k => delete chosen[k]);
+  Object.keys(statuses).forEach(k => delete statuses[k]);
+  Object.keys(hintedOptions).forEach(k => delete hintedOptions[k]);
+  userPoints = 0;
+  ALL_QUESTIONS = [];
+  // Reset login button
+  const btn = document.getElementById('login-btn');
+  if (btn) { btn.textContent = 'Sign in →'; btn.onclick = doLogin; }
+  const bar = document.getElementById('login-user-bar');
+  if (bar) bar.style.display = 'none';
+  showScreen('screen-login');
+}
+
+async function onSignedIn() {
+  if (appBooted) return;
+  appBooted = true;
+
+  // Check role
+  const profile = await getUserRole();
+  const role = profile.role || 'family';
+
+  if (role === 'tutor') {
+    // Tutor — show student picker
+    showScreen('screen-tutor');
+    loadTutorStudents();
+    return;
+  }
+
+  // Family — update greeting and boot app
+  const email = currentUser.email || '';
+  const name  = profile.display_name || currentUser.user_metadata?.display_name || email.split('@')[0];
+  const greet = document.getElementById('home-user-greeting');
+  if (greet) greet.textContent = `Welcome back, ${name} 👋`;
+  fetchQuestionBank();
+}
+
+// Expose auth functions to global scope for inline handlers
+window.doLogin          = doLogin;
+window.signOut          = signOut;
+window.exitTutorSession = exitTutorSession;
+window.launchTutorQA   = launchTutorQA;
+
+// Auth headers for all fetch calls
+function authHeaders() {
+  return {
+    'apikey':        SUPA_KEY,
+    'Authorization': 'Bearer ' + (authToken || SUPA_KEY),
+    'Content-Type':  'application/json'
+  };
+}
+
 
 async function supaInsert(row) {
   showSyncStatus('⏳ Saving…', '#92400e', '#fffbeb');
   try {
-    const res = await fetch(SUPA_URL + '/rest/v1/quiz_results', {
+    const res = await fetch(SUPA_URL + '/rest/v1/' + R_STAGING + '', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPA_KEY,
-        'Authorization': 'Bearer ' + SUPA_KEY,
-        'Prefer': 'return=minimal'
+        ...authHeaders(), 'Prefer': 'return=minimal'
       },
       body: JSON.stringify(row)
     });
@@ -527,8 +754,8 @@ async function startWorkout(safeStrand) {
   // ── 1. Fetch answer history for this student ──────────────────────────
   let history = [];
   try {
-    const res = await fetch(SUPA_URL + '/rest/v1/quiz_results?select=question_id,correct,answered_at&order=answered_at.desc&limit=1000', {
-      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    const res = await fetch(SUPA_URL + '/rest/v1/' + R_STAGING + '?select=question_id,correct,answered_at&user_id=eq.' + userId() + '&order=answered_at.desc&limit=1000', {
+      headers: authHeaders()
     });
     if (res.ok) history = await res.json();
   } catch(e) { /* proceed without history */ }
@@ -772,8 +999,8 @@ let hintedOptions = {}; // key → [crossed-off option indices]
 // Load points from Supabase on startup
 async function loadPoints() {
   try {
-    const res = await fetch(SUPA_URL + '/rest/v1/user_points?user_id=eq.default&select=points', {
-      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    const res = await fetch(SUPA_URL + '/rest/v1/user_points?user_id=eq.' + userId() + '&select=points', {
+      headers: authHeaders()
     });
     if (!res.ok) return;
     const rows = await res.json();
@@ -787,13 +1014,10 @@ async function loadPoints() {
 // Save points to Supabase
 async function savePoints() {
   try {
-    await fetch(SUPA_URL + '/rest/v1/user_points?user_id=eq.default', {
+    await fetch(SUPA_URL + '/rest/v1/user_points?user_id=eq.' + userId() + '', {
       method: 'PATCH',
       headers: {
-        'apikey': SUPA_KEY,
-        'Authorization': 'Bearer ' + SUPA_KEY,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=minimal'
+        ...authHeaders(), 'Prefer': 'return=minimal'
       },
       body: JSON.stringify({ points: userPoints, updated_at: new Date().toISOString() })
     });
@@ -839,6 +1063,115 @@ function useHint(key) {
   userPoints -= HINT_COST;
   savePoints();
   renderQ(); // re-render to show crossed-off option and updated points
+}
+
+/* ════════════════════════════════════════
+   TUTOR SYSTEM
+════════════════════════════════════════ */
+let tutorMode     = false;   // true when tutor is viewing a student
+let tutorStudentId = null;   // UUID of student being viewed
+let tutorStudentName = '';
+
+// Check user role from profiles table
+async function getUserRole() {
+  try {
+    const url = SUPA_URL + '/rest/v1/profiles?id=eq.' + userId() + '&select=role,display_name';
+    const res = await fetch(url, { headers: authHeaders() });
+    if (!res.ok) return { role: 'family', display_name: null };
+    const rows = await res.json();
+    return rows.length > 0 ? rows[0] : { role: 'family', display_name: null };
+  } catch(e) { console.error('getUserRole error:', e); return { role: 'family', display_name: null }; }
+}
+
+// Load tutor's students
+async function loadTutorStudents() {
+  const listEl = document.getElementById('tutor-student-list');
+  try {
+    // Get student IDs linked to this tutor
+    const res = await fetch(
+      SUPA_URL + '/rest/v1/tutor_students?tutor_id=eq.' + userId() + '&select=student_id',
+      { headers: authHeaders() }
+    );
+    if (!res.ok) throw new Error('Failed to load students');
+    const links = await res.json();
+    if (links.length === 0) {
+      listEl.innerHTML = '<div style="color:#94a3b8;font-size:0.9rem;padding:1rem 0;">No students linked yet. Ask an admin to link students to your account.</div>';
+      return;
+    }
+    const studentIds = links.map(l => l.student_id);
+
+    // Get profiles for each student
+    const ids = studentIds.join(',');
+    const res2 = await fetch(
+      SUPA_URL + '/rest/v1/profiles?id=in.(' + ids + ')&select=id,display_name',
+      { headers: authHeaders() }
+    );
+    const profiles = await res2.json();
+
+    // Get quick stats for each student
+    const cards = await Promise.all(profiles.map(async p => {
+      try {
+        const sr = await fetch(
+          SUPA_URL + '/rest/v1/' + R_TABLE + '?user_id=eq.' + p.id + '&select=correct&limit=500',
+          { headers: authHeaders() }
+        );
+        const results = await sr.json();
+        const total = results.length;
+        const correct = results.filter(r => r.correct).length;
+        const pct = total ? Math.round(correct/total*100) : null;
+        return { ...p, total, pct };
+      } catch(e) { return { ...p, total: 0, pct: null }; }
+    }));
+
+    listEl.innerHTML = cards.map(s => `
+      <div class="student-card" onclick="enterTutorSession('${s.id}','${(s.display_name||s.id).replace(/'/g,"\\'")}')">
+        <div class="student-avatar">👤</div>
+        <div class="student-info">
+          <div class="student-name">${s.display_name || 'Student'}</div>
+          <div class="student-stats">${s.total} questions answered${s.pct !== null ? ' · ' + s.pct + '% correct' : ''}</div>
+        </div>
+        <div class="student-arrow">›</div>
+      </div>`).join('');
+  } catch(e) {
+    listEl.innerHTML = '<div style="color:#dc2626;font-size:0.9rem;">Error loading students: ' + e.message + '</div>';
+  }
+}
+
+// Enter tutor session for a specific student
+function enterTutorSession(studentId, studentName) {
+  tutorMode       = true;
+  tutorStudentId  = studentId;
+  tutorStudentName = studentName;
+  // Show banner
+  document.getElementById('tutor-session-banner').style.display = 'flex';
+  document.getElementById('tutor-viewing-name').textContent = studentName;
+  // Boot app scoped to student
+  appBooted = false;
+  fetchQuestionBank();
+}
+
+// Exit tutor session back to student picker
+function exitTutorSession() {
+  tutorMode       = false;
+  tutorStudentId  = null;
+  tutorStudentName = '';
+  appBooted       = false;
+  ALL_QUESTIONS   = [];
+  Object.keys(chosen).forEach(k => delete chosen[k]);
+  Object.keys(statuses).forEach(k => delete statuses[k]);
+  document.getElementById('tutor-session-banner').style.display = 'none';
+  showScreen('screen-tutor');
+}
+
+// Tutor QA — not available in production
+function launchTutorQA() {
+  alert('QA Review is only available in the staging environment.');
+}
+
+// Override userId() to return student ID when in tutor session
+function userId() {
+  if (tutorMode && tutorStudentId) return tutorStudentId;
+  return currentUser ? currentUser.id : 'default';
 }
 
 /* ════════════════════════════════════════
@@ -1065,6 +1398,7 @@ function pick(idx) {
     workoutReaction(isCorrect);
   }
   supaInsert({
+    user_id:     userId(),
     session_id:  SESSION_ID,
     question_id: key,
     section:     q.sec,
@@ -1214,8 +1548,8 @@ async function updateDash() {
   // Fetch full answer history
   let rows = [];
   try {
-    const res = await fetch(SUPA_URL + '/rest/v1/quiz_results?select=question_id,correct,answered_at&order=answered_at.desc&limit=2000', {
-      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    const res = await fetch(SUPA_URL + '/rest/v1/' + R_STAGING + '?select=question_id,correct,answered_at&user_id=eq.' + userId() + '&order=answered_at.desc&limit=2000', {
+      headers: authHeaders()
     });
     if (res.ok) rows = await res.json();
   } catch(e) { return; }
@@ -1327,8 +1661,8 @@ async function updateDash() {
 async function loadParentDash() {
   document.getElementById('pd-status').textContent = 'Loading results…';
   try {
-    const res = await fetch(SUPA_URL + '/rest/v1/quiz_results?select=*&order=answered_at.desc&limit=500',
-      { headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY } });
+    const res = await fetch(SUPA_URL + '/rest/v1/' + R_STAGING + '?select=*&user_id=eq.' + userId() + '&order=answered_at.desc&limit=500',
+      { headers: authHeaders() });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const rows = await res.json();
     renderParentDash(rows);
@@ -1596,15 +1930,15 @@ async function runDiagnostic() {
   el.innerHTML = '⏳ Testing…';
   const steps = [];
   try {
-    const r1 = await fetch(SUPA_URL + '/rest/v1/', { headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY } });
+    const r1 = await fetch(SUPA_URL + '/rest/v1/', { headers: authHeaders() });
     steps.push('✅ Step 1 — Reached Supabase (HTTP ' + r1.status + ')');
   } catch(e) { steps.push('❌ Step 1 — Cannot reach Supabase: ' + e.message); el.innerHTML = steps.join('<br>'); return; }
   try {
-    const r2 = await fetch(SUPA_URL + '/rest/v1/quiz_results?limit=1', { headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY } });
+    const r2 = await fetch(SUPA_URL + '/rest/v1/' + R_STAGING + '?limit=1', { headers: authHeaders() });
     steps.push(r2.ok ? '✅ Step 2 — Can READ table' : '❌ Step 2 — READ failed: ' + await r2.text());
   } catch(e) { steps.push('❌ Step 2: ' + e.message); }
   try {
-    const r3 = await fetch(SUPA_URL + '/rest/v1/quiz_results', {
+    const r3 = await fetch(SUPA_URL + '/rest/v1/' + R_STAGING + '', {
       method: 'POST',
       headers: {'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Prefer':'return=minimal'},
       body: JSON.stringify({session_id:'diag_test',question_id:'MA-1',section:'MA',correct:true,attempts:1,answered_at:new Date().toISOString()})
@@ -1679,13 +2013,16 @@ function setLoadState(pct, msg) {
 }
 
 async function fetchQuestionBank() {
+  // Show loading bar
+  const loadEl = document.getElementById('screen-loading');
+  if (loadEl) loadEl.style.display = 'flex';
   try {
     setLoadState(20, 'Fetching questions…');
 
     // Fetch all active questions from Supabase
     const res = await fetch(
-      SUPA_URL + '/rest/v1/questions?active=eq.true&select=*',
-      { headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY } }
+      SUPA_URL + '/rest/v1/' + Q_TABLE + '?active=eq.true&select=*',
+      { headers: authHeaders() }
     );
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const rows = await res.json();
@@ -1726,7 +2063,6 @@ async function fetchQuestionBank() {
     // Now run the rest of the init that depends on ALL_QUESTIONS
     loadProgress();
     updateDash();
-    renderHeatGrid();
     loadPoints();
 
     setLoadState(100, 'Ready!');
@@ -1793,8 +2129,8 @@ async function renderHeatGrid() {
   // Show loading state
   el.innerHTML = `<div class="heat-row"><div class="hc" style="grid-column:span 4;color:var(--color-text-tertiary);font-size:12px;padding:14px;">Loading performance data…</div></div>`;
   try {
-    const res = await fetch(SUPA_URL + '/rest/v1/quiz_results?select=question_id,correct&order=answered_at.desc&limit=500', {
-      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    const res = await fetch(SUPA_URL + '/rest/v1/' + R_STAGING + '?select=question_id,correct&user_id=eq.' + userId() + '&order=answered_at.desc&limit=500', {
+      headers: authHeaders()
     });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const rows = await res.json();
@@ -1808,8 +2144,8 @@ async function renderHeatGrid() {
   }
 }
 
-// Initialise on load — fetchQuestionBank handles everything
-fetchQuestionBank();
+// Initialise on load — auth first, then questions
+initAuth();
 </script>
 <!-- Workout overlays -->
 <div id="workout-countdown" style="display:none"></div>
