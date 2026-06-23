@@ -468,6 +468,95 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
   </div>
 </div>
 
+<!-- SCREEN 4: QA REVIEW -->
+<div id="screen-qa" class="screen">
+  <div class="top-bar" style="background:#4c1d95;">
+    <h1>🔬 QA Review</h1>
+    <button class="back-btn" onclick="goHome()">← Home</button>
+  </div>
+  <div class="quiz-wrap">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;">
+      <button id="qa-filter-all"       onclick="setQAFilter('all')"       style="padding:5px 14px;border-radius:99px;border:1.5px solid #4c1d95;background:#4c1d95;color:white;font-size:0.8rem;font-weight:700;cursor:pointer;">All</button>
+      <button id="qa-filter-generated" onclick="setQAFilter('generated')" style="padding:5px 14px;border-radius:99px;border:1.5px solid #c4b5fd;background:white;color:#4c1d95;font-size:0.8rem;font-weight:700;cursor:pointer;">Generated</button>
+      <button id="qa-filter-user"      onclick="setQAFilter('user')"      style="padding:5px 14px;border-radius:99px;border:1.5px solid #c4b5fd;background:white;color:#4c1d95;font-size:0.8rem;font-weight:700;cursor:pointer;">User</button>
+      <button id="qa-filter-manual"    onclick="setQAFilter('manual')"    style="padding:5px 14px;border-radius:99px;border:1.5px solid #c4b5fd;background:white;color:#4c1d95;font-size:0.8rem;font-weight:700;cursor:pointer;">Manual</button>
+    </div>
+    <div id="qa-status" style="text-align:center;padding:2rem;color:#64748b;font-size:0.95rem;"></div>
+    <div id="qa-counter" style="display:none;background:white;border-radius:12px;padding:0.9rem 1.25rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,0.07);display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;color:#64748b;">
+      <span id="qa-counter-text"></span>
+      <span id="qa-section-badge" style="padding:3px 12px;border-radius:99px;font-size:0.78rem;font-weight:700;"></span>
+    </div>
+    <div id="qa-taxonomy" style="display:none;background:#f5f3ff;border:1.5px solid #c4b5fd;border-radius:12px;padding:0.85rem 1.1rem;margin-bottom:1rem;font-size:0.82rem;color:#4c1d95;line-height:1.7;">
+    </div>
+    <div id="qa-area"></div>
+
+    <!-- Edit panel — hidden until ✏️ Edit is clicked -->
+    <div id="qa-edit-panel" style="display:none;background:#f8fafc;border:1.5px solid #94a3b8;border-radius:12px;padding:1.1rem;margin-top:0.75rem;">
+      <div style="font-size:0.85rem;font-weight:700;color:#334155;margin-bottom:0.9rem;">✏️ Edit Question</div>
+      <label style="font-size:0.8rem;color:#64748b;font-weight:600;">Question text</label>
+      <textarea id="qa-edit-text" rows="3" style="width:100%;margin:4px 0 10px;padding:8px;border:1.5px solid #cbd5e1;border-radius:8px;font-size:0.9rem;font-family:inherit;resize:vertical;box-sizing:border-box;"></textarea>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+        <div><label style="font-size:0.78rem;color:#64748b;font-weight:600;">Option A</label><input id="qa-edit-a" type="text" style="width:100%;margin-top:3px;padding:7px 8px;border:1.5px solid #cbd5e1;border-radius:7px;font-size:0.88rem;box-sizing:border-box;"></div>
+        <div><label style="font-size:0.78rem;color:#64748b;font-weight:600;">Option B</label><input id="qa-edit-b" type="text" style="width:100%;margin-top:3px;padding:7px 8px;border:1.5px solid #cbd5e1;border-radius:7px;font-size:0.88rem;box-sizing:border-box;"></div>
+        <div><label style="font-size:0.78rem;color:#64748b;font-weight:600;">Option C</label><input id="qa-edit-c" type="text" style="width:100%;margin-top:3px;padding:7px 8px;border:1.5px solid #cbd5e1;border-radius:7px;font-size:0.88rem;box-sizing:border-box;"></div>
+        <div><label style="font-size:0.78rem;color:#64748b;font-weight:600;">Option D</label><input id="qa-edit-d" type="text" style="width:100%;margin-top:3px;padding:7px 8px;border:1.5px solid #cbd5e1;border-radius:7px;font-size:0.88rem;box-sizing:border-box;"></div>
+      </div>
+      <label style="font-size:0.8rem;color:#64748b;font-weight:600;">Correct answer</label>
+      <select id="qa-edit-correct" style="width:100%;margin:4px 0 10px;padding:7px 8px;border:1.5px solid #cbd5e1;border-radius:7px;font-size:0.88rem;box-sizing:border-box;">
+        <option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option>
+      </select>
+      <label style="font-size:0.8rem;color:#64748b;font-weight:600;">Explanation</label>
+      <textarea id="qa-edit-exp" rows="3" style="width:100%;margin:4px 0 10px;padding:8px;border:1.5px solid #cbd5e1;border-radius:8px;font-size:0.9rem;font-family:inherit;resize:vertical;box-sizing:border-box;"></textarea>
+      <div style="border-top:1px solid #e2e8f0;margin:6px 0 10px;padding-top:10px;">
+        <div style="font-size:0.78rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">🏷️ Taxonomy</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+          <div>
+            <label style="font-size:0.78rem;color:#64748b;font-weight:600;">Strand</label>
+            <select id="qa-edit-strand" style="width:100%;margin-top:3px;padding:7px 8px;border:1.5px solid #cbd5e1;border-radius:7px;font-size:0.82rem;box-sizing:border-box;">
+              <option value="Whole Numbers">Whole Numbers</option>
+              <option value="Decimals, Fractions & Percentages">Decimals, Fractions &amp; Percentages</option>
+              <option value="Algebraic Thinking">Algebraic Concepts</option>
+              <option value="Measurement">Measurement</option>
+              <option value="Geometry">Geometry</option>
+              <option value="Data Analysis & Prob.">Data Analysis &amp; Probability</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:0.78rem;color:#64748b;font-weight:600;">DoK</label>
+            <select id="qa-edit-dok" style="width:100%;margin-top:3px;padding:7px 8px;border:1.5px solid #cbd5e1;border-radius:7px;font-size:0.82rem;box-sizing:border-box;">
+              <option value="1">1 — Recall</option>
+              <option value="2">2 — Apply</option>
+              <option value="3">3 — Analyse</option>
+            </select>
+          </div>
+        </div>
+        <label style="font-size:0.78rem;color:#64748b;font-weight:600;">Subtopic</label>
+        <select id="qa-edit-sub" style="width:100%;margin-top:3px;margin-bottom:8px;padding:7px 8px;border:1.5px solid #cbd5e1;border-radius:7px;font-size:0.82rem;box-sizing:border-box;"></select>
+        <label style="font-size:0.78rem;color:#64748b;font-weight:600;">Skill</label>
+        <select id="qa-edit-skill" style="width:100%;margin-top:3px;padding:7px 8px;border:1.5px solid #cbd5e1;border-radius:7px;font-size:0.82rem;box-sizing:border-box;margin-bottom:0;"></select>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="qaCancelEdit()" style="flex:1;padding:10px;border-radius:8px;border:1.5px solid #94a3b8;background:white;color:#64748b;font-size:0.9rem;font-weight:600;cursor:pointer;">✕ Cancel</button>
+        <button onclick="qaSaveEdit()" style="flex:1;padding:10px;border-radius:8px;border:none;background:#3b82f6;color:white;font-size:0.9rem;font-weight:700;cursor:pointer;">💾 Save changes</button>
+      </div>
+    </div>
+
+    <div id="qa-actions" style="display:none;gap:8px;margin-top:1rem;flex-wrap:wrap;">
+      <button onclick="qaDecide('rejected')" style="flex:1;min-width:100px;padding:13px;border-radius:10px;border:2px solid #ef4444;background:white;color:#dc2626;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='white'">✗ Reject</button>
+      <button onclick="qaStartEdit()" style="flex:1;min-width:100px;padding:13px;border-radius:10px;border:2px solid #3b82f6;background:white;color:#1d4ed8;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.background='#eff6ff'" onmouseout="this.style.background='white'">✏️ Edit</button>
+      <button onclick="qaDecide('approved')" style="flex:1;min-width:100px;padding:13px;border-radius:10px;border:2px solid #22c55e;background:white;color:#15803d;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.background='#f0fdf4'" onmouseout="this.style.background='white'">✓ Approve</button>
+    </div>
+    <div id="qa-nav" style="display:none;justify-content:space-between;gap:10px;margin-top:0.75rem;">
+      <button class="nav-btn" id="qa-btn-prev" onclick="qaGo(qaIdx-1)">← Previous</button>
+      <button class="nav-btn" id="qa-btn-next" onclick="qaGo(qaIdx+1)">Next →</button>
+    </div>
+    <div id="qa-done-msg" style="display:none;text-align:center;padding:2.5rem 1rem;">
+      <div style="font-size:2.5rem;margin-bottom:12px;">🎉</div>
+      <div style="font-size:1.1rem;font-weight:700;color:#1a1a2e;margin-bottom:6px;">All questions reviewed!</div>
+      <div style="font-size:0.9rem;color:#64748b;">No pending questions remain. Generate more or go back home.</div>
+    </div>
+  </div>
+</div>
 
 <script>
 /* ════════════════════════════════════════
@@ -1181,9 +1270,14 @@ function exitTutorSession() {
   showScreen('screen-tutor');
 }
 
-// Tutor QA — not available in production yet
+// Tutor QA — launch Question Studio
 function launchTutorQA() {
-  alert('Question Studio coming soon.');
+  tutorMode = false; // QA acts on global questions
+  // Rename screen title for tutors
+  const qaTitle = document.querySelector('#screen-qa .top-bar h1');
+  if (qaTitle) qaTitle.textContent = '✏️ Question Studio';
+  showScreen('screen-qa');
+  loadQAReview();
 }
 
 // Override userId() to return student ID when in tutor session
@@ -2014,6 +2108,380 @@ function topicToTaxonomy(target_topic, section) {
   };
   const strand = strandMap[topic] || (section === 'MA' ? 'Numbers & Operations' : 'Algebraic Thinking');
   return { strand, sub: topic || 'General', dok };
+}
+
+/* ════════════════════════════════════════
+   QA REVIEW
+════════════════════════════════════════ */
+let qaQuestions = [], qaIdx = 0;
+
+let qaFilter = 'all';
+
+function setQAFilter(filter) {
+  qaFilter = filter;
+  ['all','generated','user','manual'].forEach(f => {
+    const el = document.getElementById('qa-filter-' + f);
+    if (!el) return;
+    el.style.background = f === filter ? '#4c1d95' : 'white';
+    el.style.color      = f === filter ? 'white'   : '#4c1d95';
+  });
+  loadQAReview();
+}
+
+async function loadQAReview() {
+  const statusEl  = document.getElementById('qa-status');
+  const counterEl = document.getElementById('qa-counter');
+  const taxEl     = document.getElementById('qa-taxonomy');
+  const areaEl    = document.getElementById('qa-area');
+  const actionsEl = document.getElementById('qa-actions');
+  const navEl     = document.getElementById('qa-nav');
+  const doneEl    = document.getElementById('qa-done-msg');
+  const editEl    = document.getElementById('qa-edit-panel');
+
+  statusEl.textContent = '⏳ Loading questions…';
+  statusEl.style.display = 'block';
+  counterEl.style.display = 'none';
+  taxEl.style.display = 'none';
+  areaEl.innerHTML = '';
+  actionsEl.style.display = 'none';
+  navEl.style.display = 'none';
+  doneEl.style.display = 'none';
+  if (editEl) editEl.style.display = 'none';
+
+  try {
+    let allRows = [];
+
+    // Fetch from generated_questions (pending)
+    if (qaFilter === 'all' || qaFilter === 'generated') {
+      const r1 = await fetch(
+        SUPA_URL + '/rest/v1/generated_questions?status=eq.pending&select=*&order=generated_at.asc',
+        { headers: authHeaders() }
+      );
+      if (r1.ok) {
+        const rows = await r1.json();
+        rows.forEach(r => { r._source = 'generated'; r._table = 'generated_questions'; });
+        allRows.push(...rows);
+      }
+    }
+
+    // Fetch from questions (active=false) — user and manual sources
+    if (qaFilter === 'all' || qaFilter === 'user' || qaFilter === 'manual') {
+      let url = SUPA_URL + '/rest/v1/' + Q_TABLE + '?active=eq.false&select=*&order=question_id';
+      if (qaFilter === 'user')   url += '&source=eq.user';
+      if (qaFilter === 'manual') url += '&source=eq.manual';
+      const r2 = await fetch(url, { headers: authHeaders() });
+      if (r2.ok) {
+        const rows = await r2.json();
+        rows.forEach(r => {
+          r._source      = r.source || 'manual';
+          r._table       = 'questions';
+          r.target_topic = r.sub ? `${r.sub} (DoK${r.dok})` : '';
+        });
+        allRows.push(...rows);
+      }
+    }
+
+    if (allRows.length === 0) {
+      statusEl.style.display = 'none';
+      doneEl.style.display = 'block';
+      return;
+    }
+    qaQuestions = allRows;
+    qaIdx = 0;
+    statusEl.style.display = 'none';
+    qaRender();
+  } catch(e) {
+    statusEl.textContent = '❌ Could not load: ' + e.message;
+  }
+}
+
+function qaGo(i) {
+  if (i < 0 || i >= qaQuestions.length) return;
+  qaIdx = i;
+  qaRender();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function qaRender() {
+  const row = qaQuestions[qaIdx];
+  if (!row) return;
+  const tax = topicToTaxonomy(row.target_topic, row.section);
+  const dokLabel = ['', 'DoK 1 — Recall', 'DoK 2 — Conceptual', 'DoK 3 — Analytical'][tax?.dok] || '';
+
+  const counterEl = document.getElementById('qa-counter');
+  counterEl.style.display = 'flex';
+  document.getElementById('qa-counter-text').textContent = `Question ${qaIdx + 1} of ${qaQuestions.length} pending`;
+  const badge = document.getElementById('qa-section-badge');
+  badge.textContent = row.section === 'MA' ? 'Mathematics Achievement' : 'Quantitative Reasoning';
+  badge.style.background = row.section === 'MA' ? '#dbeafe' : '#d1fae5';
+  badge.style.color = row.section === 'MA' ? '#1e40af' : '#065f46';
+
+  const taxEl = document.getElementById('qa-taxonomy');
+  taxEl.style.display = 'block';
+  taxEl.innerHTML = tax
+    ? `<b>🏷 Taxonomy</b> &nbsp;|&nbsp; <b>ID:</b> ${row.question_id} &nbsp;|&nbsp; <b>Strand:</b> ${tax.strand} &nbsp;|&nbsp; <b>Subtopic:</b> ${tax.sub} &nbsp;|&nbsp; <b>${dokLabel}</b>`
+    : `<b>🏷 ID:</b> ${row.question_id} &nbsp;|&nbsp; <b>Topic:</b> ${row.target_topic || 'Unknown'}`;
+
+  const opts = [row.opt_a, row.opt_b, row.opt_c, row.opt_d].map((o, i) => {
+    const isCorrect = i === row.correct_index;
+    return `<button class="opt${isCorrect ? ' correct-ans' : ''}" disabled style="cursor:default;">
+      <span class="badge">${['A','B','C','D'][i]}</span><span>${o}</span>
+    </button>`;
+  }).join('');
+
+  const expHtml = row.explanation
+    ? `<div class="feedback correct show"><div class="fb-title">📖 Explanation</div>${row.explanation}</div>`
+    : `<div class="feedback incorrect show"><div class="fb-title">⚠ No explanation provided</div></div>`;
+
+  document.getElementById('qa-area').innerHTML = `
+    <div class="q-card">
+      <div class="q-meta ${row.section.toLowerCase()}">${row.question_id}</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
+        <span style="font-size:0.72rem;padding:2px 8px;border-radius:10px;background:#f1f5f9;color:#475569;font-weight:600;">${row.strand || '—'}</span>
+        <span style="font-size:0.72rem;padding:2px 8px;border-radius:10px;background:#fef9c3;color:#92400e;font-weight:600;">${row.dok ? 'DoK ' + row.dok : '—'}</span>
+        ${row.skill ? `<span style="font-size:0.72rem;padding:2px 8px;border-radius:10px;background:#f0fdf4;color:#065f46;font-weight:600;">${row.skill}</span>` : ''}
+      </div>
+      <div class="q-text">${formatText(row.text)}</div>
+      ${row.diag ? `<div class="q-diagram">${diagrams(row.diag)}</div>` : ''}
+      <div class="options">${opts}</div>
+      ${expHtml}
+    </div>`;
+
+  document.getElementById('qa-actions').style.display = 'flex';
+  const navEl = document.getElementById('qa-nav');
+  navEl.style.display = 'flex';
+  document.getElementById('qa-btn-prev').disabled = qaIdx === 0;
+  document.getElementById('qa-btn-next').disabled = qaIdx === qaQuestions.length - 1;
+}
+
+/* ════════════════════════════════════════
+   QA EDIT FUNCTIONS
+════════════════════════════════════════ */
+function qaStartEdit() {
+  const row = qaQuestions[qaIdx];
+  if (!row) return;
+
+  // Skill options per strand
+  const skillOptions = {
+    'Whole Numbers':                     ['Adding & Subtracting Integers','Multiplying & Dividing Integers','Order of Operations','Place Value & Standard Form','Factors, Multiples & Divisibility','Prime & Composite Numbers','Remainder Problems','Whole Number Word Problems'],
+    'Decimals, Fractions & Percentages': ['Adding & Subtracting Decimals','Multiplying & Dividing Decimals','Adding & Subtracting Fractions & Mixed Numbers','Comparing & Ordering Fractions & Decimals','Converting Between Fractions, Decimals & Percents','Fraction & Percent of a Quantity','Estimating with Fractions & Decimals','Ratio & Proportion Word Problems'],
+    'Algebraic Thinking':                ['Numerical & Shape Patterns','Input/Output & Function Tables','Writing & Translating Expressions','Solving 1-Variable Equations','Solving Multi-Step & Symbol Equations','Linear Relationships & Word Problems'],
+    'Measurement':                       ['Perimeter of Polygons','Area of Rectangles, Squares & Triangles','Area & Perimeter of Composite Figures','Volume of Solids','Missing Side given Area or Perimeter','Unit Conversions & Time','Angles in Triangles & Polygons'],
+    'Geometry':                          ['Identifying & Classifying Shapes','Symmetry, Transformations & Views of 3D','Coordinate Planes'],
+    'Data Analysis & Prob.':             ['Reading Tables & Graphs','Mean, Median & Mode','Simple Probability','Data Interpretation & Inference'],
+  };
+
+  // Sub options per strand (6 broad strands)
+  const subOptions = {
+    'Whole Numbers':                     ['Whole Numbers'],
+    'Decimals, Fractions & Percentages': ['Decimals, Fractions & Percentages'],
+    'Algebraic Thinking':                ['Algebraic Concepts'],
+    'Measurement':                       ['Measurement'],
+    'Geometry':                          ['Geometry'],
+    'Data Analysis & Prob.':             ['Data Analysis & Probability'],
+  };
+
+  // Populate strand and subtopic dropdowns
+  const strandEl = document.getElementById('qa-edit-strand');
+  const subEl    = document.getElementById('qa-edit-sub');
+  const skillEl  = document.getElementById('qa-edit-skill');
+  const currentStrand = row.strand || 'Whole Numbers';
+  const currentSub    = row.sub    || '';
+  const currentDok    = row.dok    || 2;
+  const currentSkill  = row.skill  || '';
+
+  strandEl.value = currentStrand;
+
+  function populateSubs(strand, selectedSub) {
+    const opts = subOptions[strand] || [];
+    subEl.innerHTML = opts.map(s =>
+      `<option value="${s}" ${s === selectedSub ? 'selected' : ''}>${s}</option>`
+    ).join('');
+  }
+
+  function populateSkills(strand, selectedSkill) {
+    const opts = skillOptions[strand] || [];
+    skillEl.innerHTML = opts.map(s =>
+      `<option value="${s}" ${s === selectedSkill ? 'selected' : ''}>${s}</option>`
+    ).join('');
+  }
+
+  populateSubs(currentStrand, currentSub);
+  populateSkills(currentStrand, currentSkill);
+
+  // Update subtopics and skills when strand changes
+  strandEl.onchange = () => {
+    populateSubs(strandEl.value, '');
+    populateSkills(strandEl.value, '');
+  };
+
+  document.getElementById('qa-edit-dok').value = String(currentDok);
+
+  // Populate edit fields from current row
+  document.getElementById('qa-edit-text').value    = row.text || '';
+  document.getElementById('qa-edit-a').value       = row.opt_a || '';
+  document.getElementById('qa-edit-b').value       = row.opt_b || '';
+  document.getElementById('qa-edit-c').value       = row.opt_c || '';
+  document.getElementById('qa-edit-d').value       = row.opt_d || '';
+  document.getElementById('qa-edit-correct').value = String(row.correct_index ?? 0);
+  document.getElementById('qa-edit-exp').value     = row.explanation || '';
+  // Show edit panel, hide action buttons
+  document.getElementById('qa-edit-panel').style.display = 'block';
+  document.getElementById('qa-actions').style.display    = 'none';
+  // Scroll edit panel into view
+  document.getElementById('qa-edit-panel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function qaCancelEdit() {
+  document.getElementById('qa-edit-panel').style.display = 'none';
+  document.getElementById('qa-actions').style.display    = 'flex';
+}
+
+async function qaSaveEdit() {
+  const row = qaQuestions[qaIdx];
+  if (!row) return;
+  const saveBtn = document.querySelector('#qa-edit-panel button:last-child');
+  saveBtn.textContent = '⏳ Saving…';
+  saveBtn.disabled = true;
+
+  const updates = {
+    text:          document.getElementById('qa-edit-text').value.trim(),
+    opt_a:         document.getElementById('qa-edit-a').value.trim(),
+    opt_b:         document.getElementById('qa-edit-b').value.trim(),
+    opt_c:         document.getElementById('qa-edit-c').value.trim(),
+    opt_d:         document.getElementById('qa-edit-d').value.trim(),
+    correct_index: parseInt(document.getElementById('qa-edit-correct').value),
+    explanation:   document.getElementById('qa-edit-exp').value.trim(),
+    strand:        document.getElementById('qa-edit-strand').value,
+    sub:           document.getElementById('qa-edit-sub').value,
+    dok:           parseInt(document.getElementById('qa-edit-dok').value),
+    skill:         document.getElementById('qa-edit-skill').value,
+    created_by:    currentUser ? currentUser.id : null,
+    assigned_to:   tutorMode && tutorStudentId ? tutorStudentId : null,
+  };
+
+  try {
+    const table   = row._table === 'questions' ? 'questions' : 'generated_questions';
+    const idField = row._table === 'questions' ? `question_id=eq.${row.question_id}` : `id=eq.${row.id}`;
+    const res = await fetch(SUPA_URL + `/rest/v1/${table}?${idField}`, {
+      method: 'PATCH',
+      headers: {
+        ...authHeaders(), 'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(updates)
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+
+    // Update local copy so re-render shows the edits
+    Object.assign(qaQuestions[qaIdx], updates);
+
+    // Close edit panel and re-render
+    document.getElementById('qa-edit-panel').style.display = 'none';
+    document.getElementById('qa-actions').style.display    = 'flex';
+    qaRender();
+  } catch(e) {
+    alert('❌ Could not save: ' + e.message);
+  } finally {
+    saveBtn.textContent = '💾 Save changes';
+    saveBtn.disabled = false;
+  }
+}
+
+async function qaDecide(decision) {
+  const row = qaQuestions[qaIdx];
+  if (!row) return;
+  const actionsEl = document.getElementById('qa-actions');
+  actionsEl.style.display = 'none';
+
+  try {
+    if (row._table === 'questions') {
+      // ── questions table: simply set active=true or leave as false ──
+      if (decision === 'approved') {
+        const res = await fetch(SUPA_URL + `/rest/v1/' + Q_TABLE + '?question_id=eq.${row.question_id}`, {
+          method: 'PATCH',
+          headers: { ...authHeaders(), 'Prefer': 'return=minimal' },
+          body: JSON.stringify({ active: true })
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        // Add to local pool immediately
+        const newQ = { n: row.question_id, sec: row.section, text: row.text,
+          opts: [row.opt_a, row.opt_b, row.opt_c, row.opt_d], ans: row.correct_index, exp: row.explanation || '' };
+        if (row.diag) newQ.diag = row.diag;
+        if (row.strand) TAXONOMY[row.question_id] = { strand: row.strand, sub: row.sub, dok: row.dok, skill: row.skill || null };
+        ALL_QUESTIONS.push(newQ);
+        ALL_QUESTIONS.sort((a, b) => {
+          const [as, an] = [a.n.split('-')[0], parseInt(a.n.split('-')[1])||0];
+          const [bs, bn] = [b.n.split('-')[0], parseInt(b.n.split('-')[1])||0];
+          return as !== bs ? as.localeCompare(bs) : an - bn;
+        });
+        updateDash();
+      }
+      // Rejected: leave active=false, just remove from queue
+
+    } else {
+      // ── generated_questions table: INSERT into questions, PATCH status ──
+      let newQuestionId = row.question_id;
+      if (decision === 'approved') {
+        const idRes = await fetch(
+          SUPA_URL + `/rest/v1/' + Q_TABLE + '?select=question_id&section=eq.${row.section}`,
+          { headers: authHeaders() }
+        );
+        const existingIds = idRes.ok ? await idRes.json() : [];
+        const prefix = row.section === 'MA' ? 'MA-' : 'QR-';
+        const maxNum = existingIds
+          .map(r => parseInt(r.question_id.replace(prefix, '')))
+          .filter(n => !isNaN(n))
+          .reduce((a, b) => Math.max(a, b), 0);
+        newQuestionId = `${prefix}${maxNum + 1}`;
+        const tax = topicToTaxonomy(row.target_topic, row.section);
+        const insertRes = await fetch(SUPA_URL + '/rest/v1/' + Q_TABLE + '', {
+          method: 'POST',
+          headers: { ...authHeaders(), 'Prefer': 'return=minimal' },
+          body: JSON.stringify({
+            question_id: newQuestionId, section: row.section,
+            text: row.text, opt_a: row.opt_a, opt_b: row.opt_b, opt_c: row.opt_c, opt_d: row.opt_d,
+            correct_index: row.correct_index, explanation: row.explanation || '',
+            diag: null, strand: tax?.strand||null, sub: tax?.sub||null, dok: tax?.dok||null,
+            source: 'generated', active: true,
+            created_by: currentUser ? currentUser.id : null,
+            assigned_to: tutorMode && tutorStudentId ? tutorStudentId : null,
+          })
+        });
+        if (!insertRes.ok) throw new Error('Insert failed: HTTP ' + insertRes.status);
+        const newQ = { n: newQuestionId, sec: row.section, text: row.text,
+          opts: [row.opt_a, row.opt_b, row.opt_c, row.opt_d], ans: row.correct_index, exp: row.explanation||'' };
+        if (tax) TAXONOMY[newQuestionId] = tax;
+        ALL_QUESTIONS.push(newQ);
+        updateDash();
+      }
+      const patchBody = { status: decision === 'approved' ? 'promoted' : 'rejected' };
+      if (decision === 'approved') patchBody.question_id = newQuestionId;
+      const patchRes = await fetch(SUPA_URL + `/rest/v1/generated_questions?id=eq.${row.id}`, {
+        method: 'PATCH',
+        headers: { ...authHeaders(), 'Prefer': 'return=minimal' },
+        body: JSON.stringify(patchBody)
+      });
+      if (!patchRes.ok) throw new Error('Patch failed: HTTP ' + patchRes.status);
+    }
+
+    // Remove from pending list and advance
+    qaQuestions.splice(qaIdx, 1);
+    if (qaQuestions.length === 0) {
+      document.getElementById('qa-counter').style.display  = 'none';
+      document.getElementById('qa-taxonomy').style.display = 'none';
+      document.getElementById('qa-area').innerHTML         = '';
+      document.getElementById('qa-nav').style.display      = 'none';
+      actionsEl.style.display                              = 'none';
+      document.getElementById('qa-done-msg').style.display = 'block';
+      return;
+    }
+    if (qaIdx >= qaQuestions.length) qaIdx = qaQuestions.length - 1;
+    actionsEl.style.display = 'flex';
+    qaRender();
+  } catch(e) {
+    actionsEl.style.display = 'flex';
+    alert('❌ Could not save: ' + e.message);
+  }
 }
 
 
