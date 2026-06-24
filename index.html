@@ -1383,16 +1383,17 @@ function triggerBravo() {
 }
 
 function startTutorWorkout() {
-  // Launch a drill with only questions assigned to this student
-  const assignedQs = ALL_QUESTIONS.filter(q => q.assigned_to === userId());
+  const uid = userId();
+  const assignedQs = ALL_QUESTIONS.filter(q => q.assigned_to === uid);
+  console.log('startTutorWorkout: userId=', uid, 'assigned=', assignedQs.length, 'total=', ALL_QUESTIONS.length);
   if (assignedQs.length === 0) {
     alert('No tutor questions assigned yet.');
     return;
   }
-  curQs   = assignedQs.slice();
-  mode    = 'drill';
-  chosen  = {};
-  curIdx  = 0;
+  curQs  = assignedQs.slice();
+  mode   = 'drill';
+  cur    = 0;
+  Object.keys(chosen).forEach(k => delete chosen[k]);
   setLastScreen('screen-workout');
   showScreen('screen-quiz');
   renderQ();
