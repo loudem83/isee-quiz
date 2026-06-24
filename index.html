@@ -716,10 +716,14 @@ async function onSignedIn() {
 }
 
 // Expose auth functions to global scope for inline handlers
-window.doLogin          = doLogin;
-window.signOut          = signOut;
-window.exitTutorSession = exitTutorSession;
-window.launchTutorQA   = launchTutorQA;
+window.doLogin            = doLogin;
+window.signOut            = signOut;
+window.exitTutorSession   = exitTutorSession;
+window.enterTutorSession  = enterTutorSession;
+window.launchTutorQA      = launchTutorQA;
+window.startTutorWorkout  = startTutorWorkout;
+window.qaOnStrandChange   = qaOnStrandChange;
+window.qaNewQuestion      = qaNewQuestion;
 
 // Auth headers for all fetch calls
 function authHeaders() {
