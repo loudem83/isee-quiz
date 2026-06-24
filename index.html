@@ -617,13 +617,14 @@ async function initAuth() {
     showScreen('screen-login');
   }
   supaClient.auth.onAuthStateChange((event, session) => {
+    // Ignore events fired due to tab visibility changes
+    if (document.hidden) return;
     if (event === 'SIGNED_IN' && session) {
       currentUser = session.user;
       authToken   = session.access_token;
-      // Only route if not already in the app (prevents re-routing on tab focus/token refresh)
+      // Only route if not already in the app
       if (!appBooted) onSignedIn();
     } else if (event === 'TOKEN_REFRESHED' && session) {
-      // Just update the token silently — don't re-route
       authToken = session.access_token;
     } else if (event === 'SIGNED_OUT') {
       currentUser = null;
@@ -1313,8 +1314,7 @@ function exitTutorSession() {
 
 // Tutor QA — launch Question Studio
 function launchTutorQA() {
-  tutorMode = false; // QA acts on global questions
-  // Rename screen title for tutors
+  // Keep tutorMode and tutorStudentId so assigned_to gets set on new questions
   const qaTitle = document.querySelector('#screen-qa .top-bar h1');
   if (qaTitle) qaTitle.textContent = '✏️ Question Studio';
   showScreen('screen-qa');
