@@ -246,7 +246,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 </head>
 <body>
 
-<div style="background:#f59e0b;color:#1a1a2e;text-align:center;padding:8px;font-size:0.82rem;font-weight:700;letter-spacing:0.05em;">STAGING — test data only</div>
+
 
 <!-- LOADING SCREEN -->
 <div id="screen-loading" class="screen" style="display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:#6366f1;color:white;text-align:center;padding:8px;font-size:0.82rem;font-weight:700;letter-spacing:0.05em;align-items:center;justify-content:center;gap:12px;">
@@ -475,11 +475,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
     <button class="back-btn" onclick="goHome()">← Home</button>
   </div>
   <div class="quiz-wrap">
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;align-items:center;">
       <button id="qa-filter-all"       onclick="setQAFilter('all')"       style="padding:5px 14px;border-radius:99px;border:1.5px solid #4c1d95;background:#4c1d95;color:white;font-size:0.8rem;font-weight:700;cursor:pointer;">All</button>
       <button id="qa-filter-generated" onclick="setQAFilter('generated')" style="padding:5px 14px;border-radius:99px;border:1.5px solid #c4b5fd;background:white;color:#4c1d95;font-size:0.8rem;font-weight:700;cursor:pointer;">Generated</button>
       <button id="qa-filter-user"      onclick="setQAFilter('user')"      style="padding:5px 14px;border-radius:99px;border:1.5px solid #c4b5fd;background:white;color:#4c1d95;font-size:0.8rem;font-weight:700;cursor:pointer;">User</button>
       <button id="qa-filter-manual"    onclick="setQAFilter('manual')"    style="padding:5px 14px;border-radius:99px;border:1.5px solid #c4b5fd;background:white;color:#4c1d95;font-size:0.8rem;font-weight:700;cursor:pointer;">Manual</button>
+      <button onclick="qaNewQuestion()" style="margin-left:auto;padding:6px 16px;border-radius:8px;border:none;background:#4c1d95;color:white;font-size:0.85rem;font-weight:700;cursor:pointer;">+ New Question</button>
     </div>
     <div id="qa-status" style="text-align:center;padding:2rem;color:#64748b;font-size:0.95rem;"></div>
     <div id="qa-counter" style="display:none;background:white;border-radius:12px;padding:0.9rem 1.25rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,0.07);display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;color:#64748b;">
@@ -610,15 +611,19 @@ async function initAuth() {
     if (event === 'SIGNED_IN' && session) {
       currentUser = session.user;
       authToken   = session.access_token;
+      // Only route if not already in the app (prevents re-routing on tab focus/token refresh)
       if (!appBooted) onSignedIn();
+    } else if (event === 'TOKEN_REFRESHED' && session) {
+      // Just update the token silently — don't re-route
+      authToken = session.access_token;
     } else if (event === 'SIGNED_OUT') {
       currentUser = null;
       authToken   = null;
       appBooted   = false;
-      // Reset button
-      document.getElementById('login-btn').textContent = 'Sign in →';
-      document.getElementById('login-btn').onclick = doLogin;
-      document.getElementById('login-user-bar').style.display = 'none';
+      const btn = document.getElementById('login-btn');
+      if (btn) { btn.textContent = 'Sign in →'; btn.onclick = doLogin; }
+      const bar = document.getElementById('login-user-bar');
+      if (bar) bar.style.display = 'none';
       showScreen('screen-login');
     }
   });
@@ -680,9 +685,13 @@ async function onSignedIn() {
     return;
   }
 
-  // Family — show QA button (admin use), boot app
-  const qaBtn = document.getElementById('home-qa-btn');
-  if (qaBtn) qaBtn.style.display = '';
+  // Family — boot app, hide all tutor UI elements
+  const qaBtn     = document.getElementById('home-qa-btn');
+  const studioBtn = document.getElementById('home-studio-btn');
+  const banner    = document.getElementById('tutor-session-banner');
+  if (qaBtn)     qaBtn.style.display     = '';
+  if (studioBtn) studioBtn.style.display = 'none';
+  if (banner)    banner.style.display    = 'none';
 
   // Family — update greeting and boot app
   const email = currentUser.email || '';
@@ -827,6 +836,23 @@ function loadWorkout() {
   statusEl.textContent = `${total} questions available`;
 
   let html = '<div class="drill-grid">';
+
+  // ── Tutor Questions card (only if assigned questions exist) ──
+  const assignedQs = ALL_QUESTIONS.filter(q => q.assigned_to === userId());
+  if (assignedQs.length > 0) {
+    html += `
+      <div class="drill-card" onclick="startTutorWorkout()" style="border-color:#7c3aed;background:linear-gradient(135deg,#f5f3ff,#ede9fe);grid-column:1/-1;">
+        <div class="dc-left">
+          <h4 style="color:#4c1d95;">📝 Tutor Questions</h4>
+          <p style="font-size:0.75rem;color:#7c3aed;margin-top:2px;">Assigned by your tutor</p>
+        </div>
+        <div class="dc-right">
+          <span class="dc-count" style="color:#4c1d95;">${assignedQs.length}</span>
+          <span class="dc-label" style="color:#7c3aed;">questions</span>
+        </div>
+      </div>`;
+  }
+
   strandOrder.filter(s => strandMap[s]).forEach(strand => {
     const count = Math.min(strandMap[strand], 20);
     html += `
@@ -1339,6 +1365,23 @@ function triggerBravo() {
     document.getElementById('bravo-overlay').style.display = 'none';
     goHome();
   }, 3200);
+}
+
+function startTutorWorkout() {
+  // Launch a drill with only questions assigned to this student
+  const assignedQs = ALL_QUESTIONS.filter(q => q.assigned_to === userId());
+  if (assignedQs.length === 0) {
+    alert('No tutor questions assigned yet.');
+    return;
+  }
+  curQs   = assignedQs.slice();
+  mode    = 'drill';
+  chosen  = {};
+  curIdx  = 0;
+  setLastScreen('screen-workout');
+  showScreen('screen-quiz');
+  renderQ();
+  updateDash();
 }
 
 function loadDrill() {
@@ -2128,6 +2171,122 @@ function setQAFilter(filter) {
   loadQAReview();
 }
 
+function qaNewQuestion() {
+  // Hide review areas, show blank edit panel
+  document.getElementById('qa-area').innerHTML = '';
+  document.getElementById('qa-counter').style.display = 'none';
+  document.getElementById('qa-taxonomy').style.display = 'none';
+  document.getElementById('qa-actions').style.display = 'none';
+  document.getElementById('qa-done-msg').style.display = 'none';
+  document.getElementById('qa-status').textContent = '';
+
+  // Clear edit fields
+  document.getElementById('qa-edit-text').value = '';
+  document.getElementById('qa-edit-a').value = '';
+  document.getElementById('qa-edit-b').value = '';
+  document.getElementById('qa-edit-c').value = '';
+  document.getElementById('qa-edit-d').value = '';
+  document.getElementById('qa-edit-correct').value = '0';
+  document.getElementById('qa-edit-exp').value = '';
+  document.getElementById('qa-edit-strand').value = '';
+  document.getElementById('qa-edit-sub').value = '';
+  document.getElementById('qa-edit-dok').value = '1';
+  document.getElementById('qa-edit-skill').value = '';
+
+  // Change edit panel title and save button behaviour
+  const panel = document.getElementById('qa-edit-panel');
+  panel.querySelector('div').textContent = '➕ New Question';
+  panel.style.display = 'block';
+
+  // Override save button to insert new question
+  const saveBtn = panel.querySelector('button:last-child');
+  saveBtn.textContent = '💾 Save Question';
+  saveBtn.onclick = qaInsertNewQuestion;
+
+  // Override cancel to reload QA
+  const cancelBtn = panel.querySelector('button:first-child');
+  cancelBtn.onclick = () => {
+    panel.style.display = 'none';
+    panel.querySelector('div').textContent = '✏️ Edit Question';
+    saveBtn.onclick = qaSaveEdit;
+    cancelBtn.onclick = qaCancelEdit;
+    loadQAReview();
+  };
+}
+
+async function qaInsertNewQuestion() {
+  const saveBtn = document.getElementById('qa-edit-panel').querySelector('button:last-child');
+  saveBtn.textContent = '⏳ Saving…'; saveBtn.disabled = true;
+
+  const section = 'MA'; // default — could add a selector later
+  try {
+    // Get next question ID
+    const idRes = await fetch(
+      SUPA_URL + '/rest/v1/' + Q_TABLE + '?select=question_id&section=eq.' + section,
+      { headers: authHeaders() }
+    );
+    const existingIds = idRes.ok ? await idRes.json() : [];
+    const prefix = 'MA-';
+    const maxNum = existingIds
+      .map(r => parseInt(r.question_id.replace(prefix,'')))
+      .filter(n => !isNaN(n))
+      .reduce((a,b) => Math.max(a,b), 0);
+    const newId = prefix + (maxNum + 1);
+
+    const newQ = {
+      question_id:   newId,
+      section:       section,
+      text:          document.getElementById('qa-edit-text').value.trim(),
+      opt_a:         document.getElementById('qa-edit-a').value.trim(),
+      opt_b:         document.getElementById('qa-edit-b').value.trim(),
+      opt_c:         document.getElementById('qa-edit-c').value.trim(),
+      opt_d:         document.getElementById('qa-edit-d').value.trim(),
+      correct_index: parseInt(document.getElementById('qa-edit-correct').value),
+      explanation:   document.getElementById('qa-edit-exp').value.trim(),
+      strand:        document.getElementById('qa-edit-strand').value,
+      sub:           document.getElementById('qa-edit-sub').value,
+      dok:           parseInt(document.getElementById('qa-edit-dok').value),
+      skill:         document.getElementById('qa-edit-skill').value,
+      active:        true,
+      source:        'manual',
+      created_by:    currentUser ? currentUser.id : null,
+      assigned_to:   tutorMode && tutorStudentId ? tutorStudentId : null,
+    };
+
+    const res = await fetch(SUPA_URL + '/rest/v1/' + Q_TABLE, {
+      method: 'POST',
+      headers: { ...authHeaders(), 'Prefer': 'return=minimal' },
+      body: JSON.stringify(newQ)
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+
+    // Add to local question bank
+    ALL_QUESTIONS.push({
+      n: newId, sec: section, text: newQ.text,
+      opts: [newQ.opt_a, newQ.opt_b, newQ.opt_c, newQ.opt_d],
+      ans: newQ.correct_index, exp: newQ.explanation,
+      assigned_to: newQ.assigned_to, created_by: newQ.created_by
+    });
+
+    alert(`✅ Question ${newId} created successfully!`);
+
+    // Reset panel and reload
+    const panel = document.getElementById('qa-edit-panel');
+    panel.style.display = 'none';
+    panel.querySelector('div').textContent = '✏️ Edit Question';
+    const sb = panel.querySelector('button:last-child');
+    sb.onclick = qaSaveEdit; sb.textContent = '💾 Save changes'; sb.disabled = false;
+    const cb = panel.querySelector('button:first-child');
+    cb.onclick = qaCancelEdit;
+    loadQAReview();
+  } catch(e) {
+    alert('❌ Could not save: ' + e.message);
+  } finally {
+    saveBtn.textContent = '💾 Save Question';
+    saveBtn.disabled = false;
+  }
+}
+
 async function loadQAReview() {
   const statusEl  = document.getElementById('qa-status');
   const counterEl = document.getElementById('qa-counter');
@@ -2519,12 +2678,14 @@ async function fetchQuestionBank() {
     // Convert Supabase rows → ALL_QUESTIONS shape
     ALL_QUESTIONS = rows.map(r => {
       const q = {
-        n:   r.question_id,
-        sec: r.section,
-        text: r.text,
-        opts: [r.opt_a, r.opt_b, r.opt_c, r.opt_d],
-        ans:  r.correct_index,
-        exp:  r.explanation || '',
+        n:           r.question_id,
+        sec:         r.section,
+        text:        r.text,
+        opts:        [r.opt_a, r.opt_b, r.opt_c, r.opt_d],
+        ans:         r.correct_index,
+        exp:         r.explanation || '',
+        assigned_to: r.assigned_to || null,
+        created_by:  r.created_by  || null,
       };
       if (r.diag) q.diag = r.diag;
       return q;
