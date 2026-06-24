@@ -597,7 +597,8 @@ const R_STAGING = EXAM_CONFIG.r_staging;
 let currentUser = null;
 let authToken   = null;
 
-let appBooted = false;
+let appBooted  = false;  // true once user has authenticated and been routed
+let tutorBooted = false; // true once tutor has entered the app
 
 async function initAuth() {
   const { data: { session } } = await supaClient.auth.getSession();
@@ -617,19 +618,16 @@ async function initAuth() {
     showScreen('screen-login');
   }
   supaClient.auth.onAuthStateChange((event, session) => {
-    // Ignore events fired due to tab visibility changes
-    if (document.hidden) return;
     if (event === 'SIGNED_IN' && session) {
       currentUser = session.user;
       authToken   = session.access_token;
-      // Only route if not already in the app
+      // Only route on first sign-in — never re-route on tab focus
       if (!appBooted) onSignedIn();
     } else if (event === 'TOKEN_REFRESHED' && session) {
       authToken = session.access_token;
     } else if (event === 'SIGNED_OUT') {
-      currentUser = null;
-      authToken   = null;
-      appBooted   = false;
+      currentUser = null; authToken = null;
+      appBooted = false; tutorBooted = false;
       const btn = document.getElementById('login-btn');
       if (btn) { btn.textContent = 'Sign in →'; btn.onclick = doLogin; }
       const bar = document.getElementById('login-user-bar');
@@ -686,7 +684,7 @@ async function signOut() {
 
 async function onSignedIn() {
   if (appBooted) return;
-  appBooted = true;
+  appBooted = true; // Set immediately — blocks any re-entry from SIGNED_IN events
 
   // Check role
   const profile = await getUserRole();
@@ -1280,8 +1278,8 @@ async function loadTutorStudents() {
 
 // Enter tutor session for a specific student
 function enterTutorSession(studentId, studentName) {
-  tutorMode       = true;
-  tutorStudentId  = studentId;
+  tutorMode        = true;
+  tutorStudentId   = studentId;
   tutorStudentName = studentName;
   // Show banner
   document.getElementById('tutor-session-banner').style.display = 'flex';
@@ -1291,22 +1289,20 @@ function enterTutorSession(studentId, studentName) {
   const qaBtn     = document.getElementById('home-qa-btn');
   if (studioBtn) studioBtn.style.display = '';
   if (qaBtn)     qaBtn.style.display = 'none';
-  // Boot app scoped to student
-  appBooted = false;
+  // Reload question bank scoped to student — don't reset appBooted
+  ALL_QUESTIONS = [];
   fetchQuestionBank();
 }
 
 // Exit tutor session back to student picker
 function exitTutorSession() {
-  tutorMode       = false;
-  tutorStudentId  = null;
+  tutorMode        = false;
+  tutorStudentId   = null;
   tutorStudentName = '';
-  appBooted       = false;
-  ALL_QUESTIONS   = [];
+  ALL_QUESTIONS    = [];
   Object.keys(chosen).forEach(k => delete chosen[k]);
   Object.keys(statuses).forEach(k => delete statuses[k]);
   document.getElementById('tutor-session-banner').style.display = 'none';
-  // Hide Question Studio button
   const studioBtn = document.getElementById('home-studio-btn');
   if (studioBtn) studioBtn.style.display = 'none';
   showScreen('screen-tutor');
