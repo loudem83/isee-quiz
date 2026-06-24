@@ -737,6 +737,12 @@ function authHeaders() {
 
 
 async function supaInsert(row) {
+  // Don't write results when tutor is previewing student session
+  if (tutorMode && tutorStudentId) {
+    showSyncStatus('👁 Tutor view — results not saved', '#4c1d95', '#f5f3ff');
+    setTimeout(() => showSyncStatus('','',''), 2500);
+    return;
+  }
   showSyncStatus('⏳ Saving…', '#92400e', '#fffbeb');
   try {
     const res = await fetch(SUPA_URL + '/rest/v1/' + R_STAGING + '', {
