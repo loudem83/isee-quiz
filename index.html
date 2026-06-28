@@ -2,8 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xdkjxxrqf6");
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ISEE Maths Practice Quiz</title>
+<title>Primary Practice</title>
 <!-- Supabase JS client -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
@@ -71,7 +78,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 .home-hero{background:linear-gradient(135deg,#1a3a5c 0%,#0f6e56 100%);color:white;padding:3rem 1.5rem 2.5rem;text-align:center;}
 .home-hero h2{font-size:2rem;font-weight:700;margin-bottom:8px;}
 .home-hero p{font-size:1rem;opacity:0.85;}
-.home-body{max-width:700px;margin:0 auto;padding:2rem 1rem;}
+.home-body{max-width:700px;margin:0 auto;padding:2rem 1rem;overflow-x:hidden;}
 .dash-section{background:white;border-radius:14px;padding:1.25rem;margin-bottom:1.25rem;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
 .dash-title{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;margin-bottom:12px;}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
@@ -234,6 +241,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 .hl{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-text-secondary);}
 .hl-dot{width:8px;height:8px;border-radius:50%;}
 @media(max-width:500px){
+  .home-body{padding:1rem 0.75rem;}
+  .cat-avatar-card{padding:8px 12px;}
   .heat-head,.heat-row{grid-template-columns:110px repeat(3,1fr);}
   .hh,.hc{font-size:10px;padding:6px 3px;}
   .hh:first-child,.hc:first-child{padding-left:8px;}
@@ -241,6 +250,43 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 
 /* PARENT DASHBOARD */
 .ql-wrap{max-width:760px;margin:0 auto;padding:1.1rem 1rem 3rem;}
+/* ── Cat avatar card ── */
+.cat-avatar-card{background:#fff8f0;border:2px solid #f0c070;border-radius:16px;padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:transform 0.15s;user-select:none;margin-bottom:8px;}
+.cat-avatar-card:hover{transform:scale(1.02);}
+.cat-avatar-card:active{transform:scale(0.98);}
+.cat-avatar-card svg{width:72px;height:72px;flex-shrink:0;}
+.cat-card-text{flex:1;}
+.cat-card-name{font-weight:700;font-size:15px;color:#3d1f00;}
+.cat-card-hint{font-size:12px;color:#c46000;margin-top:2px;}
+/* ── Slide-up chat panel ── */
+.cat-chat-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:1000;align-items:flex-end;max-width:100vw;overflow:hidden;}
+.cat-chat-overlay.open{display:flex;}
+.cat-chat-panel{background:#fffaf5;border-radius:20px 20px 0 0;width:100%;height:60vh;max-height:60vh;display:flex;flex-direction:column;padding:0 0 16px 0;animation:slideUp 0.25s ease-out;box-sizing:border-box;}
+@media(max-width:500px){.cat-chat-panel{height:60vh;max-height:60vh;border-radius:16px 16px 0 0;}}
+@keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.cat-chat-header{display:flex;align-items:center;gap:10px;padding:10px 14px 8px;border-bottom:1.5px solid #f0d090;}
+.cat-chat-header svg{width:36px;height:36px;flex-shrink:0;}
+.cat-chat-header svg{width:40px;height:40px;flex-shrink:0;}
+.cat-chat-header-name{font-weight:700;color:#3d1f00;font-size:15px;}
+.cat-chat-header-sub{font-size:11px;color:#c46000;}
+.cat-chat-close{margin-left:auto;background:none;border:none;font-size:22px;color:#c46000;cursor:pointer;line-height:1;}
+.cat-chat-messages{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:10px;}
+.cat-msg-wrap{display:flex;align-items:flex-end;gap:8px;}
+.cat-msg-bubble{background:#FF8C00;color:white;padding:9px 13px;border-radius:16px 16px 16px 4px;font-size:14px;line-height:1.5;max-width:80%;font-weight:500;}
+.child-msg-wrap{display:flex;justify-content:flex-end;}
+.child-msg-bubble{background:#3d1f00;color:white;padding:9px 13px;border-radius:16px 16px 4px 16px;font-size:14px;line-height:1.5;max-width:80%;}
+.cat-chat-input-row{display:flex;gap:8px;padding:10px 14px 0;}
+@media(max-width:500px){.cat-chat-input-row{padding-bottom:env(safe-area-inset-bottom,8px);}}
+.cat-chat-input{flex:1;padding:9px 14px;border:1.5px solid #e8c080;border-radius:22px;font-size:16px;outline:none;background:white;}
+.cat-chat-input:focus{border-color:#FF8C00;}
+.cat-chat-send{background:#FF8C00;color:white;border:none;border-radius:22px;padding:9px 18px;font-size:14px;font-weight:600;cursor:pointer;}
+.cat-chat-send:disabled{background:#ccc;cursor:default;}
+.cat-typing{display:flex;gap:4px;padding:4px 2px;align-items:center;}
+.cat-typing span{width:7px;height:7px;background:rgba(255,255,255,0.85);border-radius:50%;animation:catBounce 1s infinite;}
+.cat-typing span:nth-child(2){animation-delay:0.15s;}
+.cat-typing span:nth-child(3){animation-delay:0.30s;}
+@keyframes catBounce{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-5px);}}
+
 </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 </head>
@@ -310,37 +356,223 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
     <button onclick="exitTutorSession()">← Back to students</button>
   </div>
   <div class="home-hero">
-    <h2 id="home-hero-title">🎓 ISEE Maths Practice Quiz</h2>
+    <h2 id="home-hero-title">🎓 Primary Practice</h2>
     <p id="home-user-greeting">Interactive practice for Mathematics Achievement &amp; Quantitative Reasoning</p>
     <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center;">
       <div id="curriculum-switcher" style="display:flex;gap:6px;">
-        <button onclick="setCurriculum('isee_lower')" id="btn-isee_lower" style="padding:4px 12px;border-radius:99px;border:1.5px solid rgba(255,255,255,0.6);background:rgba(255,255,255,0.25);color:white;font-size:0.78rem;font-weight:600;cursor:pointer;">📐 ISEE</button>
-        <button onclick="setCurriculum('french_cm1')" id="btn-french_cm1" style="padding:4px 12px;border-radius:99px;border:1.5px solid rgba(255,255,255,0.3);background:transparent;color:white;font-size:0.78rem;font-weight:600;cursor:pointer;opacity:0.7;">🇫🇷 Français</button>
+        <button onclick="setCurriculum('isee_lower')" id="btn-isee_lower" style="padding:4px 12px;border-radius:99px;border:1.5px solid rgba(255,255,255,0.6);background:rgba(255,255,255,0.25);color:white;font-size:0.78rem;font-weight:600;cursor:pointer;">📐 Math (ISEE/CM1/2)</button>
+        <button onclick="setCurriculum('french_cm1')" id="btn-french_cm1" style="padding:4px 12px;border-radius:99px;border:1.5px solid rgba(255,255,255,0.3);background:transparent;color:white;font-size:0.78rem;font-weight:600;cursor:pointer;opacity:0.7;">🇫🇷 Français CM1/2</button>
       </div>
       <button onclick="signOut()" style="background:rgba(255,255,255,0.15);border:none;color:white;padding:4px 12px;border-radius:6px;font-size:0.78rem;cursor:pointer;">Sign out</button>
     </div>
   </div>
   <div class="home-body">
-    <div class="dash-section">
-      <div class="dash-title">🚀 Choose a Pathway</div>
-      <button class="all-btn" onclick="showScreen('screen-workout');loadWorkout();" style="border-color:#1d4ed8;color:#1e40af;background:#eff6ff;font-size:1.05rem;padding:1.3rem;">
-        🏋️ Start Workout <span style="font-size:0.8rem;font-weight:400;margin-left:6px;opacity:0.7;">20 questions · DoK 1 → 2 → 3</span>
+
+    <!-- ── STUDENT VIEW ── -->
+    <div id="home-student-view">
+
+    <!-- Cat chat overlay -->
+    <div class="cat-chat-overlay" id="catChatOverlay" onclick="handleOverlayClick(event)">
+      <div class="cat-chat-panel">
+        <div class="cat-chat-header">
+          <svg width="36" height="36" viewBox="0 0 140 145" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+            <circle cx="70" cy="80" r="52" fill="#f5a623"/>
+            <ellipse cx="70" cy="84" rx="38" ry="36" fill="#f7bc5a"/>
+            <polygon points="26,46 14,12 44,38" fill="#f5a623"/>
+            <polygon points="114,46 126,12 96,38" fill="#f5a623"/>
+            <polygon points="28,44 18,16 42,36" fill="#fac775"/>
+            <polygon points="112,44 122,16 98,36" fill="#fac775"/>
+            <polygon points="30,42 22,20 40,34" fill="#f0997b" opacity="0.45"/>
+            <polygon points="110,42 118,20 100,34" fill="#f0997b" opacity="0.45"/>
+            <circle cx="54" cy="78" r="14" fill="white"/>
+            <circle cx="86" cy="78" r="14" fill="white"/>
+            <circle cx="54" cy="80" r="9" fill="#8B4513"/>
+            <circle cx="86" cy="80" r="9" fill="#8B4513"/>
+            <circle cx="54" cy="80" r="6" fill="#2c2c2a"/>
+            <circle cx="86" cy="80" r="6" fill="#2c2c2a"/>
+            <circle cx="50" cy="75" r="2.5" fill="white"/>
+            <circle cx="82" cy="75" r="2.5" fill="white"/>
+            <polygon points="70,93 67,97 73,97" fill="#e8847a"/>
+            <path d="M64 97 Q67 101 70 99 Q73 101 76 97" stroke="#c0705a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          </svg>
+          <div>
+            <div class="cat-chat-header-name" id="catChatHeaderName">Mochi</div>
+            <div class="cat-chat-header-sub">Your learning buddy 🐾</div>
+          </div>
+          <button class="cat-chat-close" onclick="closeCatChat()">✕</button>
+        </div>
+        <div class="cat-chat-messages" id="catChatMessages"></div>
+        <div class="cat-chat-input-row">
+          <input class="cat-chat-input" id="catChatInput" placeholder="Say something..." />
+          <button class="cat-chat-send" id="catChatSend" onclick="catChatSend()">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="home-student-view">
+    <!-- Metrics snapshot -->
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:8px;">
+      <div style="background:#f1f5f9;border-radius:10px;padding:10px 6px;text-align:center;">
+        <div style="font-size:1.35rem;font-weight:500;color:#1a3a5c;line-height:1" id="snap-done">—</div>
+        <div style="font-size:10px;color:#94a3b8;margin-top:3px;">Done</div>
+      </div>
+      <div style="background:#eaf3de;border-radius:10px;padding:10px 6px;text-align:center;">
+        <div style="font-size:1.35rem;font-weight:500;color:#27500a;line-height:1" id="snap-score">—</div>
+        <div style="font-size:10px;color:#639922;margin-top:3px;">% Correct</div>
+      </div>
+      <div style="background:#f1f5f9;border-radius:10px;padding:10px 6px;text-align:center;">
+        <div style="font-size:1.35rem;font-weight:500;color:#059669;line-height:1" id="snap-thisweek">—</div>
+        <div style="font-size:10px;color:#94a3b8;margin-top:3px;">This week</div>
+      </div>
+      <div style="background:#f1f5f9;border-radius:10px;padding:10px 6px;text-align:center;">
+        <div style="font-size:1.35rem;font-weight:500;color:#1a3a5c;line-height:1" id="snap-remaining">—</div>
+        <div style="font-size:10px;color:#94a3b8;margin-top:3px;">Remaining</div>
+      </div>
+      <div style="background:#fef9c3;border-radius:10px;padding:10px 6px;text-align:center;">
+        <div style="font-size:1.35rem;font-weight:500;color:#854d0e;line-height:1" id="snap-total-pts">—</div>
+        <div style="font-size:10px;color:#a16207;margin-top:3px;">⭐ Total pts</div>
+      </div>
+    </div>
+
+    <!-- Week bars -->
+    <div style="margin-bottom:14px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:7px;">
+        <div style="font-size:11px;font-weight:600;color:#64748b;width:68px;flex-shrink:0;">This week</div>
+        <div style="flex:1;background:#e2e8f0;border-radius:4px;height:10px;overflow:hidden;">
+          <div id="snap-bar-tw" style="height:100%;border-radius:4px;background:#1d4ed8;width:0%;transition:width .5s"></div>
+        </div>
+        <div style="font-size:12px;font-weight:600;color:#1a3a5c;min-width:22px;text-align:right;" id="snap-tw-count">0</div>
+        <div style="font-size:11px;color:#1d4ed8;min-width:38px;text-align:right;" id="snap-tw-pct">—</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="font-size:11px;font-weight:600;color:#94a3b8;width:68px;flex-shrink:0;">Last week</div>
+        <div style="flex:1;background:#e2e8f0;border-radius:4px;height:10px;overflow:hidden;">
+          <div id="snap-bar-lw" style="height:100%;border-radius:4px;background:#93c5fd;width:0%;transition:width .5s"></div>
+        </div>
+        <div style="font-size:12px;font-weight:600;color:#1a3a5c;min-width:22px;text-align:right;" id="snap-lw-count">0</div>
+        <div style="font-size:11px;color:#64748b;min-width:38px;text-align:right;" id="snap-lw-pct">—</div>
+      </div>
+    </div>
+
+    <!-- Results dashboard link -->
+    <button class="all-btn" onclick="showScreen('screen-pd');loadParentDash();" style="text-align:center;justify-content:center;border-color:#f59e0b;color:#92400e;background:#fffbeb;margin-bottom:14px;">
+      📊 Results Dashboard
+    </button>
+
+    </div><!-- end #home-student-view metrics -->
+
+    <!-- Practice section -->
+    <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#64748b;margin-bottom:10px;">Practice</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+      <button onclick="showScreen('screen-workout');loadWorkout();" style="background:#eff6ff;border:1.5px solid #1d4ed8;border-radius:12px;padding:16px;cursor:pointer;display:flex;align-items:center;gap:10px;text-align:left;">
+        <span style="font-size:22px;flex-shrink:0;">🏋️</span>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:#1e40af;">Adaptive workout</div>
+          <div style="font-size:11px;color:#64748b;margin-top:2px;">20 questions · all topics</div>
+        </div>
       </button>
-      <button class="all-btn" onclick="showScreen('screen-drill');loadDrill();" style="border-color:#0f6e56;color:#0f6e56;background:#f0fdf4;">
-        🎯 Drill by Topic
-      </button>
-      <button class="all-btn" onclick="showScreen('screen-pd');loadParentDash();" style="border-color:#f59e0b;color:#92400e;background:#fffbeb;">
-        📊 Results Dashboard
-      </button>
-      <button id="home-studio-btn" class="all-btn" onclick="launchTutorQA()" style="display:none;border-color:#c4b5fd;color:#4c1d95;background:#f5f3ff;">
-        ✏️ Question Studio — Create questions for this student
+      <button onclick="showScreen('screen-drill');loadDrill();" style="background:#f0fdf4;border:1.5px solid #0f6e56;border-radius:12px;padding:16px;cursor:pointer;display:flex;align-items:center;gap:10px;text-align:left;">
+        <span style="font-size:22px;flex-shrink:0;">🎯</span>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:#0f6e56;">Drill by topic</div>
+          <div style="font-size:11px;color:#64748b;margin-top:2px;">Choose a strand</div>
+        </div>
       </button>
     </div>
 
-    <!-- How it works — hint mechanics explainer -->
-    <div class="dash-section" id="how-it-works" style="background:#fffbeb;border:1px solid #fde68a;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-        <div class="dash-title" style="margin:0;">💡 How it works</div>
+    <!-- Cat avatar card -->
+    <div id="cat-avatar-card" class="cat-avatar-card" onclick="openCatChat()" style="flex-direction:row;align-items:center;padding:10px 14px;gap:12px;">
+      <svg width="72" height="60" viewBox="0 0 380 320" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+        <style>
+          @keyframes catBreathe{0%,100%{transform:scaleY(1) translateY(0);}50%{transform:scaleY(1.03) translateY(-2px);}}
+          @keyframes tailSway{0%,100%{transform:rotate(0deg);}50%{transform:rotate(12deg);}}
+          @keyframes eyeBlink{0%,90%,100%{transform:scaleY(1);}95%{transform:scaleY(0.08);}}
+          #cat-body{animation:catBreathe 3s ease-in-out infinite;}
+          #cat-tail{animation:tailSway 2.5s ease-in-out infinite;transform-origin:232px 270px;}
+          #cat-eye-l{animation:eyeBlink 4s ease-in-out infinite;transform-origin:170px 155px;}
+          #cat-eye-r{animation:eyeBlink 4s ease-in-out infinite 0.05s;transform-origin:210px 155px;}
+        </style>
+        <ellipse cx="190" cy="298" rx="52" ry="8" fill="#c47a00" opacity="0.18"/>
+        <g id="cat-body">
+          <ellipse cx="190" cy="240" rx="48" ry="55" fill="#FF8C00"/><ellipse cx="190" cy="240" rx="48" ry="55" fill="none" stroke="#3d1f00" stroke-width="3.5"/>
+          <ellipse cx="190" cy="255" rx="28" ry="35" fill="#FFBA5A"/><ellipse cx="190" cy="255" rx="28" ry="35" fill="none" stroke="#3d1f00" stroke-width="2"/>
+          <path d="M190 232 Q180 245 190 260 Q200 245 190 232Z" fill="#ffe0a0" stroke="#c46000" stroke-width="1.2"/>
+          <path d="M176 240 Q168 252 178 265 Q186 252 176 240Z" fill="#ffe0a0" stroke="#c46000" stroke-width="1.2"/>
+          <path d="M204 240 Q212 252 202 265 Q194 252 204 240Z" fill="#ffe0a0" stroke="#c46000" stroke-width="1.2"/>
+          <path d="M190 208 Q183 218 190 228 Q197 218 190 208Z" fill="#ffd080" stroke="#c46000" stroke-width="1"/>
+          <ellipse cx="150" cy="245" rx="14" ry="10" fill="#FF8C00" stroke="#3d1f00" stroke-width="2.5" transform="rotate(-20,150,245)"/>
+          <ellipse cx="230" cy="245" rx="14" ry="10" fill="#FF8C00" stroke="#3d1f00" stroke-width="2.5" transform="rotate(20,230,245)"/>
+          <line x1="143" y1="242" x2="143" y2="250" stroke="#3d1f00" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="148" y1="240" x2="148" y2="249" stroke="#3d1f00" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="153" y1="242" x2="153" y2="250" stroke="#3d1f00" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="223" y1="242" x2="223" y2="250" stroke="#3d1f00" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="228" y1="240" x2="228" y2="249" stroke="#3d1f00" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="233" y1="242" x2="233" y2="250" stroke="#3d1f00" stroke-width="1.2" stroke-linecap="round"/>
+          <ellipse cx="168" cy="287" rx="20" ry="10" fill="#FF8C00" stroke="#3d1f00" stroke-width="2.5"/>
+          <ellipse cx="212" cy="287" rx="20" ry="10" fill="#FF8C00" stroke="#3d1f00" stroke-width="2.5"/>
+          <line x1="160" y1="283" x2="160" y2="291" stroke="#3d1f00" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="168" y1="281" x2="168" y2="290" stroke="#3d1f00" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="176" y1="283" x2="176" y2="291" stroke="#3d1f00" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="204" y1="283" x2="204" y2="291" stroke="#3d1f00" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="212" y1="281" x2="212" y2="290" stroke="#3d1f00" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="220" y1="283" x2="220" y2="291" stroke="#3d1f00" stroke-width="1.2" stroke-linecap="round"/>
+        </g>
+        <g id="cat-tail">
+          <path d="M232 270 Q275 290 265 250 Q255 220 240 235" fill="#FF8C00" stroke="#3d1f00" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M257 233 Q248 225 242 233 Q248 241 257 233Z" fill="#FFBA5A" stroke="#c46000" stroke-width="1"/>
+        </g>
+        <ellipse cx="190" cy="160" rx="58" ry="55" fill="#FF8C00"/>
+        <ellipse cx="190" cy="160" rx="58" ry="55" fill="none" stroke="#3d1f00" stroke-width="4"/>
+        <path d="M176 200 Q184 210 190 212 Q196 210 204 200" fill="none" stroke="#c46000" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M182 203 Q190 215 198 203" fill="none" stroke="#c46000" stroke-width="1.2" stroke-linecap="round"/>
+        <polygon points="145,122 125,78 172,110" fill="#FF8C00" stroke="#3d1f00" stroke-width="3.5" stroke-linejoin="round"/>
+        <polygon points="145,122 132,85 166,112" fill="#FFBA5A"/>
+        <polygon points="235,122 255,78 208,110" fill="#FF8C00" stroke="#3d1f00" stroke-width="3.5" stroke-linejoin="round"/>
+        <polygon points="235,122 248,85 214,112" fill="#FFBA5A"/>
+        <g id="cat-eye-l">
+          <ellipse cx="170" cy="155" rx="16" ry="17" fill="white" stroke="#3d1f00" stroke-width="2.5"/>
+          <circle cx="173" cy="157" r="10" fill="#3d1f00"/>
+          <circle cx="177" cy="153" r="3.5" fill="white"/>
+        </g>
+        <g id="cat-eye-r">
+          <ellipse cx="210" cy="155" rx="16" ry="17" fill="white" stroke="#3d1f00" stroke-width="2.5"/>
+          <circle cx="213" cy="157" r="10" fill="#3d1f00"/>
+          <circle cx="217" cy="153" r="3.5" fill="white"/>
+        </g>
+        <ellipse cx="190" cy="175" rx="6" ry="4" fill="#ff6b6b" stroke="#3d1f00" stroke-width="1.5"/>
+        <path d="M180 180 Q190 188 200 180" fill="none" stroke="#3d1f00" stroke-width="2" stroke-linecap="round"/>
+        <line x1="132" y1="172" x2="178" y2="176" stroke="#3d1f00" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="132" y1="180" x2="178" y2="180" stroke="#3d1f00" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="202" y1="176" x2="248" y2="172" stroke="#3d1f00" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="202" y1="180" x2="248" y2="180" stroke="#3d1f00" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M172 110 Q176 102 180 110" fill="none" stroke="#c46000" stroke-width="2" stroke-linecap="round"/>
+        <path d="M182 107 Q186 98 190 107" fill="none" stroke="#c46000" stroke-width="2" stroke-linecap="round"/>
+        <path d="M200 110 Q204 102 208 110" fill="none" stroke="#c46000" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div style="flex:1;min-width:0;">
+        <div class="cat-card-name" id="catCardName">Mochi</div>
+        <div class="cat-card-hint" id="catCardHint">Tap me to chat! 🐾</div>
+      </div>
+      <div style="font-size:18px;color:#c46000;opacity:0.4;">›</div>
+    </div>
+
+    <!-- ── TUTOR TOOLS (shown in tutor session) ── -->
+    <div id="home-tutor-tools" style="display:none;">
+      <div style="border-top:1px solid #e2e8f0;margin:4px 0 14px;"></div>
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#7c3aed;margin-bottom:10px;">✏️ Tutor tools</div>
+      <button id="home-studio-btn" onclick="launchTutorQA()" style="width:100%;background:#f5f3ff;border:1.5px solid #7c3aed;border-radius:12px;padding:16px;cursor:pointer;display:flex;align-items:center;gap:10px;text-align:left;">
+        <span style="font-size:22px;flex-shrink:0;">✏️</span>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:#4c1d95;">Question Studio</div>
+          <div style="font-size:11px;color:#64748b;margin-top:2px;" id="studio-subtitle">Create questions for this student</div>
+        </div>
+      </button>
+    </div>
+
+    <!-- How it works -->
+    <div id="how-it-works" style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:14px 16px;margin-top:6px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <div style="font-size:12px;font-weight:600;color:#92400e;text-transform:uppercase;letter-spacing:.05em;">💡 How it works</div>
         <button onclick="document.getElementById('how-it-works').style.display='none';localStorage.setItem('hiw_dismissed','1');" style="background:none;border:none;color:#94a3b8;font-size:1.1rem;cursor:pointer;">✕</button>
       </div>
       <div style="font-size:0.84rem;color:#92400e;line-height:1.7;">
@@ -351,57 +583,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
       </div>
     </div>
 
-    <div class="dash-section">
-      <div class="dash-title">📊 Progress snapshot</div>
+    <!-- QA Review (staging only) -->
 
-      <!-- 5 metric cards -->
-      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px;">
-        <div style="background:#f1f5f9;border-radius:10px;padding:10px 6px;text-align:center;">
-          <div style="font-size:1.35rem;font-weight:500;color:#1a3a5c;line-height:1" id="snap-done">—</div>
-          <div style="font-size:10px;color:#94a3b8;margin-top:3px;">Done</div>
-        </div>
-        <div style="background:#eaf3de;border-radius:10px;padding:10px 6px;text-align:center;">
-          <div style="font-size:1.35rem;font-weight:500;color:#27500a;line-height:1" id="snap-score">—</div>
-          <div style="font-size:10px;color:#639922;margin-top:3px;">% Correct</div>
-        </div>
-        <div style="background:#f1f5f9;border-radius:10px;padding:10px 6px;text-align:center;">
-          <div style="font-size:1.35rem;font-weight:500;color:#059669;line-height:1" id="snap-thisweek">—</div>
-          <div style="font-size:10px;color:#94a3b8;margin-top:3px;">This week</div>
-        </div>
-        <div style="background:#f1f5f9;border-radius:10px;padding:10px 6px;text-align:center;">
-          <div style="font-size:1.35rem;font-weight:500;color:#1a3a5c;line-height:1" id="snap-remaining">—</div>
-          <div style="font-size:10px;color:#94a3b8;margin-top:3px;">Remaining</div>
-        </div>
-        <div style="background:#fef9c3;border-radius:10px;padding:10px 6px;text-align:center;">
-          <div style="font-size:1.35rem;font-weight:500;color:#854d0e;line-height:1" id="snap-total-pts">—</div>
-          <div style="font-size:10px;color:#a16207;margin-top:3px;">⭐ Total pts</div>
-        </div>
-      </div>
-
-      <!-- Week comparison bars -->
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:7px;">
-        <div style="font-size:11px;font-weight:600;color:#64748b;width:68px;flex-shrink:0;">This week</div>
-        <div style="flex:1;background:#e2e8f0;border-radius:4px;height:10px;overflow:hidden;">
-          <div id="snap-bar-tw" style="height:100%;border-radius:4px;background:#1d4ed8;width:0%;transition:width .5s"></div>
-        </div>
-        <div style="font-size:12px;font-weight:600;color:#1a3a5c;min-width:22px;text-align:right;" id="snap-tw-count">0</div>
-        <div style="font-size:11px;color:#1d4ed8;min-width:38px;text-align:right;" id="snap-tw-pct">—</div>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-        <div style="font-size:11px;font-weight:600;color:#94a3b8;width:68px;flex-shrink:0;">Last week</div>
-        <div style="flex:1;background:#e2e8f0;border-radius:4px;height:10px;overflow:hidden;">
-          <div id="snap-bar-lw" style="height:100%;border-radius:4px;background:#93c5fd;width:0%;transition:width .5s"></div>
-        </div>
-        <div style="font-size:12px;font-weight:600;color:#1a3a5c;min-width:22px;text-align:right;" id="snap-lw-count">0</div>
-        <div style="font-size:11px;color:#64748b;min-width:38px;text-align:right;" id="snap-lw-pct">—</div>
-      </div>
-
-      <!-- Boost section -->
-      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#64748b;margin-bottom:8px;">💡 How to boost your score</div>
-      <div id="snap-boost">
-        <div style="font-size:0.82rem;color:#94a3b8;">Answer some questions to see your focus areas.</div>
-      </div>
-    </div>
 
   </div>
 </div>
@@ -515,19 +698,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
     <!-- Edit panel — hidden until ✏️ Edit is clicked -->
     <div id="qa-edit-panel" style="display:none;background:#f8fafc;border:1.5px solid #94a3b8;border-radius:12px;padding:1.1rem;margin-top:0.75rem;">
       <div style="font-size:0.85rem;font-weight:700;color:#334155;margin-bottom:0.9rem;">✏️ Edit Question</div>
-      <div style="display:flex;gap:8px;margin-bottom:10px;">
-        <div style="flex:1">
-          <label style="font-size:0.78rem;color:#64748b;font-weight:600;">Section</label>
-          <select id="qa-edit-section" style="width:100%;margin-top:3px;padding:7px 8px;border:1.5px solid #cbd5e1;border-radius:7px;font-size:0.82rem;box-sizing:border-box;">
-            <option value="MA">MA — Mathematics Achievement</option>
-            <option value="QR">QR — Quantitative Reasoning</option>
-            <option value="GR">GR — Grammaire</option>
-            <option value="VO">VO — Vocabulaire</option>
-            <option value="CO">CO — Compréhension</option>
-            <option value="EX">EX — Expression</option>
-          </select>
-        </div>
-      </div>
       <label style="font-size:0.8rem;color:#64748b;font-weight:600;">Question text</label>
       <textarea id="qa-edit-text" rows="3" style="width:100%;margin:4px 0 10px;padding:8px;border:1.5px solid #cbd5e1;border-radius:8px;font-size:0.9rem;font-family:inherit;resize:vertical;box-sizing:border-box;"></textarea>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
@@ -546,8 +716,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
         <div style="font-size:0.78rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">🏷️ Taxonomy</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
           <div>
-            <label style="font-size:0.78rem;color:#64748b;font-weight:600;">Strand</label>
-            <select id="qa-edit-strand" onchange="qaOnStrandChange()" style="width:100%;margin-top:3px;padding:7px 8px;border:1.5px solid #cbd5e1;border-radius:7px;font-size:0.82rem;box-sizing:border-box;"></select>
+            <label style="font-size:0.78rem;color:#64748b;font-weight:600;">Section</label>
+            <select id="qa-edit-section" onchange="qaOnSectionChange()" style="width:100%;margin-top:3px;padding:7px 8px;border:1.5px solid #cbd5e1;border-radius:7px;font-size:0.82rem;box-sizing:border-box;"></select>
           </div>
           <div>
             <label style="font-size:0.78rem;color:#64748b;font-weight:600;">DoK</label>
@@ -557,6 +727,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
               <option value="3">3 — Analyse</option>
             </select>
           </div>
+        </div>
+        <div style="margin-bottom:8px;">
+          <label style="font-size:0.78rem;color:#64748b;font-weight:600;">Strand</label>
+          <select id="qa-edit-strand" onchange="qaOnStrandChange()" style="width:100%;margin-top:3px;padding:7px 8px;border:1.5px solid #cbd5e1;border-radius:7px;font-size:0.82rem;box-sizing:border-box;"></select>
         </div>
         <label style="font-size:0.78rem;color:#64748b;font-weight:600;">Skill</label>
         <select id="qa-edit-skill" style="width:100%;margin-top:3px;padding:7px 8px;border:1.5px solid #cbd5e1;border-radius:7px;font-size:0.82rem;box-sizing:border-box;margin-bottom:0;"></select>
@@ -600,8 +774,8 @@ const supaClient = window.supabase.createClient(SUPA_URL, SUPA_KEY);
    EXAM CONFIG — swap these to add new subjects
 ════════════════════════════════════════ */
 const CURRICULA = {
-  'isee_lower': { id: 'isee_lower', label: 'ISEE Lower Level', emoji: '📐', sections: ['MA','QR'] },
-  'french_cm1': { id: 'french_cm1', label: 'Français CM1',     emoji: '🇫🇷', sections: ['GR','VO','CO','EX'] },
+  'isee_lower': { id: 'isee_lower', label: 'Math (ISEE/CM1/2)', emoji: '📐', sections: ['MA','QR'] },
+  'french_cm1': { id: 'french_cm1', label: 'Français CM1/2',     emoji: '🇫🇷', sections: ['GR','VO','CO','EX'] },
 };
 let currentCurriculum = localStorage.getItem('curriculum') || 'isee_lower';
 
@@ -797,6 +971,139 @@ window.startTutorWorkout  = startTutorWorkout;
 window.setCurriculum      = setCurriculum;
 window.startAssessment    = startAssessment;
 window.qaOnStrandChange   = qaOnStrandChange;
+
+/* ════════════════════════════════════════
+   CAT CHAT
+════════════════════════════════════════ */
+const CAT_CHAT_EDGE_URL = 'https://yajqvfwzhudghivzgijt.supabase.co/functions/v1/cat-chat';
+
+let catChatHistory   = [];
+let catChatExchanges = 0;
+
+function getWeakTopic() {
+  // Find weakest skill from quiz results (built in updateDash)
+  if (window._weakestSkill) return window._weakestSkill;
+  return 'maths'; // fallback
+}
+
+let _chatScrollY = 0;
+
+function openCatChat() {
+  const childName = window.currentChildName || 'friend';
+  const catName   = 'Mochi';
+
+  document.getElementById('catCardName').textContent       = catName;
+  document.getElementById('catChatHeaderName').textContent = catName;
+
+  catChatHistory   = [];
+  catChatExchanges = 0;
+
+  document.getElementById('catChatOverlay').classList.add('open');
+  document.getElementById('catChatMessages').innerHTML = '';
+
+  appendCatMsg('Purrr! Hi ' + childName + '! I\'m ' + catName + ' — so happy to see you! 🐾');
+  setTimeout(() => document.getElementById('catChatInput').focus(), 300);
+}
+
+function closeCatChat() {
+  document.getElementById('catChatOverlay').classList.remove('open');
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('catChatOverlay')) closeCatChat();
+}
+
+async function catChatSend() {
+  const input = document.getElementById('catChatInput');
+  const text  = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  document.getElementById('catChatSend').disabled = true;
+
+  appendChildMsg(text);
+  catChatHistory.push({ role: 'user', content: text });
+
+  const typingId = appendTypingIndicator();
+
+  try {
+    const res = await fetch(CAT_CHAT_EDGE_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + authToken,
+      },
+      body: JSON.stringify({
+        messages:      catChatHistory,
+        childName:     window.currentChildName || 'friend',
+        catName:       'Mochi',
+        weakTopic:     getWeakTopic(),
+        points:        totalPoints || 0,
+        exchangeCount: catChatExchanges,
+      }),
+    });
+
+    const data = await res.json();
+    removeTypingIndicator(typingId);
+    catChatHistory.push({ role: 'assistant', content: data.reply });
+    catChatExchanges++;
+    appendCatMsg(data.reply);
+  } catch(e) {
+    removeTypingIndicator(typingId);
+    appendCatMsg('Meow... something went wrong! Try again? 🐾');
+  }
+
+  document.getElementById('catChatSend').disabled = false;
+  document.getElementById('catChatInput').focus();
+}
+
+function appendCatMsg(text) {
+  const msgs = document.getElementById('catChatMessages');
+  const wrap = document.createElement('div');
+  wrap.className = 'cat-msg-wrap';
+  wrap.innerHTML = '<div class="cat-msg-bubble">' + text + '</div>';
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function appendChildMsg(text) {
+  const msgs = document.getElementById('catChatMessages');
+  const wrap = document.createElement('div');
+  wrap.className = 'child-msg-wrap';
+  wrap.innerHTML = '<div class="child-msg-bubble">' + text + '</div>';
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function appendTypingIndicator() {
+  const msgs = document.getElementById('catChatMessages');
+  const wrap = document.createElement('div');
+  wrap.className = 'cat-msg-wrap';
+  const id = 'cat-typing-' + Date.now();
+  wrap.id = id;
+  wrap.innerHTML = '<div class="cat-msg-bubble cat-typing"><span></span><span></span><span></span></div>';
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
+  return id;
+}
+
+function removeTypingIndicator(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+window.openCatChat        = openCatChat;
+window.closeCatChat       = closeCatChat;
+window.handleOverlayClick = handleOverlayClick;
+window.catChatSend        = catChatSend;
+
+// Wire up Enter key
+document.addEventListener('DOMContentLoaded', function() {
+  const input = document.getElementById('catChatInput');
+  if (input) input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') catChatSend();
+  });
+});
 window.qaNewQuestion      = qaNewQuestion;
 
 // Hide "how it works" if user already dismissed it
@@ -1323,10 +1630,10 @@ async function loadPoints() {
 // Save points to Supabase
 async function savePoints() {
   try {
-    await fetch(SUPA_URL + '/rest/v1/user_points?user_id=eq.' + userId(), {
-      method: 'PATCH',
-      headers: { ...authHeaders(), 'Prefer': 'return=minimal' },
-      body: JSON.stringify({ points: userPoints, total_points: totalPoints, updated_at: new Date().toISOString() })
+    await fetch(SUPA_URL + '/rest/v1/user_points', {
+      method: 'POST',
+      headers: { ...authHeaders(), 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+      body: JSON.stringify({ user_id: userId(), points: userPoints, total_points: totalPoints, updated_at: new Date().toISOString() })
     });
   } catch(e) {}
 }
@@ -1462,11 +1769,18 @@ function enterTutorSession(studentId, studentName) {
   // Show banner
   document.getElementById('tutor-session-banner').style.display = 'flex';
   document.getElementById('tutor-viewing-name').textContent = studentName;
-  // Show Question Studio, hide QA button
-  const studioBtn = document.getElementById('home-studio-btn');
-  const qaBtn     = document.getElementById('home-qa-btn');
-  if (studioBtn) studioBtn.style.display = '';
-  if (qaBtn)     qaBtn.style.display = 'none';
+  // Show tutor tools section, hide QA button
+  const tutorTools = document.getElementById('home-tutor-tools');
+  const qaBtn      = document.getElementById('home-qa-btn');
+  const studioSub  = document.getElementById('studio-subtitle');
+  if (tutorTools) tutorTools.style.display = '';
+  if (qaBtn)      qaBtn.style.display = 'none';
+  if (studioSub)  studioSub.textContent = 'Create questions for ' + studentName;
+  // Cat not tappable in tutor session
+  const catCard = document.getElementById('cat-avatar-card');
+  const catHint = document.getElementById('catCardHint');
+  if (catCard) { catCard.onclick = null; catCard.style.cursor = 'default'; }
+  if (catHint) catHint.textContent = studentName + '\'s learning buddy 🐾';
   // Reload question bank scoped to student — don't reset appBooted
   ALL_QUESTIONS = [];
   fetchQuestionBank();
@@ -1481,8 +1795,15 @@ function exitTutorSession() {
   Object.keys(chosen).forEach(k => delete chosen[k]);
   Object.keys(statuses).forEach(k => delete statuses[k]);
   document.getElementById('tutor-session-banner').style.display = 'none';
-  const studioBtn = document.getElementById('home-studio-btn');
-  if (studioBtn) studioBtn.style.display = 'none';
+  const tutorTools = document.getElementById('home-tutor-tools');
+  const qaBtn      = document.getElementById('home-qa-btn');
+  const catCard    = document.getElementById('cat-avatar-card');
+  const catHint    = document.getElementById('catCardHint');
+  if (tutorTools) tutorTools.style.display = 'none';
+  if (qaBtn)      qaBtn.style.display = '';
+  // Restore cat interactivity
+  if (catCard) { catCard.onclick = openCatChat; catCard.style.cursor = 'pointer'; }
+  if (catHint) catHint.textContent = 'Tap me to chat! 🐾';
   showScreen('screen-tutor');
 }
 
@@ -1882,6 +2203,9 @@ function renderQ() {
       ${(()=>{ const tax = TAXONOMY[q.n]; return tax ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;"><span style="font-size:0.72rem;padding:2px 8px;border-radius:10px;background:#f1f5f9;color:#475569;font-weight:600;">${tax.strand}</span><span style="font-size:0.72rem;padding:2px 8px;border-radius:10px;background:#fef9c3;color:#92400e;font-weight:600;">DoK ${tax.dok}</span>${tax.skill ? `<span style="font-size:0.72rem;padding:2px 8px;border-radius:10px;background:#f0fdf4;color:#065f46;font-weight:600;">${tax.skill}</span>` : ''}</div>` : ''; })()}
       <div class="q-text">${formatText(q.text)}</div>${diag}
       <div class="options">${opts}</div>${fb}
+      <div style="margin-top:0.75rem;text-align:right;">
+        <button onclick="pushToQA('${q.n}')" style="font-size:0.8rem;padding:5px 14px;border-radius:8px;border:1.5px solid #c4b5fd;background:#f5f3ff;color:#4c1d95;cursor:pointer;font-weight:600;">✏️ Push to QA</button>
+      </div>
       ${hintBarHtml}
     </div>`;
   document.getElementById('prog-label').textContent = `${done} of ${curQs.length} answered`;
@@ -1998,34 +2322,49 @@ async function updateDash() {
     .sort((a,b) => a.pct - b.pct)
     .slice(0, 3);
 
-  // ── Update DOM ──────────────────────────────────────────────────────
-  document.getElementById('snap-done').textContent      = done;
-  document.getElementById('snap-score').textContent     = score !== null ? score + '%' : '—';
-  document.getElementById('snap-thisweek').textContent  = twCount;
-  document.getElementById('snap-remaining').textContent = remaining;
+  // Expose weakest skill for cat chat
+  if (weakSkills.length > 0) window._weakestSkill = weakSkills[0].skill;
 
-  document.getElementById('snap-tw-count').textContent = twCount;
-  document.getElementById('snap-lw-count').textContent = lwCount;
-  document.getElementById('snap-tw-pct').textContent   = twPct !== null ? twPct + '% ✓' : '—';
-  document.getElementById('snap-lw-pct').textContent   = lwPct !== null ? lwPct + '% ✓' : '—';
-  document.getElementById('snap-bar-tw').style.width   = twBarW + '%';
-  document.getElementById('snap-bar-lw').style.width   = lwBarW + '%';
+  // ── Update DOM ──────────────────────────────────────────────────────
+  const snapDone = document.getElementById('snap-done');
+  const snapScore = document.getElementById('snap-score');
+  const snapWeek = document.getElementById('snap-thisweek');
+  const snapRem = document.getElementById('snap-remaining');
+  const snapTwCount = document.getElementById('snap-tw-count');
+  const snapLwCount = document.getElementById('snap-lw-count');
+  const snapTwPct = document.getElementById('snap-tw-pct');
+  const snapLwPct = document.getElementById('snap-lw-pct');
+  const snapBarTw = document.getElementById('snap-bar-tw');
+  const snapBarLw = document.getElementById('snap-bar-lw');
+
+  if (snapDone) snapDone.textContent      = done;
+  if (snapScore) snapScore.textContent    = score !== null ? score + '%' : '—';
+  if (snapWeek) snapWeek.textContent      = twCount;
+  if (snapRem) snapRem.textContent        = remaining;
+  if (snapTwCount) snapTwCount.textContent = twCount;
+  if (snapLwCount) snapLwCount.textContent = lwCount;
+  if (snapTwPct) snapTwPct.textContent    = twPct !== null ? twPct + '% ✓' : '—';
+  if (snapLwPct) snapLwPct.textContent    = lwPct !== null ? lwPct + '% ✓' : '—';
+  if (snapBarTw) snapBarTw.style.width    = twBarW + '%';
+  if (snapBarLw) snapBarLw.style.width    = lwBarW + '%';
 
   // Boost section
   const boostEl = document.getElementById('snap-boost');
-  if (weakSkills.length === 0) {
-    boostEl.innerHTML = '<div style="font-size:0.82rem;color:#94a3b8;">Answer more questions to see your focus areas.</div>';
-  } else {
-    boostEl.innerHTML = weakSkills.map(s => {
-      const col = s.pct < 50 ? '#E24B4A' : s.pct < 80 ? '#BA7517' : '#639922';
-      const safeSkillKey = encodeURIComponent((s.strand||'') + '|||' + s.skill);
-      return `<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-top:0.5px solid #f1f5f9;cursor:pointer;" onclick="startDrillSkill('${safeSkillKey}', true)">
-        <div style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0;"></div>
-        <div style="font-size:0.82rem;color:#334155;flex:1;">${s.skill}</div>
-        <div style="font-size:0.75rem;font-weight:600;color:${col};">${s.pct}% 1st attempt</div>
-        <div style="font-size:0.8rem;color:#94a3b8;">→</div>
-      </div>`;
-    }).join('');
+  if (boostEl) {
+    if (weakSkills.length === 0) {
+      boostEl.innerHTML = '<div style="font-size:0.82rem;color:#94a3b8;">Answer more questions to see your focus areas.</div>';
+    } else {
+      boostEl.innerHTML = weakSkills.map(s => {
+        const col = s.pct < 50 ? '#E24B4A' : s.pct < 80 ? '#BA7517' : '#639922';
+        const safeSkillKey = encodeURIComponent((s.strand||'') + '|||' + s.skill);
+        return `<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-top:0.5px solid #f1f5f9;cursor:pointer;" onclick="startDrillSkill('${safeSkillKey}', true)">
+          <div style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0;"></div>
+          <div style="font-size:0.82rem;color:#334155;flex:1;">${s.skill}</div>
+          <div style="font-size:0.75rem;font-weight:600;color:${col};">${s.pct}% 1st attempt</div>
+          <div style="font-size:0.8rem;color:#94a3b8;">→</div>
+        </div>`;
+      }).join('');
+    }
   }
 }
 
@@ -2407,10 +2746,17 @@ function qaNewQuestion() {
   document.getElementById('qa-edit-d').value = '';
   document.getElementById('qa-edit-correct').value = '0';
   document.getElementById('qa-edit-exp').value = '';
-  if (document.getElementById('qa-edit-section')) document.getElementById('qa-edit-section').value = currentCurriculum === 'french_cm1' ? 'GR' : 'MA';
+  // Populate section dropdown for current curriculum
+  const sectionEl = document.getElementById('qa-edit-section');
+  if (sectionEl) {
+    const sections = currentCurriculum === 'french_cm1'
+      ? [{v:'GR',l:'GR — Grammaire'},{v:'VO',l:'VO — Vocabulaire'},{v:'CO',l:'CO — Compréhension'},{v:'EX',l:'EX — Expression'}]
+      : [{v:'MA',l:'MA — Mathematics Achievement'},{v:'QR',l:'QR — Quantitative Reasoning'}];
+    sectionEl.innerHTML = sections.map(s => `<option value="${s.v}">${s.l}</option>`).join('');
+  }
   document.getElementById('qa-edit-dok').value = '1';
   document.getElementById('qa-edit-skill').value = '';
-  qaPopulateStrands(''); // populate strands for current curriculum
+  qaOnSectionChange(); // populate strands for selected section
 
   // Change edit panel title and save button behaviour
   const panel = document.getElementById('qa-edit-panel');
@@ -2600,21 +2946,31 @@ function qaRender() {
   const row = qaQuestions[qaIdx];
   if (!row) return;
   const tax = topicToTaxonomy(row.target_topic, row.section);
-  const dokLabel = ['', 'DoK 1 — Recall', 'DoK 2 — Conceptual', 'DoK 3 — Analytical'][tax?.dok] || '';
+  const dokLabel = ['', 'DoK 1 — Recall', 'DoK 2 — Conceptual', 'DoK 3 — Analytical'][row.dok || tax?.dok] || '';
 
   const counterEl = document.getElementById('qa-counter');
   counterEl.style.display = 'flex';
   document.getElementById('qa-counter-text').textContent = `Question ${qaIdx + 1} of ${qaQuestions.length} pending`;
-  const badge = document.getElementById('qa-section-badge');
-  badge.textContent = row.section === 'MA' ? 'Mathematics Achievement' : 'Quantitative Reasoning';
-  badge.style.background = row.section === 'MA' ? '#dbeafe' : '#d1fae5';
-  badge.style.color = row.section === 'MA' ? '#1e40af' : '#065f46';
 
+  // Section badge — dynamic per curriculum
+  const sectionLabels = {
+    'MA': 'Mathematics Achievement', 'QR': 'Quantitative Reasoning',
+    'GR': 'Grammaire', 'VO': 'Vocabulaire', 'CO': 'Compréhension', 'EX': 'Expression'
+  };
+  const sectionColors = {
+    'MA': {bg:'#dbeafe',col:'#1e40af'}, 'QR': {bg:'#d1fae5',col:'#065f46'},
+    'GR': {bg:'#f5f3ff',col:'#4c1d95'}, 'VO': {bg:'#fef9c3',col:'#92400e'},
+    'CO': {bg:'#f0fdf4',col:'#065f46'}, 'EX': {bg:'#fff7ed',col:'#c2410c'}
+  };
+  const badge = document.getElementById('qa-section-badge');
+  const sc = sectionColors[row.section] || {bg:'#f1f5f9',col:'#475569'};
+  badge.textContent = sectionLabels[row.section] || row.section;
+  badge.style.background = sc.bg;
+  badge.style.color = sc.col;
+
+  // Fix 1: remove redundant ID/Topic header — taxonomy shown in question card below
   const taxEl = document.getElementById('qa-taxonomy');
-  taxEl.style.display = 'block';
-  taxEl.innerHTML = tax
-    ? `<b>🏷 Taxonomy</b> &nbsp;|&nbsp; <b>ID:</b> ${row.question_id} &nbsp;|&nbsp; <b>Strand:</b> ${tax.strand} &nbsp;|&nbsp; <b>Subtopic:</b> ${tax.sub} &nbsp;|&nbsp; <b>${dokLabel}</b>`
-    : `<b>🏷 ID:</b> ${row.question_id} &nbsp;|&nbsp; <b>Topic:</b> ${row.target_topic || 'Unknown'}`;
+  taxEl.style.display = 'none';
 
   const opts = [row.opt_a, row.opt_b, row.opt_c, row.opt_d].map((o, i) => {
     const isCorrect = i === row.correct_index;
@@ -2655,12 +3011,21 @@ function qaStartEdit() {
   const row = qaQuestions[qaIdx];
   if (!row) return;
 
-  // Populate strand and skill dropdowns
+  // Populate section dropdown for current curriculum
+  const sectionEl = document.getElementById('qa-edit-section');
+  if (sectionEl) {
+    const sections = currentCurriculum === 'french_cm1'
+      ? [{v:'GR',l:'GR — Grammaire'},{v:'VO',l:'VO — Vocabulaire'},{v:'CO',l:'CO — Compréhension'},{v:'EX',l:'EX — Expression'}]
+      : [{v:'MA',l:'MA — Mathematics Achievement'},{v:'QR',l:'QR — Quantitative Reasoning'}];
+    sectionEl.innerHTML = sections.map(s => `<option value="${s.v}" ${s.v === row.section ? 'selected' : ''}>${s.l}</option>`).join('');
+  }
+
+  // Populate strand and skill dropdowns based on the question's section
   const currentStrand = row.strand || '';
   const currentDok    = row.dok    || 2;
   const currentSkill  = row.skill  || '';
 
-  // Populate strands for current curriculum and select correct one
+  // Populate strands for the question's section
   qaPopulateStrands(currentStrand);
   // Select correct skill
   const skillEl = document.getElementById('qa-edit-skill');
@@ -2852,33 +3217,57 @@ const QA_SKILL_OPTIONS = {
   'Geometry':                          ['Identifying & Classifying Shapes','Symmetry, Transformations & Views of 3D','Coordinate Planes'],
   'Data Analysis & Prob.':             ['Reading Tables & Graphs','Mean, Median & Mode','Simple Probability','Data Interpretation & Inference','Interpreting Data & Graphs'],
   // French CM1 — GR Grammaire
-  'Conjugaison':        ['Les verbes du 1er groupe au présent','Les verbes du 2ème groupe au présent','Les verbes irréguliers au présent (être, avoir, aller, faire)','Le passé composé avec avoir','Le passé composé avec être','L\'imparfait','Le futur simple','L\'impératif'],
-  'Nature des mots':    ['Le nom et le déterminant','L\'adjectif qualificatif','Le pronom personnel sujet','Le verbe','L\'adverbe'],
-  'Fonctions':          ['Le sujet du verbe','Le complément d\'objet direct','Le complément d\'objet indirect','Les compléments circonstanciels'],
-  'Accord':             ['Accord sujet-verbe','Accord du nom et de l\'adjectif','Accord du participe passé avec être'],
-  'Types de phrases':   ['Phrase affirmative & négative','Phrase interrogative','Phrase exclamative & impérative','La ponctuation'],
+  'Conjugaison':              ['Les verbes du 1er groupe au présent','Les verbes du 2ème groupe au présent','Les verbes du 3ème groupe au présent','Les verbes irréguliers au présent (être, avoir, aller, faire)','Le passé composé (avoir et être)','L\'imparfait','Le futur simple','L\'impératif'],
+  'Nature des mots':          ['Le nom et le déterminant','Le groupe nominal (nom noyau, épithète)','Les déterminants (articles définis, indéfinis, possessifs, démonstratifs)','L\'adjectif qualificatif','Le pronom personnel sujet','Les pronoms personnels compléments','Le verbe','L\'adverbe','Les conjonctions de coordination'],
+  'Fonctions':                ['Le sujet du verbe','Le complément d\'objet direct','Le complément d\'objet indirect','Les compléments circonstanciels'],
+  'Accord':                   ['Accord sujet-verbe','Accord du nom et de l\'adjectif','Le féminin des noms et des adjectifs','Le pluriel des noms et des adjectifs','La chaîne d\'accords dans le groupe nominal','Accord du participe passé avec être','Accord du participe passé avec avoir'],
+  'Types de phrases':         ['Phrase affirmative & négative','Phrase interrogative','Phrase exclamative & impérative','La ponctuation'],
+  'Homophones grammaticaux':  ['Distinguer a / à','Distinguer son / sont','Distinguer et / est','Distinguer on / ont / on n\'','Distinguer ou / où','Distinguer ce / se','Distinguer ces / ses / mes / mais','Distinguer c\'est / s\'est','Distinguer la / là / l\'a / l\'as'],
   // French CM1 — VO Vocabulaire
-  'Sens des mots':      ['Synonymes & antonymes','Homophones lexicaux','Sens propre & sens figuré','Polysémie'],
-  'Formation des mots': ['Préfixes','Suffixes','Familles de mots','Mots composés'],
-  'Champ lexical':      ['Identifier le champ lexical','Champ lexical des émotions','Champ lexical de la nature'],
+  'Sens des mots':            ['Utiliser le dictionnaire','Synonymes & antonymes','Homophones lexicaux','Sens propre & sens figuré','Polysémie'],
+  'Formation des mots':       ['Préfixes','Suffixes','Familles de mots','Mots composés'],
+  'Champ lexical':            ['Identifier le champ lexical'],
   // French CM1 — CO Compréhension
-  'Compréhension globale':   ['Identifier l\'idée principale','Dégager le thème d\'un texte','Identifier le type de texte','Identifier l\'intention de l\'auteur'],
-  'Compréhension détaillée': ['Repérer les informations explicites','Reconstituer la chronologie','Identifier les personnages & leurs relations'],
-  'Inférences':              ['Déduire des informations implicites','Comprendre les causes & conséquences','Identifier le point de vue du narrateur'],
-  'Vocabulaire en contexte': ['Trouver le sens d\'un mot en contexte','Identifier le registre de langue'],
+  'Compréhension globale':    ['Identifier l\'idée principale','Dégager le thème d\'un texte','Identifier le type de texte (narratif, théâtre, poème, documentaire)','Identifier l\'intention de l\'auteur'],
+  'Compréhension détaillée':  ['Repérer les informations explicites','Reconstituer la chronologie','Identifier les personnages & leurs relations'],
+  'Inférences':               ['Déduire des informations implicites','Comprendre les causes & conséquences','Identifier le point de vue du narrateur'],
+  'Vocabulaire en contexte':  ['Trouver le sens d\'un mot en contexte'],
   // French CM1 — EX Expression
-  'Construction de phrases': ['Construire une phrase simple correcte','Construire une phrase complexe','Utiliser les connecteurs logiques','Transformer une phrase (négation, interrogation)'],
-  'Structure du texte':      ['Identifier & rédiger une introduction','Organiser un paragraphe','Utiliser les temps verbaux de façon cohérente'],
+  'Construction de phrases':  ['Construire une phrase simple correcte','Construire une phrase complexe','Utiliser les connecteurs logiques','Transformer une phrase (négation, interrogation)'],
+  'Structure du texte':       ['Identifier & rédiger une introduction','Organiser un paragraphe','Utiliser les temps verbaux de façon cohérente'],
+};
+
+const QA_STRANDS_BY_SECTION = {
+  // ISEE
+  'MA': ['Whole Numbers','Decimals, Fractions & Percentages','Algebraic Thinking','Measurement','Geometry','Data Analysis & Prob.'],
+  'QR': ['Whole Numbers','Decimals, Fractions & Percentages','Algebraic Thinking','Measurement','Geometry','Data Analysis & Prob.'],
+  // French CM1
+  'GR': ['Conjugaison','Nature des mots','Fonctions','Accord','Types de phrases','Homophones grammaticaux'],
+  'VO': ['Sens des mots','Formation des mots','Champ lexical'],
+  'CO': ['Compréhension globale','Compréhension détaillée','Inférences','Vocabulaire en contexte'],
+  'EX': ['Construction de phrases','Structure du texte'],
 };
 
 const QA_STRANDS_BY_CURRICULUM = {
   'isee_lower': ['Whole Numbers','Decimals, Fractions & Percentages','Algebraic Thinking','Measurement','Geometry','Data Analysis & Prob.'],
-  'french_cm1': ['Conjugaison','Nature des mots','Fonctions','Accord','Types de phrases','Sens des mots','Formation des mots','Champ lexical','Compréhension globale','Compréhension détaillée','Inférences','Vocabulaire en contexte','Construction de phrases','Structure du texte'],
+  'french_cm1': ['Conjugaison','Nature des mots','Fonctions','Accord','Types de phrases','Homophones grammaticaux','Sens des mots','Formation des mots','Champ lexical','Compréhension globale','Compréhension détaillée','Inférences','Vocabulaire en contexte','Construction de phrases','Structure du texte'],
 };
 
-function qaPopulateStrands(selectedStrand) {
+function qaOnSectionChange() {
+  const section = document.getElementById('qa-edit-section')?.value;
   const strandEl = document.getElementById('qa-edit-strand');
-  const strands = QA_STRANDS_BY_CURRICULUM[currentCurriculum] || QA_STRANDS_BY_CURRICULUM['isee_lower'];
+  if (!strandEl) return;
+  const strands = QA_STRANDS_BY_SECTION[section] || QA_STRANDS_BY_CURRICULUM[currentCurriculum] || [];
+  strandEl.innerHTML = strands.map(s => `<option value="${s}">${s}</option>`).join('');
+  qaOnStrandChange();
+}
+
+function qaPopulateStrands(selectedStrand) {
+  const section = document.getElementById('qa-edit-section')?.value;
+  const strandEl = document.getElementById('qa-edit-strand');
+  const strands = (section && QA_STRANDS_BY_SECTION[section])
+    ? QA_STRANDS_BY_SECTION[section]
+    : QA_STRANDS_BY_CURRICULUM[currentCurriculum] || QA_STRANDS_BY_CURRICULUM['isee_lower'];
   strandEl.innerHTML = strands.map(s => `<option value="${s}" ${s === selectedStrand ? 'selected' : ''}>${s}</option>`).join('');
   qaOnStrandChange();
 }
@@ -2891,6 +3280,7 @@ function qaOnStrandChange() {
 
 // Expose globally
 window.qaOnStrandChange   = qaOnStrandChange;
+window.qaOnSectionChange  = qaOnSectionChange;
 window.qaPopulateStrands  = qaPopulateStrands;
 
 /* ════════════════════════════════════════════
@@ -2958,8 +3348,7 @@ async function fetchQuestionBank() {
 
     // Now run the rest of the init that depends on ALL_QUESTIONS
     loadProgress();
-    await updateDash();
-    loadPoints();
+    await Promise.all([updateDash(), loadPoints()]);
 
     setLoadState(100, 'Ready!');
 
@@ -2967,6 +3356,7 @@ async function fetchQuestionBank() {
     await new Promise(r => setTimeout(r, 400));
     document.getElementById('screen-loading').style.display = 'none';
     showScreen('screen-home');
+    refreshTotalPoints(); // ensure points display after screen is visible
 
   } catch(e) {
     const banner = document.getElementById('screen-loading');
